@@ -11,3 +11,6 @@
         <link href="../resources/css/bootstrap.min.css" type="text/css">
     </head>
     <body>
+        <c:if test="${loggedUser != null}">
+            <c:out value="Bienvenido, ${loggedUser.getNombre()}"/> | <a href="<c:url value="logout.htm"/>">Cerrar Sesión</a>
+        </c:if>

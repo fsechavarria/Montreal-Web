@@ -15,10 +15,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import service.LoginService;
 
 @Controller
-public class LoginController {
+public class SessionController {
     
     @Autowired
     private LoginService loginService;
+    
+    @RequestMapping(value="/logout.htm", method = RequestMethod.GET)
+    public String logoutRequest (HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        return "redirect:/login.htm";
+    }
     
     @RequestMapping(value="/login.htm", method = RequestMethod.GET)
     public String loginRequest (Model model) {
@@ -49,9 +58,7 @@ public class LoginController {
         
         session.setAttribute("token", token);
         session.setAttribute("loggedUser", loggedUser);
-        model.addAttribute("loggedUser", loggedUser);
         
-        System.out.println(loggedUser.toString());
         return "redirect:/home.htm";
     }
 }
