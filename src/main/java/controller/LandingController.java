@@ -25,7 +25,7 @@ public class LandingController {
             }
         }
         
-        model.addAttribute("title", "Home");
+        model.addAttribute("title", "Inicio");
         return "landing";
     }
 }

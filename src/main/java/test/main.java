@@ -15,9 +15,8 @@ public class main {
         auth.accumulate("USUARIO", "admin");
         auth.accumulate("CONTRASENA", "admin");
         String token = r.auth(auth);
-        
-        ArrayList<Persona> lstDireccion = r.requestController("POST", "private/persona/9999", "persona", null, Persona.class, token);
-        for(Persona d : lstDireccion) {
+        ArrayList<Programa_Estudio> lstDireccion = r.requestController("GET", "programa", "programa", null, Programa_Estudio.class, token);
+        for(Programa_Estudio d : lstDireccion) {
             System.out.println(d.toString());
         }
         

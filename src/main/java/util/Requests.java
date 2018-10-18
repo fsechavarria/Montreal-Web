@@ -175,7 +175,7 @@ public class Requests {
             // Opcional, GET es por defecto.
             con.setRequestMethod("POST");
             // Request Headers
-            con.setRequestProperty("Content-type" , "application/json");
+            con.setRequestProperty("Content-type" , "application/json; charset=UTF-8");
             con.setDoOutput(true);
             
             // Set request body
@@ -264,7 +264,7 @@ public class Requests {
             con.setRequestMethod("GET");
             
             // Request Headers
-            con.setRequestProperty("Content-type" , "application/json");
+            con.setRequestProperty("Content-type" , "application/json; charset=UTF-8");
             con.setRequestProperty("Authorization", "Bearer " + token);
             
             // Codigo del response. 200 = Ok.
@@ -348,7 +348,7 @@ public class Requests {
             // Opcional, GET es por defecto.
             con.setRequestMethod("POST");
             // Request Headers
-            con.setRequestProperty("Content-type" , "application/json");
+            con.setRequestProperty("Content-type" , "application/json; charset=UTF-8");
             con.setRequestProperty("Authorization", "Bearer " + token);
             con.setDoOutput(true);
             
@@ -441,7 +441,7 @@ public class Requests {
             // Opcional, GET es por defecto.
             con.setRequestMethod("PUT");
             // Request Headers
-            con.setRequestProperty("Content-type" , "application/json");
+            con.setRequestProperty("Content-type" , "application/json; charset=UTF-8");
             con.setRequestProperty("Authorization", "Bearer " + token);
             con.setDoOutput(true);
             
@@ -534,7 +534,7 @@ public class Requests {
             // Opcional, GET es por defecto.
             con.setRequestMethod("DELETE");
             // Request Headers
-            con.setRequestProperty("Content-type" , "application/json");
+            con.setRequestProperty("Content-type" , "application/json; charset=UTF-8");
             con.setRequestProperty("Authorization", "Bearer " + token);
             con.setDoOutput(true);
             
