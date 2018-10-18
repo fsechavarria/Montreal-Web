@@ -3,9 +3,9 @@ package entities;
 
 public class Familia {
     
-    private int id_familia;
-    private int id_usuario;
-    private int num_integrantes;
+    private Integer id_familia;
+    private Integer id_usuario;
+    private Integer num_integrantes;
     private char estado;
 
     public Familia() {
@@ -15,34 +15,34 @@ public class Familia {
         this.estado = 'I';
     }
 
-    public Familia(int id_familia, int id_usuario, int num_integrantes, char estado) {
+    public Familia(Integer id_familia, Integer id_usuario, Integer num_integrantes, char estado) {
         this.id_familia = id_familia;
         this.id_usuario = id_usuario;
         this.num_integrantes = num_integrantes;
         this.estado = estado;
     }
 
-    public int getId_familia() {
+    public Integer getId_familia() {
         return id_familia;
     }
 
-    public void setId_familia(int id_familia) {
+    public void setId_familia(Integer id_familia) {
         this.id_familia = id_familia;
     }
 
-    public int getId_usuario() {
+    public Integer getId_usuario() {
         return id_usuario;
     }
 
-    public void setId_usuario(int id_usuario) {
+    public void setId_usuario(Integer id_usuario) {
         this.id_usuario = id_usuario;
     }
 
-    public int getNum_integrantes() {
+    public Integer getNum_integrantes() {
         return num_integrantes;
     }
 
-    public void setNum_integrantes(int num_integrantes) {
+    public void setNum_integrantes(Integer num_integrantes) {
         this.num_integrantes = num_integrantes;
     }
 

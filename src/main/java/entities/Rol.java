@@ -2,7 +2,7 @@ package entities;
 
 
 public class Rol {
-    private int id_rol;
+    private Integer id_rol;
     private String desc_rol;
 
     public Rol() {
@@ -10,16 +10,16 @@ public class Rol {
         this.desc_rol = null;
     }
 
-    public Rol(int id_rol, String desc_rol) {
+    public Rol(Integer id_rol, String desc_rol) {
         this.id_rol = id_rol;
         this.desc_rol = desc_rol;
     }
 
-    public int getId_rol() {
+    public Integer getId_rol() {
         return id_rol;
     }
 
-    public void setId_rol(int id_rol) {
+    public void setId_rol(Integer id_rol) {
         this.id_rol = id_rol;
     }
 

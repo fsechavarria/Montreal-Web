@@ -7,15 +7,15 @@ import java.util.Date;
 
 
 public class Postulacion {
-    private int id_postulacion;
-    private int id_alumno;
-    private int id_familia;
-    private int id_seguro;
-    private int id_programa;
+    private Integer id_postulacion;
+    private Integer id_alumno;
+    private Integer id_familia;
+    private Integer id_seguro;
+    private Integer id_programa;
     private Date fech_postulacion;
     private Date fech_respuesta;
     private char estado;
-    private int reserva_dinero_pasajes;
+    private Integer reserva_dinero_pasajes;
 
     public Postulacion() {
         this.id_postulacion = 0;
@@ -29,7 +29,7 @@ public class Postulacion {
         this.reserva_dinero_pasajes = 0;
     }
 
-    public Postulacion(int id_postulacion, int id_alumno, int id_familia, int id_seguro, int id_programa, String fech_postulacion, String fech_respuesta, char estado, int reserva_dinero_pasajes) throws ParseException {
+    public Postulacion(Integer id_postulacion, Integer id_alumno, Integer id_familia, Integer id_seguro, Integer id_programa, String fech_postulacion, String fech_respuesta, char estado, Integer reserva_dinero_pasajes) throws ParseException {
         this.id_postulacion = id_postulacion;
         this.id_alumno = id_alumno;
         this.id_familia = id_familia;
@@ -44,43 +44,43 @@ public class Postulacion {
         this.reserva_dinero_pasajes = reserva_dinero_pasajes;
     }
 
-    public int getId_postulacion() {
+    public Integer getId_postulacion() {
         return id_postulacion;
     }
 
-    public void setId_postulacion(int id_postulacion) {
+    public void setId_postulacion(Integer id_postulacion) {
         this.id_postulacion = id_postulacion;
     }
 
-    public int getId_alumno() {
+    public Integer getId_alumno() {
         return id_alumno;
     }
 
-    public void setId_alumno(int id_alumno) {
+    public void setId_alumno(Integer id_alumno) {
         this.id_alumno = id_alumno;
     }
 
-    public int getId_familia() {
+    public Integer getId_familia() {
         return id_familia;
     }
 
-    public void setId_familia(int id_familia) {
+    public void setId_familia(Integer id_familia) {
         this.id_familia = id_familia;
     }
 
-    public int getId_seguro() {
+    public Integer getId_seguro() {
         return id_seguro;
     }
 
-    public void setId_seguro(int id_seguro) {
+    public void setId_seguro(Integer id_seguro) {
         this.id_seguro = id_seguro;
     }
 
-    public int getId_programa() {
+    public Integer getId_programa() {
         return id_programa;
     }
 
-    public void setId_programa(int id_programa) {
+    public void setId_programa(Integer id_programa) {
         this.id_programa = id_programa;
     }
 
@@ -110,11 +110,11 @@ public class Postulacion {
         this.estado = estado;
     }
 
-    public int getReserva_dinero_pasajes() {
+    public Integer getReserva_dinero_pasajes() {
         return reserva_dinero_pasajes;
     }
 
-    public void setReserva_dinero_pasajes(int reserva_dinero_pasajes) {
+    public void setReserva_dinero_pasajes(Integer reserva_dinero_pasajes) {
         this.reserva_dinero_pasajes = reserva_dinero_pasajes;
     }
 

@@ -2,8 +2,8 @@ package entities;
 
 
 public class CEM {
-    private int id_cem;
-    private int id_usuario;
+    private Integer id_cem;
+    private Integer id_usuario;
     private String nom_centro;
 
     public CEM() {
@@ -12,25 +12,25 @@ public class CEM {
         this.nom_centro = "";
     }
 
-    public CEM(int id_cem, int id_usuario, String nom_centro) {
+    public CEM(Integer id_cem, Integer id_usuario, String nom_centro) {
         this.id_cem = id_cem;
         this.id_usuario = id_usuario;
         this.nom_centro = nom_centro;
     }
 
-    public int getId_cem() {
+    public Integer getId_cem() {
         return id_cem;
     }
 
-    public void setId_cem(int id_cem) {
+    public void setId_cem(Integer id_cem) {
         this.id_cem = id_cem;
     }
 
-    public int getId_usuario() {
+    public Integer getId_usuario() {
         return id_usuario;
     }
 
-    public void setId_usuario(int id_usuario) {
+    public void setId_usuario(Integer id_usuario) {
         this.id_usuario = id_usuario;
     }
 

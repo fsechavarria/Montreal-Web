@@ -2,8 +2,8 @@ package entities;
 
 
 public class Direccion {
-    private int id_direccion;
-    private int id_ciudad;
+    private Integer id_direccion;
+    private Integer id_ciudad;
     private String calle;
     private String numeracion;
     private String departamento;
@@ -16,7 +16,7 @@ public class Direccion {
         this.departamento = null;
     }
 
-    public Direccion(int id_direccion, int id_ciudad, String calle, String numeracion, String departamento) {
+    public Direccion(Integer id_direccion, Integer id_ciudad, String calle, String numeracion, String departamento) {
         this.id_direccion = id_direccion;
         this.id_ciudad = id_ciudad;
         this.calle = calle;
@@ -24,19 +24,19 @@ public class Direccion {
         this.departamento = departamento;
     }
 
-    public int getId_direccion() {
+    public Integer getId_direccion() {
         return id_direccion;
     }
 
-    public void setId_direccion(int id_direccion) {
+    public void setId_direccion(Integer id_direccion) {
         this.id_direccion = id_direccion;
     }
 
-    public int getId_ciudad() {
+    public Integer getId_ciudad() {
         return id_ciudad;
     }
 
-    public void setId_ciudad(int id_ciudad) {
+    public void setId_ciudad(Integer id_ciudad) {
         this.id_ciudad = id_ciudad;
     }
 

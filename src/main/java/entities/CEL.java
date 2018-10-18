@@ -1,8 +1,8 @@
 package entities;
 
 public class CEL {
-    private int id_cel;
-    private int id_usuario;
+    private Integer id_cel;
+    private Integer id_usuario;
     private String nom_centro;
 
     public CEL() {
@@ -11,25 +11,25 @@ public class CEL {
         this.nom_centro = "";
     }
 
-    public CEL(int id_cel, int id_usuario, String nom_centro) {
+    public CEL(Integer id_cel, Integer id_usuario, String nom_centro) {
         this.id_cel = id_cel;
         this.id_usuario = id_usuario;
         this.nom_centro = nom_centro;
     }
 
-    public int getId_cel() {
+    public Integer getId_cel() {
         return id_cel;
     }
 
-    public void setId_cel(int id_cel) {
+    public void setId_cel(Integer id_cel) {
         this.id_cel = id_cel;
     }
 
-    public int getId_usuario() {
+    public Integer getId_usuario() {
         return id_usuario;
     }
 
-    public void setId_usuario(int id_usuario) {
+    public void setId_usuario(Integer id_usuario) {
         this.id_usuario = id_usuario;
     }
 

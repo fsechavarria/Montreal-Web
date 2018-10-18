@@ -1,8 +1,8 @@
 package entities;
 
 public class Ciudad {
-    private int id_ciudad;
-    private int id_pais;
+    private Integer id_ciudad;
+    private Integer id_pais;
     private String nombre;
 
     public Ciudad() {
@@ -11,25 +11,25 @@ public class Ciudad {
         this.nombre = null;
     }
 
-    public Ciudad(int id_ciudad, int id_pais, String nombre) {
+    public Ciudad(Integer id_ciudad, Integer id_pais, String nombre) {
         this.id_ciudad = id_ciudad;
         this.id_pais = id_pais;
         this.nombre = nombre;
     }
 
-    public int getId_ciudad() {
+    public Integer getId_ciudad() {
         return id_ciudad;
     }
 
-    public void setId_ciudad(int id_ciudad) {
+    public void setId_ciudad(Integer id_ciudad) {
         this.id_ciudad = id_ciudad;
     }
 
-    public int getId_pais() {
+    public Integer getId_pais() {
         return id_pais;
     }
 
-    public void setId_pais(int id_pais) {
+    public void setId_pais(Integer id_pais) {
         this.id_pais = id_pais;
     }
 

@@ -7,8 +7,8 @@ package entities;
 */
 public class Antecedente {
     
-    private int id_antecedente;
-    private int id_familia;
+    private Integer id_antecedente;
+    private Integer id_familia;
     private String url_antecedente;
     private String desc_antecedente;
 
@@ -19,26 +19,26 @@ public class Antecedente {
         this.desc_antecedente = "";
     }
 
-    public Antecedente(int id_antecedente, int id_familia, String url_antecedente, String desc_antecedente) {
+    public Antecedente(Integer id_antecedente, Integer id_familia, String url_antecedente, String desc_antecedente) {
         this.id_antecedente = id_antecedente;
         this.id_familia = id_familia;
         this.url_antecedente = url_antecedente;
         this.desc_antecedente = desc_antecedente;
     }
 
-    public int getId_antecedente() {
+    public Integer getId_antecedente() {
         return id_antecedente;
     }
 
-    public void setId_antecedente(int id_antecedente) {
+    public void setId_antecedente(Integer id_antecedente) {
         this.id_antecedente = id_antecedente;
     }
 
-    public int getId_familia() {
+    public Integer getId_familia() {
         return id_familia;
     }
 
-    public void setId_familia(int id_familia) {
+    public void setId_familia(Integer id_familia) {
         this.id_familia = id_familia;
     }
 

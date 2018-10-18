@@ -1,7 +1,7 @@
 package entities;
 
 public class Seguro {
-    private int id_seguro;
+    private Integer id_seguro;
     private String desc_seguro;
     private boolean vigente;
 
@@ -11,17 +11,17 @@ public class Seguro {
         this.vigente = false;
     }
 
-    public Seguro(int id_seguro, String desc_seguro, int vigente) {
+    public Seguro(Integer id_seguro, String desc_seguro, Integer vigente) {
         this.id_seguro = id_seguro;
         this.desc_seguro = desc_seguro;
         this.vigente = vigente == 1;
     }
 
-    public int getId_seguro() {
+    public Integer getId_seguro() {
         return id_seguro;
     }
 
-    public void setId_seguro(int id_seguro) {
+    public void setId_seguro(Integer id_seguro) {
         this.id_seguro = id_seguro;
     }
 
@@ -37,7 +37,7 @@ public class Seguro {
         return vigente;
     }
 
-    public void setVigente(int vigente) {
+    public void setVigente(Integer vigente) {
         this.vigente = vigente == 1;
     }
 

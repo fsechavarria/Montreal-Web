@@ -1,10 +1,10 @@
 package entities;
 
 public class Curso {
-    private int id_curso;
-    private int id_programa;
+    private Integer id_curso;
+    private Integer id_programa;
     private String desc_curso;
-    private int cupos;
+    private Integer cupos;
 
     public Curso() {
         this.id_curso = 0;
@@ -13,26 +13,26 @@ public class Curso {
         this.cupos = 0;
     }
 
-    public Curso(int id_curso, int id_programa, String desc_curso, int cupos) {
+    public Curso(Integer id_curso, Integer id_programa, String desc_curso, Integer cupos) {
         this.id_curso = id_curso;
         this.id_programa = id_programa;
         this.desc_curso = desc_curso;
         this.cupos = cupos;
     }
 
-    public int getId_curso() {
+    public Integer getId_curso() {
         return id_curso;
     }
 
-    public void setId_curso(int id_curso) {
+    public void setId_curso(Integer id_curso) {
         this.id_curso = id_curso;
     }
 
-    public int getId_programa() {
+    public Integer getId_programa() {
         return id_programa;
     }
 
-    public void setId_programa(int id_programa) {
+    public void setId_programa(Integer id_programa) {
         this.id_programa = id_programa;
     }
 
@@ -44,11 +44,11 @@ public class Curso {
         this.desc_curso = desc_curso;
     }
 
-    public int getCupos() {
+    public Integer getCupos() {
         return cupos;
     }
 
-    public void setCupos(int cupos) {
+    public void setCupos(Integer cupos) {
         this.cupos = cupos;
     }
 

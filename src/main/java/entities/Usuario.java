@@ -1,10 +1,16 @@
 package entities;
 
+import javax.validation.constraints.Size;
+
+
+
 public class Usuario{
     
-    private int id_usuario;
-    private int id_rol;
+    private Integer id_usuario;
+    private Integer id_rol;
+    @Size(min=1, message="(*) Debe ingresar un usuario")
     private String usuario;
+    @Size(min=1, message="(*) Debe ingresar una contraseña")
     private String contrasena;
 
     public Usuario () {
@@ -14,26 +20,26 @@ public class Usuario{
         this.contrasena = null;
     }
 
-    public Usuario(int id_usuario, int id_rol, String usuario, String contrasena) {
+    public Usuario(Integer id_usuario, Integer id_rol, String usuario, String contrasena) {
         this.id_usuario = id_usuario;
         this.id_rol = id_rol;
         this.usuario = usuario;
         this.contrasena = contrasena;
     }
     
-    public int getId_usuario() {
+    public Integer getId_usuario() {
         return id_usuario;
     }
 
-    public void setId_usuario(int id_usuario) {
+    public void setId_usuario(Integer id_usuario) {
         this.id_usuario = id_usuario;
     }
 
-    public int getId_rol() {
+    public Integer getId_rol() {
         return id_rol;
     }
 
-    public void setId_rol(int id_rol) {
+    public void setId_rol(Integer id_rol) {
         this.id_rol = id_rol;
     }
 

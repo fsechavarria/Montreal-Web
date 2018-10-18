@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 public class AuthUser implements Serializable{
     
-    private int id;
+    private Integer id;
     private String nombre;
     private String rol;
 
@@ -15,17 +15,17 @@ public class AuthUser implements Serializable{
         this.rol = null;
     }
 
-    public AuthUser(int id, String nombre, String rol) {
+    public AuthUser(Integer id, String nombre, String rol) {
         this.id = id;
         this.nombre = nombre;
         this.rol = rol;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

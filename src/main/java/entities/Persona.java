@@ -6,9 +6,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Persona{
-    private int id_persona;
-    private int id_direccion;
-    private int id_usuario;
+    private Integer id_persona;
+    private Integer id_direccion;
+    private Integer id_usuario;
     private String rut;
     private String nombre;
     private String app_paterno;
@@ -26,7 +26,7 @@ public class Persona{
         this.fech_nacimiento = null;
     }
 
-    public Persona(int id_persona, int id_direccion, int id_usuario, String rut, String nombre, String app_paterno, String app_materno, String fech_nacimiento) throws ParseException {
+    public Persona(Integer id_persona, Integer id_direccion, Integer id_usuario, String rut, String nombre, String app_paterno, String app_materno, String fech_nacimiento) throws ParseException {
         this.id_persona = id_persona;
         this.id_direccion = id_direccion;
         this.id_usuario = id_usuario;
@@ -38,27 +38,27 @@ public class Persona{
         this.fech_nacimiento = format.parse(fech_nacimiento);
     }
     
-    public int getId_persona() {
+    public Integer getId_persona() {
         return id_persona;
     }
 
-    public void setId_persona(int id_persona) {
+    public void setId_persona(Integer id_persona) {
         this.id_persona = id_persona;
     }
 
-    public int getId_direccion() {
+    public Integer getId_direccion() {
         return id_direccion;
     }
 
-    public void setId_direccion(int id_direccion) {
+    public void setId_direccion(Integer id_direccion) {
         this.id_direccion = id_direccion;
     }
 
-    public int getId_usuario() {
+    public Integer getId_usuario() {
         return id_usuario;
     }
 
-    public void setId_usuario(int id_usuario) {
+    public void setId_usuario(Integer id_usuario) {
         this.id_usuario = id_usuario;
     }
 

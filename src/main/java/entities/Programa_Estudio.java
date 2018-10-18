@@ -7,15 +7,15 @@ import java.util.Date;
 
 
 public class Programa_Estudio {
-    private int id_programa;
-    private int id_cem;
-    private int id_cel;
+    private Integer id_programa;
+    private Integer id_cem;
+    private Integer id_cel;
     private String nomb_programa;
     private String desc_programa;
     private Date fech_inicio;
     private Date fech_termino;
-    private int cant_min_alumnos;
-    private int cant_max_alumnos;
+    private Integer cant_min_alumnos;
+    private Integer cant_max_alumnos;
 
     public Programa_Estudio() {
         this.id_programa = 0;
@@ -29,7 +29,7 @@ public class Programa_Estudio {
         this.cant_max_alumnos = 0;
     }
 
-    public Programa_Estudio(int id_programa, int id_cem, int id_cel, String nomb_programa, String desc_programa, String fech_inicio, String fech_termino, int cant_min_alumnos, int cant_max_alumnos) throws ParseException {
+    public Programa_Estudio(Integer id_programa, Integer id_cem, Integer id_cel, String nomb_programa, String desc_programa, String fech_inicio, String fech_termino, Integer cant_min_alumnos, Integer cant_max_alumnos) throws ParseException {
         this.id_programa = id_programa;
         this.id_cem = id_cem;
         this.id_cel = id_cel;
@@ -44,27 +44,27 @@ public class Programa_Estudio {
         this.cant_max_alumnos = cant_max_alumnos;
     }
 
-    public int getId_programa() {
+    public Integer getId_programa() {
         return id_programa;
     }
 
-    public void setId_programa(int id_programa) {
+    public void setId_programa(Integer id_programa) {
         this.id_programa = id_programa;
     }
 
-    public int getId_cem() {
+    public Integer getId_cem() {
         return id_cem;
     }
 
-    public void setId_cem(int id_cem) {
+    public void setId_cem(Integer id_cem) {
         this.id_cem = id_cem;
     }
 
-    public int getId_cel() {
+    public Integer getId_cel() {
         return id_cel;
     }
 
-    public void setId_cel(int id_cel) {
+    public void setId_cel(Integer id_cel) {
         this.id_cel = id_cel;
     }
 
@@ -102,19 +102,19 @@ public class Programa_Estudio {
         this.fech_termino = format.parse(fech_termino);
     }
 
-    public int getCant_min_alumnos() {
+    public Integer getCant_min_alumnos() {
         return cant_min_alumnos;
     }
 
-    public void setCant_min_alumnos(int cant_min_alumnos) {
+    public void setCant_min_alumnos(Integer cant_min_alumnos) {
         this.cant_min_alumnos = cant_min_alumnos;
     }
 
-    public int getCant_max_alumnos() {
+    public Integer getCant_max_alumnos() {
         return cant_max_alumnos;
     }
 
-    public void setCant_max_alumnos(int cant_max_alumnos) {
+    public void setCant_max_alumnos(Integer cant_max_alumnos) {
         this.cant_max_alumnos = cant_max_alumnos;
     }
 

@@ -3,8 +3,8 @@ package entities;
 
 public class Contacto {
     
-    private int id_contacto;
-    private int id_persona;
+    private Integer id_contacto;
+    private Integer id_persona;
     private String desc_contacto;
     private String tipo_contacto;
 
@@ -15,26 +15,26 @@ public class Contacto {
         this.tipo_contacto = null;
     }
 
-    public Contacto(int id_contacto, int id_persona, String desc_contacto, String tipo_contacto) {
+    public Contacto(Integer id_contacto, Integer id_persona, String desc_contacto, String tipo_contacto) {
         this.id_contacto = id_contacto;
         this.id_persona = id_persona;
         this.desc_contacto = desc_contacto;
         this.tipo_contacto = tipo_contacto;
     }
 
-    public int getId_contacto() {
+    public Integer getId_contacto() {
         return id_contacto;
     }
 
-    public void setId_contacto(int id_contacto) {
+    public void setId_contacto(Integer id_contacto) {
         this.id_contacto = id_contacto;
     }
 
-    public int getId_persona() {
+    public Integer getId_persona() {
         return id_persona;
     }
 
-    public void setId_persona(int id_persona) {
+    public void setId_persona(Integer id_persona) {
         this.id_persona = id_persona;
     }
 

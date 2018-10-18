@@ -1,7 +1,7 @@
 package entities;
 
 public class Pais {
-    private int id_pais;
+    private Integer id_pais;
     private String nombre;
 
     public Pais() {
@@ -9,16 +9,16 @@ public class Pais {
         this.nombre = null;
     }
 
-    public Pais(int id_pais, String nombre) {
+    public Pais(Integer id_pais, String nombre) {
         this.id_pais = id_pais;
         this.nombre = nombre;
     }
 
-    public int getId_pais() {
+    public Integer getId_pais() {
         return id_pais;
     }
 
-    public void setId_pais(int id_pais) {
+    public void setId_pais(Integer id_pais) {
         this.id_pais = id_pais;
     }
 
