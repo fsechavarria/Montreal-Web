@@ -11,6 +11,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -66,7 +67,11 @@ public class Requests {
             
             if (method.toUpperCase().equals("POST")) {
                 JSONObject res = null;
-                String bd = body == null ? "{}" : body.toString();
+                String bd = "{}";
+                if (body != null) {
+                    byte[] encoded = body.toString().getBytes("UTF-8");
+                    bd = new String(encoded);
+                }
                 res = this.POST(action, bd, object, token);
                 if (res != null) {
                     ArrayList<Object> lstResult = new ArrayList();
@@ -97,7 +102,11 @@ public class Requests {
             
             if (method.toUpperCase().equals("PUT")) {
                 JSONObject res = null;
-                String bd = body == null ? "{}" : body.toString();
+                String bd = "{}";
+                if (body != null) {
+                    byte[] encoded = body.toString().getBytes("UTF-8");
+                    bd = new String(encoded);
+                }
                 res = this.PUT(action, bd, object, token);
                 if (res != null) {
                     ArrayList<Object> lstResult = new ArrayList();
@@ -351,7 +360,6 @@ public class Requests {
             con.setRequestProperty("Content-type" , "application/json; charset=UTF-8");
             con.setRequestProperty("Authorization", "Bearer " + token);
             con.setDoOutput(true);
-            
             // Set request body
             DataOutputStream wr = new DataOutputStream(con.getOutputStream());
             wr.writeBytes(body);
@@ -364,7 +372,6 @@ public class Requests {
             BufferedReader in;
             String inputLine;
             StringBuilder response = new StringBuilder();
-            
             if (responseCode == 200) {
                 in = new BufferedReader(
                         new InputStreamReader(con.getInputStream())
