@@ -31,6 +31,7 @@
         <title>Montreal - <c:out value="${title}"/></title>
     </head>
     <body>
+        <fmt:requestEncoding value = "UTF-8" />
         <div id="wrapper">
         
         <!-- Navigation -->

@@ -1,3 +1,4 @@
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="../layouts/header.jsp" %>
 
 <div class="row">
@@ -15,10 +16,10 @@
                     <thead>
                         <tr>
                             <th>Nombre</th>
-                            <th>Descripción</th>
+                            <th>DescripciÃ³n</th>
                             <th>CEL Asociado</th>
                             <th>Fecha de Inicio</th>
-                            <th>Fecha de Término</th>
+                            <th>Fecha de TÃ©rmino</th>
                             <th> # </th>
                         </tr>
                     </thead>
