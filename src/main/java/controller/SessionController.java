@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
 import service.LoginService;
 
 @Controller
@@ -40,6 +41,7 @@ public class SessionController {
     public String submit(HttpServletRequest request, @Valid @ModelAttribute("usuario") Usuario usuario, 
             BindingResult result, Model model) {
         if (result.hasErrors()) {
+            model.addAttribute("usuario", new Usuario());
             return "login";
         }
         HttpSession session = request.getSession(true);
@@ -55,10 +57,9 @@ public class SessionController {
             return "login";
         }
         loggedUser = loginService.getUserFromToken(token);
-        
         session.setAttribute("token", token);
         session.setAttribute("loggedUser", loggedUser);
-        
         return "redirect:/home.htm";
     }
+
 }
