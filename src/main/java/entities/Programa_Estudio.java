@@ -1,12 +1,13 @@
 package entities;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class Programa_Estudio {
+public class Programa_Estudio implements Serializable{
     private Integer id_programa;
     private Integer id_cem;
     private Integer id_cel;
@@ -16,6 +17,7 @@ public class Programa_Estudio {
     private Date fech_termino;
     private Integer cant_min_alumnos;
     private Integer cant_max_alumnos;
+    private CEL cel;
 
     public Programa_Estudio() {
         this.id_programa = 0;
@@ -27,9 +29,10 @@ public class Programa_Estudio {
         this.fech_termino = new Date();
         this.cant_min_alumnos = 0;
         this.cant_max_alumnos = 0;
+        this.cel = new CEL();
     }
 
-    public Programa_Estudio(Integer id_programa, Integer id_cem, Integer id_cel, String nomb_programa, String desc_programa, String fech_inicio, String fech_termino, Integer cant_min_alumnos, Integer cant_max_alumnos) throws ParseException {
+    public Programa_Estudio(Integer id_programa, Integer id_cem, Integer id_cel, String nomb_programa, String desc_programa, String fech_inicio, String fech_termino, Integer cant_min_alumnos, Integer cant_max_alumnos, CEL cel) throws ParseException {
         this.id_programa = id_programa;
         this.id_cem = id_cem;
         this.id_cel = id_cel;
@@ -42,6 +45,8 @@ public class Programa_Estudio {
         
         this.cant_min_alumnos = cant_min_alumnos;
         this.cant_max_alumnos = cant_max_alumnos;
+        
+        this.cel = cel;
     }
 
     public Integer getId_programa() {
@@ -116,6 +121,14 @@ public class Programa_Estudio {
 
     public void setCant_max_alumnos(Integer cant_max_alumnos) {
         this.cant_max_alumnos = cant_max_alumnos;
+    }
+
+    public CEL getCel() {
+        return cel;
+    }
+
+    public void setCel(CEL cel) {
+        this.cel = cel;
     }
 
     @Override

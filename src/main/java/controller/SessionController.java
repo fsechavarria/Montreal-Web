@@ -31,7 +31,15 @@ public class SessionController {
     }
     
     @RequestMapping(value="/login.htm", method = RequestMethod.GET)
-    public String loginRequest (Model model) {
+    public String loginRequest (HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            AuthUser loggedUser = (AuthUser) session.getAttribute("loggedUser");
+            if(loggedUser != null) {
+                return "redirect:/home.htm";
+            }
+        }
+        
         model.addAttribute("usuario", new Usuario());
         model.addAttribute("title", "Login");
         return "login";
@@ -40,19 +48,16 @@ public class SessionController {
     @RequestMapping(method = RequestMethod.POST)
     public String submit(HttpServletRequest request, @Valid @ModelAttribute("usuario") Usuario usuario, 
             BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            model.addAttribute("usuario", new Usuario());
-            return "login";
-        }
         HttpSession session = request.getSession(true);
         AuthUser loggedUser = null;
         loggedUser = (AuthUser) session.getAttribute("loggedUser");
-        if(loggedUser == null) {
-            loggedUser = new AuthUser();
+        if(loggedUser != null) {
+            return "redirect:/home.htm";
         }
         
         String token = loginService.getAuthToken(usuario);
         if (token == null) {
+            model.addAttribute("usuario", new Usuario());
             model.addAttribute("errorMsg", "Usuario y/o contraseña incorrectos.");
             return "login";
         }

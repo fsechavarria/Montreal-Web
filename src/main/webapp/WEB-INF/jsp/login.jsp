@@ -44,8 +44,8 @@
                                 <button class="btn btn-lg btn-success btn-block">Ingresar</button>
                             </fieldset>
                         </form:form>
+                        <p class="text-danger"><c:out value="${errorMsg}" /> </p>
                     </div>
-                    <p class="text-danger"><c:out value="${errorMsg}" /> </p>
                 </div>
             </div>
         </div>

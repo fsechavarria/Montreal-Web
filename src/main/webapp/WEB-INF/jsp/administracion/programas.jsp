@@ -17,10 +17,10 @@
                         <tr>
                             <th>Nombre</th>
                             <th>Descripción</th>
-                            <th>CEL Asociado</th>
+                            <th>Centro Asignado</th>
                             <th>Fecha de Inicio</th>
                             <th>Fecha de Término</th>
-                            <th> # </th>
+                            <th><i class="fa fa-edit"></i></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -30,21 +30,23 @@
                                 <td><c:out value="${programa.desc_programa}" /></td>
                                 <td>
                                     <c:choose>
-                                        <c:when test="${programa.id_cel}">
-                                            <c:out value="${programa.id_cel}"/>
+                                        <c:when test="${programa.id_cel != null}">
+                                            <c:out value="${programa.cel.nom_centro}"/>
                                         </c:when>
                                         <c:otherwise>
-                                            <c:out value="N/A"/>
+                                            <c:out value="Aún no se asigna ningún centro"/>
                                         </c:otherwise>
                                     </c:choose>
                                 </td>
                                 <td><fmt:formatDate type = "date" dateStyle="short"value = "${programa.fech_inicio}" /></td>
                                 <td><fmt:formatDate type = "date" dateStyle="short" value = "${programa.fech_termino}" /></td>
-                                <td><a href="<c:out value="/administracion/programas.htm?id=${programa.id_programa}" />">Ver</a></td>
+                                <td><a href="<c:out value="/administracion/programas.htm?id=${programa.id_programa}" />">Editar</a></td>
                             </tr>
                         </c:forEach>
                     </tbody>
                 </table>
+                <p class="text-danger"><c:out value="${errorMsg}" /> </p>
+                <p class="text-success"><c:out value="${msg}" /> </p>
                 <!-- /.table-responsive -->
             </div>
             <!-- /.panel-body -->

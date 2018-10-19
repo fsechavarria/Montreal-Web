@@ -15,37 +15,41 @@
                 <div class="row">
                     <!-- /.col-lg-6 (nested) -->
                     <div class="col-lg-6">
-                        <form role="form">
+                        <form:form role="form" path="programa" modelAttribute="programa">
+                            <form:hidden path="id_programa" />
+                            <form:hidden path="id_cem" />
+                            <form:hidden path="id_cel" />
                             <div class="form-group">
                                 <label>Nombre</label>
-                                <input type="text" class="form-control" placeholder="Nombre" value="<c:out value="${programa.getNomb_programa()}" />">
+                                <form:input cssClass="form-control" path="nomb_programa"/>
                             </div>
                             <div class="form-group">
                                 <label>Descripción</label>
-                                <textarea class="form-control" rows="3" placeholder="Descripción"><c:out value="${programa.getDesc_programa()}" /></textarea>
+                                <form:textarea cssClass="form-control" rows="3" path="desc_programa"></form:textarea>
                             </div>
                             <div class="form-group">
-                                <label>CEL a cargo</label>
-                                <input type="text" class="form-control" placeholder="CEL a cargo">
+                                <label>Centro Asignado</label>
+                                <input disabled type="text" class="form-control" placeholder="CEL a cargo" value="<c:out value="${programa.getCel().getNom_centro()}"/>">
                             </div>
                             <div class="form-group">
                                 <label>Fecha de Inicio</label>
-                                <input type="date" class="form-control" placeholder="Fecha de Inicio" value="<fmt:formatDate pattern = "yyyy-MM-dd" value = "${programa.getFech_inicio()}" />">
+                                <form:input type="date" cssClass="form-control" path="fech_inicio"/>
                             </div>
                             <div class="form-group">
                                 <label>Fecha de Término</label>
-                                <input type="date" class="form-control" placeholder="Fecha de Término" value="<fmt:formatDate pattern = "yyyy-MM-dd" value = "${programa.getFech_termino()}" />">
+                                <form:input type="date" cssClass="form-control" path="fech_termino"/>
                             </div>
                             <div class="form-group">
                                 <label>Cantidad mínima de alumnos</label>
-                                <input type="number" class="form-control" placeholder="Cantidad mínima de alumnos" value="<c:out value="${programa.getCant_min_alumnos()}" />">
+                                <form:input type="number" cssClass="form-control" path="cant_min_alumnos"/>
                             </div>
                             <div class="form-group">
                                 <label>Cantidad máxima de alumnos</label>
-                                <input type="number" class="form-control" placeholder="Cantidad máxima de alumnos" value="<c:out value="${programa.getCant_max_alumnos()}" />">
+                                <form:input type="number" cssClass="form-control" path="cant_max_alumnos"/>
                             </div>
                             <button type="submit" class="btn btn-default">Guardar</button>
-                        </form>
+                        </form:form>
+                        <p class="text-danger"><c:out value="${errorMsg}" /> </p>
                     </div>
                     <!-- /.col-lg-6 (nested) -->
                 </div>

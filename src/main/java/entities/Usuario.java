@@ -8,9 +8,9 @@ public class Usuario{
     
     private Integer id_usuario;
     private Integer id_rol;
-    @Size(min=1, message="(*) Debe ingresar un usuario")
+    @Size(min=8, max=20, message="(*) Debe ingresar un usuario")
     private String usuario;
-    @Size(min=1, message="(*) Debe ingresar una contraseña")
+    @Size(min=8, max=30, message="(*) Debe ingresar una contraseña")
     private String contrasena;
 
     public Usuario () {

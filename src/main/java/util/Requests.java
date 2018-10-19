@@ -76,11 +76,7 @@ public class Requests {
              */
             if (method.toUpperCase().equals("POST")) {
                 JSONObject res = null;
-                String bd = "{}";
-                if (body != null) {
-                    byte[] encoded = body.toString().getBytes("UTF-8");
-                    bd = new String(encoded);
-                }
+                String bd = body == null ? "{}" : body.toString();
                 res = this.POST(action, bd, object, token);
                 if (res != null) {
                     ArrayList<Object> lstResult = new ArrayList();
@@ -118,11 +114,7 @@ public class Requests {
              */
             if (method.toUpperCase().equals("PUT")) {
                 JSONObject res = null;
-                String bd = "{}";
-                if (body != null) {
-                    byte[] encoded = body.toString().getBytes("UTF-8");
-                    bd = new String(encoded);
-                }
+                String bd = body == null ? "{}" : body.toString();
                 res = this.PUT(action, bd, object, token);
                 if (res != null) {
                     ArrayList<Object> lstResult = new ArrayList();
@@ -330,7 +322,11 @@ public class Requests {
                         JSONArray jArray = jObj.getJSONArray(object);
                         return jArray;
                     } else {
-                        System.out.println(jObj.getString("message"));
+                        try {
+                            System.out.println(jObj.getString("message"));
+                        } catch (Exception e){
+                            System.out.println(jObj.toString());
+                        }
                         return null;
                     } // Error check
                 } else {
@@ -417,7 +413,11 @@ public class Requests {
                     if (!err) {
                         return jObj.getJSONObject(object);
                     } else {
-                        System.out.println(jObj.getJSONObject("message"));
+                        try {
+                            System.out.println(jObj.getString("message"));
+                        } catch (Exception e){
+                            System.out.println(jObj.toString());
+                        }
                         return null;
                     } // Error check
                 } else {
@@ -511,7 +511,11 @@ public class Requests {
                     if (!err) {
                         return jObj.getJSONObject(object);
                     } else {
-                        System.out.println(jObj.getJSONObject("message"));
+                        try {
+                            System.out.println(jObj.getString("message"));
+                        } catch (Exception e){
+                            System.out.println(jObj.toString());
+                        }
                         return null;
                     } // Error check
                 } else {
@@ -598,7 +602,11 @@ public class Requests {
                     if (!err) {
                         return jObj.getJSONObject(object);
                     } else {
-                        System.out.println(jObj.getJSONObject("message"));
+                        try {
+                            System.out.println(jObj.getString("message"));
+                        } catch (Exception e){
+                            System.out.println(jObj.toString());
+                        }
                         return null;
                     } // Error check
                 } else {

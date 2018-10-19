@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import util.*;
 import entities.AuthUser;
 import entities.Usuario;
+import java.io.UnsupportedEncodingException;
 import org.json.JSONObject;
 
 
@@ -14,11 +15,16 @@ public class LoginService {
     private JWT jwt;
     
     public AuthUser getUserFromToken(String token) {
-       jwt = new JWT();
-       AuthUser aU = null;
-       aU = jwt.decodeJWT(token);
-       
-       return aU;
+        try {
+            jwt = new JWT();
+            AuthUser aU = null;
+            aU = jwt.decodeJWT(token);
+            
+            return aU;
+        } catch (UnsupportedEncodingException ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
     }
     
     public String getAuthToken(Usuario usuario) {
