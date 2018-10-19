@@ -31,6 +31,9 @@ public class Requests {
     public ArrayList requestController (String method, String action, String object, JSONObject body, Class cls, String token) {
         try {
             
+            /**
+             * GET
+             */
             if (method.toUpperCase().equals("GET")) {
                 JSONArray res = null;
                 res = this.GET(action, object, token);
@@ -47,6 +50,10 @@ public class Requests {
                             Object val = j.get(key);
                             for (Method m : methods) {
                                 if (m.getName().toLowerCase().equals("set" + key.toLowerCase())) {
+                                    if (val.getClass().equals(String.class)) {
+                                        byte[] encode = val.toString().getBytes();
+                                        val = new String(encode, "UTF-8");
+                                    }
                                     if (val == JSONObject.NULL) {
                                         m.invoke(obj, new Object[]{null});
                                         break;
@@ -62,8 +69,11 @@ public class Requests {
                     return lstResult;
                 }
                 return new ArrayList();
-            }
+            } /** FIN GET **/
             
+            /**
+             * POST
+             */
             if (method.toUpperCase().equals("POST")) {
                 JSONObject res = null;
                 String bd = "{}";
@@ -83,6 +93,10 @@ public class Requests {
                         Object val = res.get(key);
                         for(Method m : methods) {
                             if (m.getName().toLowerCase().equals("set" + key.toLowerCase())) {
+                                if (val.getClass().equals(String.class)) {
+                                    byte[] encode = val.toString().getBytes();
+                                    val = new String(encode, "UTF-8");
+                                }
                                 if (val == JSONObject.NULL) {
                                     m.invoke(obj, new Object[]{null});
                                     break;
@@ -97,8 +111,11 @@ public class Requests {
                     return lstResult;
                 }
                 return new ArrayList();
-            }
+            } /** FIN POST **/
             
+            /**
+             * PUT
+             */
             if (method.toUpperCase().equals("PUT")) {
                 JSONObject res = null;
                 String bd = "{}";
@@ -118,6 +135,10 @@ public class Requests {
                         Object val = res.get(key);
                         for(Method m : methods) {
                             if (m.getName().toLowerCase().equals("set" + key.toLowerCase())) {
+                                if (val.getClass().equals(String.class)) {
+                                    byte[] encode = val.toString().getBytes();
+                                    val = new String(encode, "UTF-8");
+                                }
                                 if (val == JSONObject.NULL) {
                                     m.invoke(obj, new Object[]{null});
                                     break;
@@ -132,8 +153,11 @@ public class Requests {
                     return lstResult;
                 }
                 return new ArrayList();
-            }
+            } /** FIN PUT **/
             
+            /** 
+             * DELETE
+             */
             if (method.toUpperCase().equals("DELETE")) {
                 JSONObject res = null;
                 res = this.DELETE(action, object, token);
@@ -148,6 +172,10 @@ public class Requests {
                         Object val = res.get(key);
                         for(Method m : methods) {
                             if (m.getName().toLowerCase().equals("set" + key.toLowerCase())) {
+                                if (val.getClass().equals(String.class)) {
+                                    byte[] encode = val.toString().getBytes();
+                                    val = new String(encode, "UTF-8");
+                                }
                                 if (val == JSONObject.NULL) {
                                     m.invoke(obj, new Object[]{null});
                                     break;
@@ -162,7 +190,7 @@ public class Requests {
                     return lstResult;
                 }
                 return new ArrayList();
-            }
+            } /** FIN DELETE **/
         } catch (Exception ex) {
             System.out.println(ex);
         }
