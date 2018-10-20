@@ -12,7 +12,7 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <a href="<c:out value="/administracion/programas/create.htm" />">Agregar un nuevo programa</a>
+                <a href="<c:out value="/administracion/programas/create.htm" />">Agregar un nuevo curso</a>
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">

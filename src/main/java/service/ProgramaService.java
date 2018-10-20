@@ -1,8 +1,11 @@
 package service;
 
+import entities.AuthUser;
 import entities.CEL;
+import entities.CEM;
 import entities.Programa_Estudio;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,12 +22,21 @@ public class ProgramaService {
     public ArrayList getProgramas(String token) {
         req = new Requests();
         Date fecha = new Date();
+        try {
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            String fechAux = format.format(fecha);
+            fecha = format.parse(fechAux);
+        } catch (ParseException ex) {
+            System.out.println(ex);
+        }
+        
         ArrayList<Programa_Estudio> lstProgramas = req.requestController("GET", "private/programa", "programa", null, Programa_Estudio.class, token);
         ArrayList<CEL> lstCel = req.requestController("GET", "private/cel", "cel", null, CEL.class, token);
         
         if (lstProgramas != null && lstProgramas.size() > 0) {
             for(int i = 0; i < lstProgramas.size(); i++) {
-                if (lstProgramas.get(i).getFech_termino().before(fecha)) {
+                if (lstProgramas.get(i).getFech_termino().compareTo(fecha) < 0) {
+                    System.out.println(lstProgramas.get(i));
                     lstProgramas.remove(lstProgramas.get(i));
                 }
             }
@@ -95,6 +107,42 @@ public class ProgramaService {
         
         if (lstProg != null && lstProg.size() > 0) {
             return true;
+        }
+        
+        return false;
+    }
+    
+    public boolean savePrograma(AuthUser usr, String token, Programa_Estudio programa){
+        req = new Requests();
+        
+        ArrayList<CEM> lstCEM = req.requestController("GET", "private/cem?id_usuario=" + usr.getId(), "cem", null, CEM.class, token);
+        
+        Integer id_cem = null;
+        if (lstCEM != null && lstCEM.size() > 0) {
+            id_cem = lstCEM.get(0).getId_cem();
+        }
+        
+        if (id_cem != null) {
+            JSONObject jObj = new JSONObject();
+            
+            jObj.accumulate("ID_CEM", id_cem);
+            jObj.accumulate("NOMB_PROGRAMA", programa.getNomb_programa());
+            jObj.accumulate("DESC_PROGRAMA", programa.getDesc_programa());
+
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            String fech_inicio = format.format(programa.getFech_inicio());
+            String fech_termino = format.format(programa.getFech_termino());
+            jObj.accumulate("FECH_INICIO", fech_inicio);
+            jObj.accumulate("FECH_TERMINO", fech_termino);
+
+            jObj.accumulate("CANT_MIN_ALUMNOS", programa.getCant_min_alumnos());
+            jObj.accumulate("CANT_MAX_ALUMNOS", programa.getCant_min_alumnos());
+            
+            ArrayList<Programa_Estudio> lstProg = req.requestController("POST", "private/programa", "programa", jObj, Programa_Estudio.class, token);
+            
+            if (lstProg != null && lstProg.size() > 0) {
+                return true;
+            }
         }
         
         return false;

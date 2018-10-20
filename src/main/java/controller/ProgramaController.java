@@ -123,4 +123,53 @@ public class ProgramaController {
         redir.addFlashAttribute("msg", "Programa eliminado.");
         return "redirect:/administracion/programas.htm";
     }
+    
+    @RequestMapping(value="/administracion/programas/create.htm", method = RequestMethod.GET)
+    public String createPrograma(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return "redirect:/login.htm";
+        } else {
+            AuthUser aU = (AuthUser)session.getAttribute("loggedUser");
+            if (aU == null) {
+                return "redirect:/login.htm";
+            }
+        }
+        model.addAttribute("nuevoPrograma", new Programa_Estudio());
+        
+        
+        return "administracion/programas/nuevo";
+    }
+    
+    @RequestMapping(value="/administracion/programas/create.htm", method = RequestMethod.POST)
+    public String createPrograma(HttpServletRequest request, Model model,@Valid @ModelAttribute("nuevoPrograma") Programa_Estudio programa, 
+            BindingResult result, SessionStatus status, RedirectAttributes redir) {
+        HttpSession session = request.getSession(false);
+        AuthUser aU = null;
+        String token = null;
+        if (session == null) {
+            return "redirect:/login.htm";
+        } else {
+            aU = (AuthUser)session.getAttribute("loggedUser");
+            if (aU == null) {
+                return "redirect:/login.htm";
+            }
+            token = session.getAttribute("token").toString();
+        }
+        
+        if(result.hasErrors())
+        {
+            return "administracion/programas/nuevo";
+        }
+        
+        boolean success = programaService.savePrograma(aU, token, programa);
+        
+        if (!success) {
+            redir.addAttribute("errorMsg", "Ha ocurrido un error al guardar el programa.");
+            return "redirect:/administracion/programas/create.htm";
+        }
+        
+        redir.addAttribute("msg", "Programa creado exitosamente.");
+        return "redirect:/administracion/programas.htm";
+    }
 }

@@ -5,17 +5,23 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 
 
 public class Programa_Estudio implements Serializable{
     private Integer id_programa;
     private Integer id_cem;
     private Integer id_cel;
+    @Size(min=5, max=100, message="El nombre debe tener entre 5 y 100 caracteres.")
     private String nomb_programa;
+    @Size(min=5, max=100, message="La descripción debe tener entre 5 y 100 caracteres.")
     private String desc_programa;
     private Date fech_inicio;
     private Date fech_termino;
+    @Min(value=5, message="Debe ser mayor o igual a 5")
     private Integer cant_min_alumnos;
+    @Min(value=5, message="Debe ser mayor o igual a 5")
     private Integer cant_max_alumnos;
     private CEL cel;
 
