@@ -22,14 +22,23 @@
                             <div class="form-group">
                                 <label>Nombre</label>
                                 <form:input cssClass="form-control" path="nomb_programa"/>
+                                <form:errors cssClass="text-danger" path="nomb_programa" />
                             </div>
                             <div class="form-group">
                                 <label>Descripción</label>
                                 <form:textarea cssClass="form-control" rows="3" path="desc_programa"></form:textarea>
+                                <form:errors cssClass="text-danger" path="desc_programa" />
                             </div>
                             <div class="form-group">
                                 <label>Centro Asignado</label>
-                                <input disabled type="text" class="form-control" placeholder="CEL a cargo" value="<c:out value="${programa.getCel().getNom_centro()}"/>">
+                                <c:choose>
+                                    <c:when test="${programa.getId_cel() != null}">
+                                        <input disabled type="text" class="form-control" placeholder="CEL a cargo" value="<c:out value="${programa.getCel().getNom_centro()}"/>">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <input disabled type="text" class="form-control" placeholder="CEL a cargo" value="<c:out value="Aún no se asigna ningún centro"/>">
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                             <div class="form-group">
                                 <label>Fecha de Inicio</label>
@@ -42,10 +51,12 @@
                             <div class="form-group">
                                 <label>Cantidad mínima de alumnos</label>
                                 <form:input type="number" cssClass="form-control" path="cant_min_alumnos"/>
+                                <form:errors cssClass="text-danger" path="cant_min_alumnos" />
                             </div>
                             <div class="form-group">
                                 <label>Cantidad máxima de alumnos</label>
                                 <form:input type="number" cssClass="form-control" path="cant_max_alumnos"/>
+                                <form:errors cssClass="text-danger" path="cant_max_alumnos" />
                             </div>
                             <button type="submit" class="btn btn-default">Guardar</button>
                         </form:form>

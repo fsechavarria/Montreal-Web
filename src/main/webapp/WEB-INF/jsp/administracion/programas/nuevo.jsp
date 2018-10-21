@@ -45,7 +45,6 @@
                                 <form:errors cssClass="text-danger" path="cant_max_alumnos" />
                             </div>
                             <button type="submit" class="btn btn-default">Publicar</button>
-                            <a class="ml-2 btn btn-default" href="<c:out value="/administracion/programas.htm" />">Volver</a>
                         </form:form>
                         <p class="text-danger"><c:out value="${errorMsg}" /> </p>
                     </div>

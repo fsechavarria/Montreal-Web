@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.ProgramaService;
 
@@ -43,13 +42,19 @@ public class ProgramaController {
         }
         model.addAttribute("title", "Programas de Estudio");
         String token = session.getAttribute("token").toString();
-        ArrayList<Programa_Estudio> lstProgramas = programaService.getProgramas(token);
+        
+        ArrayList lists = programaService.getProgramas(token);
+        
+        ArrayList<Programa_Estudio> lstProgramas = (ArrayList)lists.get(0);
+        ArrayList<Programa_Estudio> lstProgramasFinalizados = (ArrayList)lists.get(1);
+        
         model.addAttribute("lstProgramas", lstProgramas);
+        model.addAttribute("lstProgramasFinalizados", lstProgramasFinalizados);
         return "administracion/programas";
     }
     
     @RequestMapping(value="/administracion/programas.htm", params = { "id" }, method = RequestMethod.GET)
-    public String getPrograma (@RequestParam String id, HttpServletRequest request, Model model) {
+    public String getPrograma (@RequestParam String id, HttpServletRequest request, Model model, RedirectAttributes redir) {
         HttpSession session = request.getSession(false);
         if (session == null) {
             return "redirect:/login.htm";
@@ -62,6 +67,10 @@ public class ProgramaController {
         model.addAttribute("title", "Programa de Estudio");
         String token = session.getAttribute("token").toString();
         Programa_Estudio pE = programaService.getPrograma(token, id);
+        if (pE == null) {
+            model.addAttribute("errorMsg", "Ha ocurrido un error al mostrar el programa.");
+            return "redirect:/administracion/programas.htm";
+        }
         model.addAttribute("programa", pE);
         session.setAttribute("prog", pE);
         return "administracion/programas/ver";
@@ -74,7 +83,7 @@ public class ProgramaController {
     
     @RequestMapping(value="/administracion/programas.htm", params = { "id" }, method = RequestMethod.POST)
     public String updatePrograma (@RequestParam String id, HttpServletRequest request, Model model,
-            @Valid @ModelAttribute("programa") Programa_Estudio programa, BindingResult result, SessionStatus status, RedirectAttributes redir) {
+            @Valid @ModelAttribute("programa") Programa_Estudio programa, BindingResult result, RedirectAttributes redir) {
         HttpSession session = request.getSession(false);
         if (session == null) {
             return "redirect:/login.htm";
@@ -84,13 +93,16 @@ public class ProgramaController {
                 return "redirect:/login.htm";
             }
         }
+        if(result.hasErrors()){
+            return "administracion/programas/ver";
+        }
+        
         String token = session.getAttribute("token").toString();
         Programa_Estudio pe = (Programa_Estudio)session.getAttribute("prog");
         if ((!Objects.equals(pe.getId_cel(), programa.getId_cel()) || !Objects.equals(pe.getId_programa(), programa.getId_programa())) 
                 || !Objects.equals(pe.getId_cem(), programa.getId_cem())) {
-            model.addAttribute("errorMsg", "No se guardaron los cambios ya que algunos datos no coinciden.");
-            model.addAttribute("programa", pe);
-            return "administracion/programas/ver";
+            redir.addFlashAttribute("errorMsg", "No se guardaron los cambios ya que algunos datos no coinciden.");
+            return "redirect:/administracion/programas.htm";
         }
         boolean success = programaService.updatePrograma(token, programa);
         if (!success) {
@@ -143,7 +155,7 @@ public class ProgramaController {
     
     @RequestMapping(value="/administracion/programas/create.htm", method = RequestMethod.POST)
     public String createPrograma(HttpServletRequest request, Model model,@Valid @ModelAttribute("nuevoPrograma") Programa_Estudio programa, 
-            BindingResult result, SessionStatus status, RedirectAttributes redir) {
+            BindingResult result, RedirectAttributes redir) {
         HttpSession session = request.getSession(false);
         AuthUser aU = null;
         String token = null;

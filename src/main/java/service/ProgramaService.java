@@ -33,16 +33,6 @@ public class ProgramaService {
         ArrayList<Programa_Estudio> lstProgramas = req.requestController("GET", "private/programa", "programa", null, Programa_Estudio.class, token);
         ArrayList<CEL> lstCel = req.requestController("GET", "private/cel", "cel", null, CEL.class, token);
         
-        if (lstProgramas != null && lstProgramas.size() > 0) {
-            for(int i = 0; i < lstProgramas.size(); i++) {
-                if (lstProgramas.get(i).getFech_termino().compareTo(fecha) < 0) {
-                    System.out.println(lstProgramas.get(i));
-                    lstProgramas.remove(lstProgramas.get(i));
-                }
-            }
-        }
-        
-        
         if (lstCel != null && lstCel.size() > 0) { 
             for(int i = 0; i < lstProgramas.size(); i++) {
                 for (CEL cel : lstCel) {
@@ -53,22 +43,40 @@ public class ProgramaService {
             }
         }
         
-        return lstProgramas;
+        ArrayList<Programa_Estudio> lstProgramasFinalizados = new ArrayList<>();
+        if (lstProgramas != null && lstProgramas.size() > 0) {
+            for(int i = 0; i < lstProgramas.size(); i++) {
+                if (lstProgramas.get(i).getFech_termino().compareTo(fecha) < 0) {
+                    lstProgramasFinalizados.add(lstProgramas.get(i));
+                    lstProgramas.remove(lstProgramas.get(i));
+                }
+            }
+        }
+        
+        ArrayList arr = new ArrayList<>();
+        arr.add(lstProgramas);
+        arr.add(lstProgramasFinalizados);
+        return arr;
     }
     
     public Programa_Estudio getPrograma(String token, String id) {
+        if (id.length() == 0) {
+            return null;
+        }
         req = new Requests();
         
         ArrayList<Programa_Estudio> lstProgramas;
         lstProgramas = req.requestController("GET", "private/programa/" + id, "programa", null, Programa_Estudio.class, token);
         
-        if (lstProgramas.size() >= 1) {
-            ArrayList<CEL> lstCEL = req.requestController("GET", "private/cel/" + lstProgramas.get(0).getId_cel(), "cel", null, CEL.class, token);
-            if (lstCEL != null && lstCEL.size() > 0) {
-                CEL cel = lstCEL.get(0);
-                lstProgramas.get(0).setCel(cel);
-                return lstProgramas.get(0);
+        if (lstProgramas != null && lstProgramas.size() > 0) {
+            if (lstProgramas.get(0).getId_cel() != null) {
+                ArrayList<CEL> lstCEL = req.requestController("GET", "private/cel/" + lstProgramas.get(0).getId_cel(), "cel", null, CEL.class, token);
+                if (lstCEL != null && lstCEL.size() > 0) {
+                    CEL cel = lstCEL.get(0);
+                    lstProgramas.get(0).setCel(cel);
+                }
             }
+            return lstProgramas.get(0);
         }
         return null;
     }
@@ -101,6 +109,9 @@ public class ProgramaService {
     }
 
     public boolean deletePrograma(String token, String id) {
+        if (id.length() == 0) {
+            return false;
+        }
         req = new Requests();
         
         ArrayList<Programa_Estudio> lstProg = req.requestController("DELETE", "private/programa/" + id, "programa", null, Programa_Estudio.class, token);
