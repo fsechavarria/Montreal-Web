@@ -3,7 +3,7 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">Programas de Estudio</h1>
+        <h1 class="page-header">Cursos</h1>
     </div>
     <!-- /.col-lg-12 -->
 </div>
@@ -12,41 +12,28 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <a href="<c:out value="/administracion/programas/create.htm" />">Agregar un nuevo curso</a>
+                <a href="<c:out value="/administracion/cursos/create.htm" />">Agregar un nuevo curso</a>
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
                 <table width="100%" class="table table-striped table-bordered table-hover" id="dataTable">
                     <thead>
                         <tr>
-                            <th>Nombre</th>
+                            <th>Programa Asociado</th>
                             <th>Descripción</th>
-                            <th>Centro Asignado</th>
-                            <th>Fecha de Inicio</th>
-                            <th>Fecha de Término</th>
+                            <th>Cupos</th>
                             <th><i class="fa fa-edit"></i></th>
                             <th><i class="fa fa-trash"></i></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach items="${lstProgramas}" var="programa" >
+                        <c:forEach items="${lstCursos}" var="curso" >
                             <tr>
-                                <td><c:out value="${programa.nomb_programa}" /></td>
-                                <td><c:out value="${programa.desc_programa}" /></td>
-                                <td>
-                                    <c:choose>
-                                        <c:when test="${programa.id_cel != null}">
-                                            <c:out value="${programa.cel.nom_centro}"/>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <c:out value="Aún no se asigna ningún centro"/>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </td>
-                                <td><fmt:formatDate type = "date" dateStyle="short"value = "${programa.fech_inicio}" /></td>
-                                <td><fmt:formatDate type = "date" dateStyle="short" value = "${programa.fech_termino}" /></td>
-                                <td><a href="<c:out value="/administracion/programas.htm?id=${programa.id_programa}" />">Editar</a></td>
-                                <td><a href="<c:out value="/administracion/programas.htm?id=${programa.id_programa}&delete=true" />">Eliminar</a></td>
+                                <td><c:out value="${curso.programa.nomb_programa}"/></td>
+                                <td><c:out value="${curso.desc_curso}" /></td>
+                                <td><c:out value="${curso.cupos}" /></td>
+                                <td><a href="<c:out value="/administracion/cursos.htm?id=${curso.id_curso}" />">Editar</a></td>
+                                <td><a href="<c:out value="/administracion/cursos.htm?id=${curso.id_curso}&delete=true" />">Eliminar</a></td>
                             </tr>
                         </c:forEach>
                     </tbody>
@@ -54,6 +41,9 @@
                 <p class="text-danger"><c:out value="${errorMsg}" /> </p>
                 <p class="text-success"><c:out value="${msg}" /> </p>
                 <!-- /.table-responsive -->
+                <div>
+                    <p class="text-info">Solo se muestran los cursos de los programas que están vigentes.</p>
+                </div>
             </div>
             <!-- /.panel-body -->
         </div>
