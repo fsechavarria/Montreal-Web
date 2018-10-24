@@ -34,8 +34,13 @@ public class Persona{
         this.nombre = nombre;
         this.app_paterno = app_paterno;
         this.app_materno = app_materno;
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        this.fech_nacimiento = format.parse(fech_nacimiento);
+        
+        if (fech_nacimiento != null) {
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            this.fech_nacimiento = format.parse(fech_nacimiento);
+        } else {
+            this.fech_nacimiento = null;
+        }
     }
     
     public Integer getId_persona() {
@@ -99,8 +104,12 @@ public class Persona{
     }
 
     public void setFech_nacimiento(String fech_nacimiento) throws ParseException {
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        this.fech_nacimiento = format.parse(fech_nacimiento);
+        if (fech_nacimiento != null) {
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            this.fech_nacimiento = format.parse(fech_nacimiento);
+        } else {
+            this.fech_nacimiento = null;
+        }
     }
 
     @Override

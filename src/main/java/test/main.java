@@ -13,10 +13,8 @@ public class main {
         Requests r = new Requests();
         JWT j = new JWT();
         
-        /**
-         * Admin
-         */
-        
+        // Admin
+        /*
         JSONObject admin = new JSONObject();
         admin.accumulate("ID_ROL", 1);
         admin.accumulate("USUARIO", "admin");
@@ -34,9 +32,8 @@ public class main {
         personaAdmin.accumulate("FECH_NACIMIENTO", "13/04/1996");
         
         r.requestController("POST", "persona", "persona", personaAdmin, Persona.class, "");
-        /**
-         * CEM
-         */
+        
+        // CEM
         
         JSONObject cem = new JSONObject();
         cem.accumulate("ID_ROL", 2);
@@ -62,9 +59,7 @@ public class main {
         ArrayList<CEM> lstCEM = r.requestController("POST", "cem", "cem", cemCM, CEM.class, "");
         int id_cem = lstCEM.get(0).getId_cem();
         
-        /**
-         * CEL
-         */
+        // CEL
         
         JSONObject usrCEL = new JSONObject();
         usrCEL.accumulate("ID_ROL", 3);
@@ -91,9 +86,7 @@ public class main {
         ArrayList<CEL> lstCEL = r.requestController("POST", "cel", "cel", cel, CEL.class, "");
         int id_cel = lstCEL.get(0).getId_cel();
         
-        /**
-         * Programa de estudio
-         */
+        // Programa de Estudio
         
         JSONObject prog = new JSONObject();
         prog.accumulate("ID_CEM", 1);
@@ -106,6 +99,10 @@ public class main {
         prog.accumulate("CANT_MAX_ALUMNOS", "50");
         
         r.requestController("POST", "programa", "programa", prog, Programa_Estudio.class, "");
-
+        */
+        
+        Date d = new Date();
+        d = null;
+        
     }
 }

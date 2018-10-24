@@ -53,6 +53,9 @@ public class Requests {
                                     if (val.getClass().equals(String.class)) {
                                         byte[] encode = val.toString().getBytes();
                                         val = new String(encode, "UTF-8");
+                                        if (val.toString().length() == 1) {
+                                            val = val.toString().charAt(0);
+                                        }
                                     }
                                     if (val == JSONObject.NULL) {
                                         m.invoke(obj, new Object[]{null});
@@ -92,6 +95,9 @@ public class Requests {
                                 if (val.getClass().equals(String.class)) {
                                     byte[] encode = val.toString().getBytes();
                                     val = new String(encode, "UTF-8");
+                                    if (val.toString().length() == 1) {
+                                        val = val.toString().charAt(0);
+                                    }
                                 }
                                 if (val == JSONObject.NULL) {
                                     m.invoke(obj, new Object[]{null});
@@ -130,6 +136,9 @@ public class Requests {
                                 if (val.getClass().equals(String.class)) {
                                     byte[] encode = val.toString().getBytes();
                                     val = new String(encode, "UTF-8");
+                                    if (val.toString().length() == 1) {
+                                        val = val.toString().charAt(0);
+                                    }
                                 }
                                 if (val == JSONObject.NULL) {
                                     m.invoke(obj, new Object[]{null});
@@ -167,6 +176,9 @@ public class Requests {
                                 if (val.getClass().equals(String.class)) {
                                     byte[] encode = val.toString().getBytes();
                                     val = new String(encode, "UTF-8");
+                                    if (val.toString().length() == 1) {
+                                        val = val.toString().charAt(0);
+                                    }
                                 }
                                 if (val == JSONObject.NULL) {
                                     m.invoke(obj, new Object[]{null});

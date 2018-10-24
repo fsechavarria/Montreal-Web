@@ -46,8 +46,16 @@ public class Programa_Estudio implements Serializable{
         this.desc_programa = desc_programa;
         
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        this.fech_inicio = format.parse(fech_inicio);
-        this.fech_termino = format.parse(fech_termino);
+        if (fech_inicio != null) {
+            this.fech_inicio = format.parse(fech_inicio);
+        } else {
+            this.fech_inicio = null;
+        }
+        if (fech_termino != null) {
+            this.fech_termino = format.parse(fech_termino);
+        } else {
+            this.fech_termino = null;
+        }
         
         this.cant_min_alumnos = cant_min_alumnos;
         this.cant_max_alumnos = cant_max_alumnos;
@@ -100,8 +108,12 @@ public class Programa_Estudio implements Serializable{
     }
 
     public void setFech_inicio(String fech_inicio) throws ParseException {
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        this.fech_inicio = format.parse(fech_inicio);
+        if (fech_inicio != null) {
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            this.fech_inicio = format.parse(fech_inicio);
+        } else {
+            this.fech_inicio = null;
+        }
     }
 
     public Date getFech_termino() {
@@ -109,8 +121,12 @@ public class Programa_Estudio implements Serializable{
     }
 
     public void setFech_termino(String fech_termino) throws ParseException {
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        this.fech_termino = format.parse(fech_termino);
+        if (fech_termino != null) {
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            this.fech_termino = format.parse(fech_termino);
+        } else {
+            this.fech_termino = null;
+        }
     }
 
     public Integer getCant_min_alumnos() {

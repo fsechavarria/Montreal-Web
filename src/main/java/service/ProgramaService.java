@@ -1,5 +1,6 @@
 package service;
 
+import entities.Alumno;
 import entities.AuthUser;
 import entities.CEL;
 import entities.CEM;
@@ -30,25 +31,27 @@ public class ProgramaService {
             System.out.println(ex);
         }
         
-        ArrayList<Programa_Estudio> lstProgramas = req.requestController("GET", "private/programa", "programa", null, Programa_Estudio.class, token);
+        ArrayList<Programa_Estudio> tmp_progamas = req.requestController("GET", "private/programa", "programa", null, Programa_Estudio.class, token);
         ArrayList<CEL> lstCel = req.requestController("GET", "private/cel", "cel", null, CEL.class, token);
         
         if (lstCel != null && lstCel.size() > 0) { 
-            for(int i = 0; i < lstProgramas.size(); i++) {
+            for(int i = 0; i < tmp_progamas.size(); i++) {
                 for (CEL cel : lstCel) {
-                    if (Objects.equals(cel.getId_cel(), lstProgramas.get(i).getId_cel())) {
-                        lstProgramas.get(i).setCel(cel);
+                    if (Objects.equals(cel.getId_cel(), tmp_progamas.get(i).getId_cel())) {
+                        tmp_progamas.get(i).setCel(cel);
                     }
                 }
             }
         }
         
         ArrayList<Programa_Estudio> lstProgramasFinalizados = new ArrayList<>();
-        if (lstProgramas != null && lstProgramas.size() > 0) {
-            for(int i = 0; i < lstProgramas.size(); i++) {
-                if (lstProgramas.get(i).getFech_termino().compareTo(fecha) < 0) {
-                    lstProgramasFinalizados.add(lstProgramas.get(i));
-                    lstProgramas.remove(lstProgramas.get(i));
+        ArrayList<Programa_Estudio> lstProgramas = new ArrayList<>();
+        if (tmp_progamas != null && tmp_progamas.size() > 0) {
+            for(Programa_Estudio p : tmp_progamas) {
+                if (p.getFech_termino().compareTo(fecha) < 0) {
+                    lstProgramasFinalizados.add(p);
+                } else {
+                    lstProgramas.add(p);
                 }
             }
         }
