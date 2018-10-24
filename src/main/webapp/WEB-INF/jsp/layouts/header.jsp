@@ -79,15 +79,44 @@
                         <c:if test="${loggedUser != null}">
                             <c:choose>
                                 <c:when test="${loggedUser.getRol() == 'Administrador'}">
-                                    <!-- <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="https://example.com" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                                        <div class="dropdown-menu" aria-labelledby="dropdown04">
-                                          <a class="dropdown-item" href="#">Action</a>
-                                          <a class="dropdown-item" href="#">Another action</a>
-                                          <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </li>-->
-                                    <!-- Menu admin -->
+                                    <li>
+                                        <a href="<c:url value="/administracion/programas.htm"/>"><i class="fa fa-book fa-fw"></i> Programas de Estudio</a>
+                                    </li>
+                                    <li>
+                                        <a href="<c:url value="/administracion/cursos.htm"/>"><i class="fa fa-file-text fa-fw"></i> Cursos</a>
+                                    </li>
+                                    <li>
+                                        <a href="<c:url value="/administracion/postulaciones.htm"/>"><i class="fa fa-file fa-fw"></i> Postulaciones</a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><i class="fa fa-users" aria-hidden="true"></i> Usuarios<span class="fa arrow"></span></a>
+                                        <ul class="nav nav-second-level">
+                                            <li>
+                                                <a href="<c:url value="#"/>">Ver Usuarios</a>
+                                            </li>
+                                            <li>
+                                                <a href="<c:url value="#"/>">Registrar CEL</a>
+                                            </li>
+                                            <li>
+                                                <a href="<c:url value="#"/>">Registrar CEM</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="#"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Antecedentes<span class="fa arrow"></span></a>
+                                        <ul class="nav nav-second-level">
+                                            <li>
+                                                <a href="<c:url value="#"/>">Ver Antecedentes</a>
+                                            </li>
+                                            <li>
+                                                <a href="<c:url value="#"/>">Cargar Antecedentes</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="<c:url value="#"/>"><i class="fa fa-certificate" aria-hidden="true"></i> Certificados</a>
+                                    </li>
+                                    <!-- Menu administrador -->
                                 </c:when>
                                 <c:when test="${loggedUser.getRol() == 'CEM'}">
                                     <li>
@@ -96,90 +125,65 @@
                                     <li>
                                         <a href="<c:url value="/administracion/cursos.htm"/>"><i class="fa fa-file-text fa-fw"></i> Cursos</a>
                                     </li>
+                                    <li>
+                                        <a href="<c:url value="#"/>"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Calificaciones</a>
+                                    </li>
+                                    <li>
+                                        <a href="<c:url value="#"/>"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Antecedentes</a>
+                                    </li>
+                                    <li>
+                                        <a href="<c:url value="#"/>"><i class="fa fa-certificate" aria-hidden="true"></i> Certificados</a>
+                                    </li>
+                                    <!-- Menu cem -->
                                 </c:when>
                                 <c:when test="${loggedUser.getRol() == 'CEL'}">
+                                    <li>
+                                        <a href="#"><i class="fa fa-book fa-fw"></i> Programas de Estudio<span class="fa arrow"></span></a>
+                                        <ul class="nav nav-second-level">
+                                            <li>
+                                                <a href="<c:url value="#"/>">Mis Programas</a>
+                                            </li>
+                                            <li>
+                                                <a href="<c:url value="#"/>">Participar en un Programa</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="<c:url value="#"/>"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Registrar Notas</a>
+                                    </li>
                                     <!-- Menu cel -->
                                 </c:when>
                                 <c:when test="${loggedUser.getRol() == 'Alumno'}">
+                                    <li>
+                                        <a href="<c:url value="/administracion/programas.htm"/>"><i class="fa fa-book fa-fw"></i> Programas de Estudio</a>
+                                    </li>
+                                    <li>
+                                        <a href="<c:url value="/administracion/postulaciones.htm"/>"><i class="fa fa-file fa-fw"></i> Mis Postulaciones</a>
+                                    </li>
+                                    <li>
+                                        <a href="<c:url value="#"/>"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Mis Calificaciones</a>
+                                    </li>
+                                    <li>
+                                        <a href="<c:url value="#"/>"><i class="fa fa-certificate" aria-hidden="true"></i> Mis Certificados</a>
+                                    </li>
                                     <!-- Menu alumno -->
                                 </c:when>
                                 <c:when test="${loggedUser.getRol() == 'Familia'}">
+                                    <li>
+                                        <a href="<c:url value="#"/>"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Antecedentes<span class="fa arrow"></span></a>
+                                        <ul class="nav nav-second-level">
+                                            <li>
+                                                <a href="<c:url value="#"/>">Mis antecedentes</a>
+                                            </li>
+                                            <li>
+                                                <a href="<c:url value="#"/>">Cargar Antecedentes</a>
+                                            </li>
+                                        </ul>
+                                    </li>
                                     <!-- Menu Familia -->
                                 </c:when>
                             </c:choose>
                         </c:if>
-                        <li>
-                            <a href="tables.html"><i class="fa fa-table fa-fw"></i> Tables</a>
-                        </li>
-                        <li>
-                            <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="panels-wells.html">Panels and Wells</a>
-                                </li>
-                                <li>
-                                    <a href="buttons.html">Buttons</a>
-                                </li>
-                                <li>
-                                    <a href="notifications.html">Notifications</a>
-                                </li>
-                                <li>
-                                    <a href="typography.html">Typography</a>
-                                </li>
-                                <li>
-                                    <a href="icons.html"> Icons</a>
-                                </li>
-                                <li>
-                                    <a href="grid.html">Grid</a>
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="#">Second Level Item</a>
-                                </li>
-                                <li>
-                                    <a href="#">Second Level Item</a>
-                                </li>
-                                <li>
-                                    <a href="#">Third Level <span class="fa arrow"></span></a>
-                                    <ul class="nav nav-third-level">
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                    </ul>
-                                    <!-- /.nav-third-level -->
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="blank.html">Blank Page</a>
-                                </li>
-                                <li>
-                                    <a href="login.html">Login Page</a>
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
