@@ -30,4 +30,28 @@ public class AlumnoService {
         
         return lstAlumno;
     }
+    
+    public Alumno getAlumno(String token, String id){
+        if (id == null || id.trim().length() == 0) {
+            return null;
+        }
+        
+        req = new Requests();
+        
+        ArrayList<Alumno> lstAlumno = req.requestController("GET", "private/alumno/" + id, "alumno", null, Alumno.class, token);
+        
+        if (lstAlumno == null || lstAlumno.isEmpty()) {
+            return null;
+        }
+        Alumno a = lstAlumno.get(0);
+        String id_usuario = a.getId_usuario().toString();
+        
+        ArrayList<Persona> lstPersona = req.requestController("GET", "private/persona?id_usuario=" + id_usuario, "persona", null, Persona.class, token);
+        
+        if (lstPersona != null && !lstPersona.isEmpty()){
+            a.setPersona(lstPersona.get(0));
+        }
+        
+        return a;
+    }
 }
