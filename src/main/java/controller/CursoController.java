@@ -130,11 +130,11 @@ public class CursoController {
         boolean success = cursoService.saveCurso(token, curso);
         
         if (!success) {
-            redir.addAttribute("errorMsg", "Ha ocurrido un error creando el curso.");
+            redir.addFlashAttribute("errorMsg", "Ha ocurrido un error creando el curso.");
             return "redirect:/administracion/cursos.htm";
         }
         
-        redir.addAttribute("msg", "Curso creado exitosamente.");
+        redir.addFlashAttribute("msg", "Curso creado exitosamente.");
         return "redirect:/administracion/cursos.htm";
     }
     

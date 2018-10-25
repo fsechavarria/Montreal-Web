@@ -38,6 +38,8 @@ public class ProgramaController {
             AuthUser aU = (AuthUser)session.getAttribute("loggedUser");
             if (aU == null) {
                 return "redirect:/login.htm";
+            } else if (aU.getRol().equals("Familia")) {
+                return "redirect:/home.htm";
             }
         }
         model.addAttribute("title", "Programas de Estudio");
