@@ -1,10 +1,11 @@
 package entities;
 
+import java.io.Serializable;
 import javax.validation.constraints.Size;
 
 
 
-public class Usuario{
+public class Usuario implements Serializable{
     
     private Integer id_usuario;
     private Integer id_rol;
@@ -12,19 +13,25 @@ public class Usuario{
     private String usuario;
     @Size(min=8, max=30, message="(*) Debe ingresar una contraseña")
     private String contrasena;
+    private Persona persona;
+    private Rol rol;
 
     public Usuario () {
         this.id_usuario = 0;
         this.id_rol = 0;
         this.usuario = null;
         this.contrasena = null;
+        this.persona = new Persona();
+        this.rol = new Rol();
     }
 
-    public Usuario(Integer id_usuario, Integer id_rol, String usuario, String contrasena) {
+    public Usuario(Integer id_usuario, Integer id_rol, String usuario, String contrasena, Persona persona, Rol rol) {
         this.id_usuario = id_usuario;
         this.id_rol = id_rol;
         this.usuario = usuario;
         this.contrasena = contrasena;
+        this.persona = persona;
+        this.rol = rol;
     }
     
     public Integer getId_usuario() {
@@ -57,6 +64,22 @@ public class Usuario{
 
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
+    }
+
+    public Persona getPersona() {
+        return persona;
+    }
+
+    public void setPersona(Persona persona) {
+        this.persona = persona;
+    }
+
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
     }
 
     @Override
