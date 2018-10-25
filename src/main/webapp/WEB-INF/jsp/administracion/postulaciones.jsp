@@ -40,11 +40,15 @@
                     <tbody>
                         <c:forEach items="${lstPostulaciones}" var="postulacion" >
                             <tr>
-                                <td><c:out value="${postulacion.alumno.persona.nombre}" /></td>
+                                <td><c:out value="${postulacion.alumno.persona.nombre}
+                                       ${postulacion.alumno.persona.app_paterno}
+                                       ${postulacion.alumno.persona.app_materno}" /></td>
                                 <td>
                                     <c:choose>
                                         <c:when test="${programa.id_familia != null}">
-                                            <c:out value="${postulacion.familia.persona.nombre}"/>
+                                            <c:out value="${postulacion.familia.persona.nombre}
+                                                    ${postulacion.familia.persona.app_paterno}
+                                                    ${postulacion.familia.persona.app_materno}"/>
                                         </c:when>
                                         <c:otherwise>
                                             <c:out value="Aún no se escoge una familia"/>
@@ -63,8 +67,8 @@
                                 </td>
                                 <td><c:out value="${postulacion.programa.nomb_programa}"/></td>
                                 <td><fmt:formatDate type = "date" dateStyle="short" value = "${postulacion.fech_postulacion}" /></td>
-                                <td><a href="<c:out value="/administracion/programas.htm?id=${postulacion.id_postulacion}&accept=true" />">Aceptar</a></td>
-                                <td><a href="<c:out value="/administracion/programas.htm?id=${postulacion.id_postulacion}&accept=false" />">Rechazar</a></td>
+                                <td><a href="<c:out value="/administracion/postulaciones.htm?id=${postulacion.id_postulacion}&accept=true" />">Aceptar</a></td>
+                                <td><a href="<c:out value="/administracion/postulaciones.htm?id=${postulacion.id_postulacion}&accept=false" />">Rechazar</a></td>
                             </tr>
                         </c:forEach>
                     </tbody>
@@ -104,11 +108,15 @@
                     <tbody>
                         <c:forEach items="${lstPostulacionesFinalizadas}" var="postulacion" >
                             <tr>
-                                <td><c:out value="${postulacion.alumno.persona.nombre}" /></td>
+                                <td><c:out value="${postulacion.alumno.persona.nombre}
+                                       ${postulacion.alumno.persona.app_paterno}
+                                       ${postulacion.alumno.persona.app_materno}" /></td>
                                 <td>
                                     <c:choose>
                                         <c:when test="${programa.id_familia != null}">
-                                            <c:out value="${postulacion.familia.persona.nombre}"/>
+                                            <c:out value="${postulacion.familia.persona.nombre}
+                                                    ${postulacion.familia.persona.app_paterno}
+                                                    ${postulacion.familia.persona.app_materno}"/>
                                         </c:when>
                                         <c:otherwise>
                                             <c:out value="Aún no se escoge una familia"/>
@@ -145,8 +153,6 @@
                         </c:forEach>
                     </tbody>
                 </table>
-                <p class="text-danger"><c:out value="${errorMsg}" /> </p>
-                <p class="text-success"><c:out value="${msg}" /> </p>
                 <!-- /.table-responsive -->
             </div>
             <!-- /.panel-body -->
