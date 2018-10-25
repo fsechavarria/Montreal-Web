@@ -92,7 +92,7 @@
                                         <a href="#"><i class="fa fa-users" aria-hidden="true"></i> Usuarios<span class="fa arrow"></span></a>
                                         <ul class="nav nav-second-level">
                                             <li>
-                                                <a href="<c:url value="#"/>">Ver Usuarios</a>
+                                                <a href="<c:url value="/administracion/usuarios.htm"/>">Ver Usuarios</a>
                                             </li>
                                             <li>
                                                 <a href="<c:url value="#"/>">Registrar CEL</a>
@@ -144,7 +144,7 @@
                                                 <a href="<c:url value="#"/>">Mis Programas</a>
                                             </li>
                                             <li>
-                                                <a href="<c:url value="#"/>">Participar en un Programa</a>
+                                                <a href="<c:url value="/administracion/programas.htm"/>">Ver Programas</a>
                                             </li>
                                         </ul>
                                     </li>
