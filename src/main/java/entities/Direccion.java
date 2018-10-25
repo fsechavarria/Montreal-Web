@@ -7,6 +7,7 @@ public class Direccion {
     private String calle;
     private String numeracion;
     private String departamento;
+    private Ciudad ciudad;
 
     public Direccion() {
         this.id_direccion = 0;
@@ -14,14 +15,16 @@ public class Direccion {
         this.calle = null;
         this.numeracion = null;
         this.departamento = null;
+        this.ciudad = new Ciudad();
     }
 
-    public Direccion(Integer id_direccion, Integer id_ciudad, String calle, String numeracion, String departamento) {
+    public Direccion(Integer id_direccion, Integer id_ciudad, String calle, String numeracion, String departamento, Ciudad ciudad) {
         this.id_direccion = id_direccion;
         this.id_ciudad = id_ciudad;
         this.calle = calle;
         this.numeracion = numeracion;
         this.departamento = departamento;
+        this.ciudad = ciudad;
     }
 
     public Integer getId_direccion() {
@@ -62,6 +65,14 @@ public class Direccion {
 
     public void setDepartamento(String departamento) {
         this.departamento = departamento;
+    }
+
+    public Ciudad getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(Ciudad ciudad) {
+        this.ciudad = ciudad;
     }
 
     @Override

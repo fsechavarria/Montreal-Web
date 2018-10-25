@@ -6,22 +6,22 @@ public class Familia {
     private Integer id_familia;
     private Integer id_usuario;
     private Integer num_integrantes;
-    private char estado;
+    private String estado;
     private Persona persona;
 
     public Familia() {
         this.id_familia = 0;
         this.id_usuario = 0;
         this.num_integrantes = 0;
-        this.estado = 'I';
+        this.estado = "I";
         this.persona = new Persona();
     }
 
-    public Familia(Integer id_familia, Integer id_usuario, Integer num_integrantes, char estado, Persona persona) {
+    public Familia(Integer id_familia, Integer id_usuario, Integer num_integrantes, String estado, Persona persona) {
         this.id_familia = id_familia;
         this.id_usuario = id_usuario;
         this.num_integrantes = num_integrantes;
-        this.estado = estado;
+        this.estado = estado.toUpperCase();
         this.persona = persona;
     }
 
@@ -49,12 +49,12 @@ public class Familia {
         this.num_integrantes = num_integrantes;
     }
 
-    public char getEstado() {
-        return estado;
+    public String getEstado() {
+        return estado.toUpperCase();
     }
 
-    public void setEstado(char estado) {
-        this.estado = estado;
+    public void setEstado(String estado) {
+        this.estado = estado.toUpperCase();
     }
 
     public Persona getPersona() {

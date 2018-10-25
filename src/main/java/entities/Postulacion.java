@@ -14,7 +14,7 @@ public class Postulacion {
     private Integer id_programa;
     private Date fech_postulacion;
     private Date fech_respuesta;
-    private char estado;
+    private String estado;
     private Integer reserva_dinero_pasajes;
     private Programa_Estudio programa;
     private Alumno alumno;
@@ -29,7 +29,7 @@ public class Postulacion {
         this.id_programa = 0;
         this.fech_postulacion = new Date();
         this.fech_respuesta = new Date();
-        this.estado = 'P';
+        this.estado = "P";
         this.reserva_dinero_pasajes = 0;
         this.programa = new Programa_Estudio();
         this.alumno = new Alumno();
@@ -38,7 +38,7 @@ public class Postulacion {
     }
 
     public Postulacion(Integer id_postulacion, Integer id_alumno, Integer id_familia, Integer id_seguro, Integer id_programa, String fech_postulacion, 
-            String fech_respuesta, char estado, Integer reserva_dinero_pasajes, Programa_Estudio programa, Alumno alumno, Familia familia, Seguro seguro) throws ParseException {
+            String fech_respuesta, String estado, Integer reserva_dinero_pasajes, Programa_Estudio programa, Alumno alumno, Familia familia, Seguro seguro) throws ParseException {
         this.id_postulacion = id_postulacion;
         this.id_alumno = id_alumno;
         this.id_familia = id_familia;
@@ -57,7 +57,7 @@ public class Postulacion {
             this.fech_respuesta = null;
         }
         
-        this.estado = Character.toUpperCase(estado);
+        this.estado = estado.toUpperCase();
         this.reserva_dinero_pasajes = reserva_dinero_pasajes;
         this.programa = programa;
         this.alumno = alumno;
@@ -131,12 +131,12 @@ public class Postulacion {
         }
     }
 
-    public char getEstado() {
-        return Character.toUpperCase(estado);
+    public String getEstado() {
+        return estado.toUpperCase();
     }
 
-    public void setEstado(char estado) {
-        this.estado = Character.toUpperCase(estado);
+    public void setEstado(String estado) {
+        this.estado = estado.toUpperCase();
     }
 
     public Integer getReserva_dinero_pasajes() {
