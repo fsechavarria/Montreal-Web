@@ -65,7 +65,7 @@ public class PostulacionService {
         for(Postulacion p : tmp_postulacion) {
             vigente = false;
             for(Programa_Estudio prog : vigentes) {
-                if (p.getId_programa().equals(prog.getId_programa()) && p.getEstado() == "P") {
+                if (p.getId_programa().equals(prog.getId_programa()) && p.getEstado().equals("P")) {
                     p.setSeguro(seg);
                     p.setPrograma(prog);
                     lstPostulacion.add(p);
@@ -77,14 +77,14 @@ public class PostulacionService {
             if (!vigente) {
                 for(Programa_Estudio prog : finalizados) {
                     
-                    if (p.getEstado() == "R") {
+                    if (p.getEstado().equals("R")) {
                         p.setSeguro(seg);
                         p.setPrograma(prog);
                         lstFinalizadas.add(p);
                         break;
                     }
                     
-                    if (p.getEstado() == "A") {
+                    if (p.getEstado().equals("A")) {
                         p.setSeguro(seg);
                         p.setPrograma(prog);
                         lstFinalizadas.add(p);
@@ -93,7 +93,7 @@ public class PostulacionService {
                     
                     if (p.getId_programa().equals(prog.getId_programa())) {
                         p.setSeguro(seg);
-                        if (p.getEstado() == "P") {
+                        if (p.getEstado().equals("P")) {
                             JSONObject obj = new JSONObject();
                             obj.accumulate("ESTADO", 'R');
                             if (p.getFech_respuesta() == null) {
