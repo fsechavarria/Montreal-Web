@@ -76,7 +76,7 @@ public class CursoController {
         if (lstPrograma == null) {
             lstPrograma = new ArrayList<>();
         }
-        model.addAttribute("lstPrograma", lstPrograma);
+        model.addAttribute("lstPrograma", lstPrograma.get(0));
         
         
         
@@ -102,7 +102,7 @@ public class CursoController {
         if (lstPrograma == null) {
             lstPrograma = new ArrayList<>();
         }
-        model.addAttribute("lstPrograma", lstPrograma);
+        model.addAttribute("lstPrograma", lstPrograma.get(0));
         
         return "administracion/cursos/nuevo";
     }

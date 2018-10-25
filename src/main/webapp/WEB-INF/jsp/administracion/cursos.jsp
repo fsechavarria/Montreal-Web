@@ -29,7 +29,16 @@
                     <tbody>
                         <c:forEach items="${lstCursos}" var="curso" >
                             <tr>
-                                <td><c:out value="${curso.programa.nomb_programa}"/></td>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${curso.programa != null}">
+                                            <c:out value="${curso.programa.nomb_programa}"/>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <c:out value="Aún no se asigna un programa"/>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </td>
                                 <td><c:out value="${curso.desc_curso}" /></td>
                                 <td><c:out value="${curso.cupos}" /></td>
                                 <td><a href="<c:out value="/administracion/cursos.htm?id=${curso.id_curso}" />">Editar</a></td>

@@ -46,7 +46,7 @@ public class CursoService {
             }
             
             for(Curso c : lstCursos) {
-                if (c.getPrograma().getFech_termino().compareTo(fecha) < 0) {
+                if (c.getPrograma() != null && c.getPrograma().getFech_termino().compareTo(fecha) < 0) {
                     lstCursos.remove(c);
                 }
             }

@@ -179,11 +179,11 @@ public class ProgramaController {
         boolean success = programaService.savePrograma(aU, token, programa);
         
         if (!success) {
-            redir.addAttribute("errorMsg", "Ha ocurrido un error al guardar el programa.");
+            redir.addFlashAttribute("errorMsg", "Ha ocurrido un error al guardar el programa.");
             return "redirect:/administracion/programas/create.htm";
         }
         
-        redir.addAttribute("msg", "Programa creado exitosamente.");
+        redir.addFlashAttribute("msg", "Programa creado exitosamente.");
         return "redirect:/administracion/programas.htm";
     }
 }

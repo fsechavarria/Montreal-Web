@@ -14,7 +14,7 @@ public class main {
         JWT j = new JWT();
         
         // Admin
-        /*
+        
         JSONObject admin = new JSONObject();
         admin.accumulate("ID_ROL", 1);
         admin.accumulate("USUARIO", "admin");
@@ -99,10 +99,7 @@ public class main {
         prog.accumulate("CANT_MAX_ALUMNOS", "50");
         
         r.requestController("POST", "programa", "programa", prog, Programa_Estudio.class, "");
-        */
         
-        Date d = new Date();
-        d = null;
         
     }
 }

@@ -49,9 +49,12 @@ public class PostulacionController {
             model.addAttribute("title", "Postulaciones");
             arr = postulacionService.getPostulaciones(token, null);
         }
-        
-        ArrayList<Postulacion> vigentes = (ArrayList)arr.get(0);
-        ArrayList<Postulacion> finalizadas = (ArrayList)arr.get(1);
+        ArrayList<Postulacion> vigentes = new ArrayList();
+        ArrayList<Postulacion> finalizadas = new ArrayList();
+        if (arr != null && !arr.isEmpty() && arr.size() == 2){
+            vigentes = (ArrayList)arr.get(0);
+            finalizadas = (ArrayList)arr.get(1);
+        }
         
         model.addAttribute("lstPostulaciones", vigentes);
         model.addAttribute("lstPostulacionesFinalizadas", finalizadas);
