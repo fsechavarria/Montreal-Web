@@ -1,6 +1,7 @@
 package service;
 
 import entities.Alumno;
+import entities.Familia;
 import entities.Postulacion;
 import entities.Programa_Estudio;
 import entities.Seguro;
@@ -64,7 +65,7 @@ public class PostulacionService {
         for(Postulacion p : tmp_postulacion) {
             vigente = false;
             for(Programa_Estudio prog : vigentes) {
-                if (p.getId_programa().equals(prog.getId_programa()) && p.getEstado() == 'P') {
+                if (p.getId_programa().equals(prog.getId_programa()) && p.getEstado() == "P") {
                     p.setSeguro(seg);
                     p.setPrograma(prog);
                     lstPostulacion.add(p);
@@ -75,29 +76,39 @@ public class PostulacionService {
             
             if (!vigente) {
                 for(Programa_Estudio prog : finalizados) {
+                    
+                    if (p.getEstado() == "R") {
+                        p.setSeguro(seg);
+                        p.setPrograma(prog);
+                        lstFinalizadas.add(p);
+                        break;
+                    }
+                    
+                    if (p.getEstado() == "A") {
+                        p.setSeguro(seg);
+                        p.setPrograma(prog);
+                        lstFinalizadas.add(p);
+                        break;
+                    }
+                    
                     if (p.getId_programa().equals(prog.getId_programa())) {
                         p.setSeguro(seg);
-                        if (p.getEstado() == 'A') {
-                            p.setPrograma(prog);
-                            lstFinalizadas.add(p);
-                            break;
-                        } else {
-                            if (p.getEstado() == 'P') {
-                                JSONObject obj = new JSONObject();
-                                obj.accumulate("ESTADO", 'R');
-                                if (p.getFech_respuesta() == null) {
-                                    DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                                    String fecha = format.format(new Date());
-                                    obj.accumulate("FECH_RESPUESTA", fecha);
-                                }
-                                req.requestController("PUT", "private/postulacion/" + p.getId_postulacion(), "postulacion", obj, Postulacion.class, token);
-                                p.setEstado('R');
+                        if (p.getEstado() == "P") {
+                            JSONObject obj = new JSONObject();
+                            obj.accumulate("ESTADO", 'R');
+                            if (p.getFech_respuesta() == null) {
+                                DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                                String fecha = format.format(new Date());
+                                obj.accumulate("FECH_RESPUESTA", fecha);
                             }
-                            p.setPrograma(prog);
-                            lstFinalizadas.add(p);
-                            break;
+                            req.requestController("PUT", "private/postulacion/" + p.getId_postulacion(), "postulacion", obj, Postulacion.class, token);
+                            p.setEstado("R");
                         }
+                        p.setPrograma(prog);
+                        lstFinalizadas.add(p);
+                        break;
                     }
+                    
                 }
             }
         }
@@ -129,4 +140,75 @@ public class PostulacionService {
         
         return arr;
     }
+    
+    public Postulacion getPostulacion(String token, String id){
+        if (id == null || id.trim().length() == 0) {
+            return null;
+        }
+        
+        req = new Requests();
+        
+        ArrayList<Postulacion> lstPostulacion = req.requestController("GET", "private/postulacion/" + id, "postulacion", null, Postulacion.class, token);
+        
+        if (lstPostulacion == null || lstPostulacion.isEmpty()) {
+            return null;
+        }
+        Postulacion p = lstPostulacion.get(0);
+        String id_programa = p.getId_programa().toString();
+        String id_alumno = p.getId_alumno().toString();
+        String id_familia = p.getId_familia().toString();
+        String id_seguro = p.getId_seguro().toString();
+        
+        ProgramaService ps = new ProgramaService();
+        AlumnoService as = new AlumnoService();
+        FamiliaService fs = new FamiliaService();
+        SeguroService ss = new SeguroService();
+        
+        Programa_Estudio prog = ps.getPrograma(token, id_programa);
+        if (prog != null) {
+            p.setPrograma(prog);
+        }
+        
+        Familia fam = fs.getFamilia(token, id_familia);
+        if (fam != null) {
+            p.setFamilia(fam);
+        }
+        
+        Alumno al = as.getAlumno(token, id_alumno);
+        if (al != null) {
+            p.setAlumno(al);
+        }
+        
+        Seguro s = ss.getSeguro(token, id_seguro);
+        if (s != null) {
+            p.setSeguro(s);
+        }
+        
+        
+        return p;
+    }
+    
+    public boolean answerPostulacion(String token, String id, boolean accept) {
+        if (id == null || id.trim().length() == 0) {
+            return false;
+        }
+        
+        req = new Requests();
+        
+        JSONObject jObj = new JSONObject();
+        if (accept) {
+            jObj.accumulate("ESTADO", "A");
+        } else {
+            jObj.accumulate("ESTADO", "R");
+        }
+        
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date d = new Date();
+        String fecha = format.format(d);
+        jObj.accumulate("FECH_RESPUESTA", fecha);
+        
+        ArrayList<Postulacion> postulacion = req.requestController("PUT", "private/postulacion/" + id, "postulacion", jObj, Postulacion.class, token);
+        
+        return !(postulacion == null || postulacion.isEmpty());
+    } 
 }
