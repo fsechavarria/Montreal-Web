@@ -1,6 +1,7 @@
 package service;
 
 import entities.Ciudad;
+import entities.Contacto;
 import entities.Direccion;
 import entities.Pais;
 import entities.Persona;
@@ -59,6 +60,8 @@ public class UsuarioService {
         
         return lstUsuario;
     }
+    
+    
     
     public Usuario getUsuario(String token, String id) {
         if (id == null || id.trim().length() == 0) {
@@ -251,11 +254,15 @@ public class UsuarioService {
             
             if (!arr.isEmpty() && arr.size() == 3) {
                 ArrayList<Direccion> lstDireccion = (ArrayList<Direccion>)arr.get(0);
-                ArrayList<Ciudad> lstCiudad = (ArrayList<Ciudad>)arr.get(1);
-                ArrayList<Pais> lstPais = (ArrayList<Pais>)arr.get(2);
                 
                 int index = 0;
+                ArrayList<Contacto> lstContactos = new ArrayList();
                 for (Persona p : lstPersona) {
+                    lstContactos = req.requestController("GET", "private/contacto?id_persona=" + p.getId_persona().toString(), "contacto", null, Contacto.class, token);
+                    if (lstContactos != null && !lstContactos.isEmpty()) {
+                        p.setContactos(lstContactos);
+                    }
+                    
                     for(Direccion d : lstDireccion) {
                         if (d.getId_direccion().equals(p.getId_direccion())){
                             p.setDireccion(d);
@@ -265,6 +272,7 @@ public class UsuarioService {
                     }
                     index++;
                 }
+                
             }
             
             return lstPersona;

@@ -26,7 +26,7 @@ public class ProgramaService {
         ArrayList<Programa_Estudio> programas = req.requestController("GET", "private/programa", "programa", null, Programa_Estudio.class, token);
         ArrayList<CEL> lstCel = req.requestController("GET", "private/cel", "cel", null, CEL.class, token);
         
-        if (lstCel != null && !lstCel.isEmpty()) { 
+        if (programas != null && !programas.isEmpty() && lstCel != null && !lstCel.isEmpty()) { 
             int index = 0;
             for (Programa_Estudio programa : programas) {
                 for (CEL cel : lstCel) {
