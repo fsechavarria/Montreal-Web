@@ -22,6 +22,30 @@ public class ProgramaService {
     
     public ArrayList getProgramas(String token) {
         req = new Requests();
+        
+        ArrayList<Programa_Estudio> programas = req.requestController("GET", "private/programa", "programa", null, Programa_Estudio.class, token);
+        ArrayList<CEL> lstCel = req.requestController("GET", "private/cel", "cel", null, CEL.class, token);
+        
+        if (lstCel != null && !lstCel.isEmpty()) { 
+            int index = 0;
+            for (Programa_Estudio programa : programas) {
+                for (CEL cel : lstCel) {
+                    if (cel.getId_cel().equals(programa.getId_cel())) {
+                        programa.setCel(cel);
+                        programas.set(index, programa);
+                        break;
+                    }
+                }
+                index++;
+            }
+        }
+        
+        ArrayList arr = filtrarProgramas(programas);
+        
+        return arr;
+    }
+    
+    private ArrayList filtrarProgramas(ArrayList<Programa_Estudio> programas){
         Date fecha = new Date();
         try {
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -31,34 +55,24 @@ public class ProgramaService {
             System.out.println(ex);
         }
         
-        ArrayList<Programa_Estudio> tmp_progamas = req.requestController("GET", "private/programa", "programa", null, Programa_Estudio.class, token);
-        ArrayList<CEL> lstCel = req.requestController("GET", "private/cel", "cel", null, CEL.class, token);
         
-        if (lstCel != null && lstCel.size() > 0) { 
-            for(int i = 0; i < tmp_progamas.size(); i++) {
-                for (CEL cel : lstCel) {
-                    if (Objects.equals(cel.getId_cel(), tmp_progamas.get(i).getId_cel())) {
-                        tmp_progamas.get(i).setCel(cel);
-                    }
-                }
-            }
-        }
+        ArrayList<Programa_Estudio> finalizados = new ArrayList<>();
+        ArrayList<Programa_Estudio> vigentes = new ArrayList<>();
         
-        ArrayList<Programa_Estudio> lstProgramasFinalizados = new ArrayList<>();
-        ArrayList<Programa_Estudio> lstProgramas = new ArrayList<>();
-        if (tmp_progamas != null && tmp_progamas.size() > 0) {
-            for(Programa_Estudio p : tmp_progamas) {
+        if (programas != null && !programas.isEmpty()) {
+            for(Programa_Estudio p : programas){
                 if (p.getFech_termino().compareTo(fecha) < 0) {
-                    lstProgramasFinalizados.add(p);
+                    finalizados.add(p);
                 } else {
-                    lstProgramas.add(p);
+                    vigentes.add(p);
                 }
             }
         }
         
-        ArrayList arr = new ArrayList<>();
-        arr.add(lstProgramas);
-        arr.add(lstProgramasFinalizados);
+        ArrayList arr = new ArrayList();
+        arr.add(vigentes);
+        arr.add(finalizados);
+        
         return arr;
     }
     
