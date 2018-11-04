@@ -18,20 +18,21 @@ public class PostulacionService {
     
     private Requests req;
     
-    public ArrayList getPostulaciones(String token, String id) {
+    public ArrayList getPostulaciones(String token, String id_usuario) {
         req = new Requests();
+        SeguroService sS = new SeguroService();
         
-        ArrayList<Seguro> lstSeguro = new ArrayList();
+        ArrayList<Seguro> lstSeguro = req.requestController("GET", "private/seguro", "seguro", null, Seguro.class, token);
         ArrayList<Postulacion> tmp_postulacion = new ArrayList();
-        if (id == null || id.length() == 0) {
-            lstSeguro = req.requestController("GET", "private/seguro", "seguro", null, Seguro.class, token);
+        
+        if (id_usuario == null || id_usuario.length() == 0) {
             tmp_postulacion = req.requestController("GET", "private/postulacion", "postulacion", null, Postulacion.class, token);
         } else {
-            ArrayList<Alumno> alm = req.requestController("GET", "private/alumno?id_usuario=" + id, "alumno", null, Alumno.class, token);
+            ArrayList<Alumno> alm = req.requestController("GET", "private/alumno?id_usuario=" + id_usuario, "alumno", null, Alumno.class, token);
+            
             Alumno a = new Alumno();
             if (alm != null && !alm.isEmpty()) a = alm.get(0);
             
-            lstSeguro = req.requestController("GET", "private/seguro", "seguro", null, Seguro.class, token);
             tmp_postulacion = req.requestController("GET", "private/postulacion?id_alumno="+a.getId_alumno(), "postulacion", null, Postulacion.class, token);
         }
          
@@ -40,101 +41,132 @@ public class PostulacionService {
             return new ArrayList();
         }
         
-        ProgramaService ps = new ProgramaService();
-        ArrayList lstProgramas = ps.getProgramas(token);
-        
-        ArrayList<Programa_Estudio> vigentes = new ArrayList();
-        ArrayList<Programa_Estudio> finalizados = new ArrayList();
-        ArrayList<Alumno> lstAlumnos = new ArrayList();
-        if (lstProgramas != null && lstProgramas.size() == 2) {
-            AlumnoService as = new AlumnoService();
-            lstAlumnos = as.getAlumnos(token);
-            vigentes = (ArrayList)lstProgramas.get(0);
-            finalizados = (ArrayList)lstProgramas.get(1);
-        }
-        
-        
-        ArrayList<Postulacion> lstPostulacion = new ArrayList();
-        ArrayList<Postulacion> lstFinalizadas = new ArrayList();
+        AlumnoService as = new AlumnoService();
+        ArrayList<Alumno> lstAlumnos = as.getAlumnos(token);
+ 
         Seguro seg = null;
         if (lstSeguro != null && !lstSeguro.isEmpty()) {
             seg = (Seguro)lstSeguro.get(0);
         }
         
+        ProgramaService ps = new ProgramaService();
+        ArrayList lstProgramas = ps.getProgramas(token);
+        
+        ArrayList<Programa_Estudio> vigentes = (ArrayList)lstProgramas.get(0);
+        ArrayList<Programa_Estudio> finalizados = (ArrayList)lstProgramas.get(1);
+        
         boolean vigente;
+        int index = 0;
         for(Postulacion p : tmp_postulacion) {
             vigente = false;
             for(Programa_Estudio prog : vigentes) {
-                if (p.getId_programa().equals(prog.getId_programa()) && p.getEstado().equals("P")) {
-                    p.setSeguro(seg);
-                    p.setPrograma(prog);
-                    lstPostulacion.add(p);
-                    vigente = true;
-                    break;
-                }
+                p.setSeguro(seg);
+                p.setPrograma(prog);
+                tmp_postulacion.set(index, p);
+                vigente = true;
+                break;
             }
             
             if (!vigente) {
                 for(Programa_Estudio prog : finalizados) {
-                    
-                    if (p.getEstado().equals("R")) {
-                        p.setSeguro(seg);
-                        p.setPrograma(prog);
-                        lstFinalizadas.add(p);
+                  p.setSeguro(seg);
+                  p.setPrograma(prog);
+                  tmp_postulacion.set(index, p);
+                  break;
+                }
+            }
+            index++;
+        }
+        
+        ArrayList arr = this.filtrarPostulaciones(tmp_postulacion, lstProgramas, token);
+        ArrayList<Postulacion> lstPostulacion = (ArrayList<Postulacion>)arr.get(0);
+        ArrayList<Postulacion> lstFinalizadas = (ArrayList<Postulacion>)arr.get(1);
+        
+        if (lstAlumnos != null && !lstAlumnos.isEmpty()) {
+            index = 0;
+            for(Alumno a : lstAlumnos) {
+                index = 0;
+                for(Postulacion p : lstPostulacion) {
+                    if (a.getId_alumno().equals(p.getId_alumno())) {
+                        p.setAlumno(a);
+                        lstPostulacion.set(index, p);
+                    }
+                    index++;
+                }
+
+                index = 0;
+                for(Postulacion p : lstFinalizadas) {
+                    if (a.getId_alumno().equals(p.getId_alumno())) {
+                        p.setAlumno(a);
+                        lstFinalizadas.set(index, p);
+                    }
+                    index++;
+                }
+            }
+        }
+        
+        arr = new ArrayList<>();
+        arr.add(lstPostulacion);
+        arr.add(lstFinalizadas);
+        
+        return arr;
+    }
+    
+    private ArrayList filtrarPostulaciones(ArrayList<Postulacion> postulaciones, ArrayList programas, String token){
+        
+        ArrayList<Programa_Estudio> vigentes = (ArrayList)programas.get(0);
+        ArrayList<Programa_Estudio> finalizados = (ArrayList)programas.get(1);
+        
+        ArrayList<Postulacion> lstPostulacion = new ArrayList();
+        ArrayList<Postulacion> lstFinalizadas = new ArrayList();
+        
+        if (postulaciones != null && !postulaciones.isEmpty()) {
+            boolean vigente;
+            for(Postulacion p : postulaciones) {
+                vigente = false;
+                for(Programa_Estudio prog : vigentes) {
+                    if (p.getId_programa().equals(prog.getId_programa()) && p.getEstado().equals("P")) {
+                        lstPostulacion.add(p);
+                        vigente = true;
                         break;
                     }
-                    
-                    if (p.getEstado().equals("A")) {
-                        p.setSeguro(seg);
-                        p.setPrograma(prog);
-                        lstFinalizadas.add(p);
-                        break;
-                    }
-                    
-                    if (p.getId_programa().equals(prog.getId_programa())) {
-                        p.setSeguro(seg);
-                        if (p.getEstado().equals("P")) {
-                            JSONObject obj = new JSONObject();
-                            obj.accumulate("ESTADO", 'R');
-                            if (p.getFech_respuesta() == null) {
-                                DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                                String fecha = format.format(new Date());
-                                obj.accumulate("FECH_RESPUESTA", fecha);
-                            }
-                            req.requestController("PUT", "private/postulacion/" + p.getId_postulacion(), "postulacion", obj, Postulacion.class, token);
-                            p.setEstado("R");
+                }
+
+                if (!vigente) {
+                    for(Programa_Estudio prog : finalizados) {
+
+                        if (p.getEstado().equals("R")) {
+                            lstFinalizadas.add(p);
+                            break;
                         }
-                        p.setPrograma(prog);
-                        lstFinalizadas.add(p);
-                        break;
+
+                        if (p.getEstado().equals("A")) {
+                            lstFinalizadas.add(p);
+                            break;
+                        }
+
+                        if (p.getId_programa().equals(prog.getId_programa())) {
+                            if (p.getEstado().equals("P")) {
+                                JSONObject obj = new JSONObject();
+                                obj.accumulate("ESTADO", 'R');
+                                if (p.getFech_respuesta() == null) {
+                                    DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                                    String fecha = format.format(new Date());
+                                    obj.accumulate("FECH_RESPUESTA", fecha);
+                                }
+                                req.requestController("PUT", "private/postulacion/" + p.getId_postulacion(), "postulacion", obj, Postulacion.class, token);
+                                p.setEstado("R");
+                            }
+                            lstFinalizadas.add(p);
+                            break;
+                        }
+
                     }
-                    
                 }
             }
         }
         
-        int index = 0;
-        for(Alumno a : lstAlumnos) {
-            index = 0;
-            for(Postulacion p : lstPostulacion) {
-                if (a.getId_alumno().equals(p.getId_alumno())) {
-                    p.setAlumno(a);
-                    lstPostulacion.set(index, p);
-                }
-                index++;
-            }
-            
-            index = 0;
-            for(Postulacion p : lstFinalizadas) {
-                if (a.getId_alumno().equals(p.getId_alumno())) {
-                    p.setAlumno(a);
-                    lstFinalizadas.set(index, p);
-                }
-                index++;
-            }
-        }
-        
-        ArrayList arr = new ArrayList<>();
+        ArrayList arr = new ArrayList();
         arr.add(lstPostulacion);
         arr.add(lstFinalizadas);
         
