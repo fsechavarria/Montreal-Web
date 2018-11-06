@@ -18,7 +18,6 @@
                         <form:form role="form" modelAttribute="usuario">
                             <form:hidden path="id_usuario" />
                             <form:hidden path="persona.id_persona" />
-                            <form:hidden path="persona.direccion.id_direccion" />
                             <div class="form-group">
                                 <label>Nombre</label>
                                 <form:input cssClass="form-control" path="persona.nombre"/>
@@ -39,9 +38,15 @@
                                 <label>Fecha de Nacimiento</label>
                                 <form:input type="date" cssClass="form-control" path="persona.fech_nacimiento"/>
                             </div>
+                            <div class="form-group">
+                                <form:hidden path="persona.contacto.id_contacto" />
+                                <label>Correo Electrónico</label>
+                                <form:input type="text" cssClass="form-control" path="persona.contacto.desc_contacto"/>
+                            </div>
                             <hr/>
                             <h3>Dirección</h3>
                             <hr/>
+                            <form:hidden path="persona.direccion.id_direccion" />
                             <div class="form-group">
                                 <label>Ciudad</label>
                                 <form:select cssClass="form-control" path="persona.direccion.id_ciudad">

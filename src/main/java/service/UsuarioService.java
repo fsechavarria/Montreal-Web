@@ -74,8 +74,9 @@ public class UsuarioService {
         
         Usuario u = null;
         if (lstUsuario == null || lstUsuario.isEmpty()) {
-            return u;
+            return new Usuario();
         }
+        
         u = lstUsuario.get(0);
         Persona p = this.getPersona(token, id);
         if (p != null) {
@@ -130,7 +131,8 @@ public class UsuarioService {
                 if (dir != null) {
                     Persona per = this.updatePersona(token, usr.getPersona());
                     if (per != null) {
-                        success = true;
+                        Contacto cont = this.updateContacto(token, usr.getPersona().getContacto());
+                        if (cont != null) success = true;
                     }
                 }
             }
@@ -153,6 +155,20 @@ public class UsuarioService {
         }
         
         return true;
+    }
+    
+    private Contacto updateContacto(String token, Contacto con) {
+        req = new Requests();
+        
+        JSONObject obj = new JSONObject();
+        obj.accumulate("DESC_CONTACTO", con.getDesc_contacto());
+        
+        ArrayList<Contacto> contacto = req.requestController("PUT", "private/contacto/" + con.getId_contacto().toString(), "contacto", obj, Contacto.class, token);
+        if (contacto == null || contacto.isEmpty()) {
+            return null;
+        }
+        
+        return contacto.get(0);
     }
     
     private Persona updatePersona(String token, Persona per){
@@ -204,14 +220,20 @@ public class UsuarioService {
         
         Persona p = null;
         if (persona == null || persona.isEmpty()){
-            return p;
+            return new Persona();
         }
-        p = persona.get(0);
-        String id_direccion = p.getId_direccion().toString();
         
+        p = persona.get(0);
+        
+        String id_direccion = p.getId_direccion().toString();
         Direccion d = this.getDireccion(token, id_direccion);
         if (d != null) {
             p.setDireccion(d);
+        }
+        String id_persona = p.getId_persona().toString();
+        ArrayList<Contacto> lstContactos = req.requestController("GET", "private/contacto?id_persona=" + id_persona, "contacto", null, Contacto.class, token);
+        if (lstContactos != null && !lstContactos.isEmpty()) {
+            p.setContacto(lstContactos.get(0));
         }
         
         return p;
@@ -256,11 +278,17 @@ public class UsuarioService {
                 ArrayList<Direccion> lstDireccion = (ArrayList<Direccion>)arr.get(0);
                 
                 int index = 0;
-                ArrayList<Contacto> lstContactos = new ArrayList();
+                ArrayList<Contacto> lstContactos = req.requestController("GET", "private/contacto", "contacto", null, Contacto.class, token);
                 for (Persona p : lstPersona) {
-                    lstContactos = req.requestController("GET", "private/contacto?id_persona=" + p.getId_persona().toString(), "contacto", null, Contacto.class, token);
+                    // Se asignan los contactos
+                    // Por ahora, solo 1 contacto por persona
                     if (lstContactos != null && !lstContactos.isEmpty()) {
-                        p.setContactos(lstContactos);
+                        for(Contacto c : lstContactos) {
+                            if (c.getId_persona().equals(p.getId_persona())) {
+                                p.setContacto(c);
+                                break;
+                            }
+                        }
                     }
                     
                     for(Direccion d : lstDireccion) {

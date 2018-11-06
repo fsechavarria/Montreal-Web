@@ -16,7 +16,7 @@ public class Persona{
     private String app_materno;
     private Date fech_nacimiento;
     private Direccion direccion;
-    private ArrayList<Contacto> contactos;
+    private Contacto contacto;
 
     public Persona() {
         this.id_persona = 0;
@@ -28,11 +28,11 @@ public class Persona{
         this.app_materno = null;
         this.fech_nacimiento = null;
         this.direccion = new Direccion();
-        this.contactos = new ArrayList();
+        this.contacto = new Contacto();
     }
 
     public Persona(Integer id_persona, Integer id_direccion, Integer id_usuario, String rut, String nombre, String app_paterno, 
-            String app_materno, String fech_nacimiento, Direccion direccion, ArrayList<Contacto> contactos) throws ParseException {
+            String app_materno, String fech_nacimiento, Direccion direccion, Contacto contacto) throws ParseException {
         this.id_persona = id_persona;
         this.id_direccion = id_direccion;
         this.id_usuario = id_usuario;
@@ -49,7 +49,7 @@ public class Persona{
         }
         
         this.direccion = direccion;
-        this.contactos = contactos;
+        this.contacto = contacto;
     }
     
     public Integer getId_persona() {
@@ -129,12 +129,12 @@ public class Persona{
         this.direccion = direccion;
     }
 
-    public ArrayList<Contacto> getContactos() {
-        return contactos;
+    public Contacto getContacto() {
+        return contacto;
     }
 
-    public void setContactos(ArrayList<Contacto> contactos) {
-        this.contactos = contactos;
+    public void setContacto(Contacto contacto) {
+        this.contacto = contacto;
     }
     
     @Override
