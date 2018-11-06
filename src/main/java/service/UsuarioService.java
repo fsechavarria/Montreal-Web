@@ -62,7 +62,6 @@ public class UsuarioService {
     }
     
     
-    
     public Usuario getUsuario(String token, String id) {
         if (id == null || id.trim().length() == 0) {
             return null;
@@ -108,6 +107,96 @@ public class UsuarioService {
         }
         
         return lstCiudad;
+    }
+    
+    public Usuario saveUsuario(Usuario usr, String token) {
+        req = new Requests();
+        
+        JSONObject obj = new JSONObject();
+        obj.accumulate("ID_ROL", usr.getId_rol());
+        obj.accumulate("USUARIO", usr.getUsuario());
+        obj.accumulate("CONTRASENA", usr.getContrasena());
+        
+        ArrayList<Usuario> lstUsuario = req.requestController("POST", "private/usuario", "usuario", obj, Usuario.class, token);
+        
+        if (lstUsuario == null || lstUsuario.isEmpty()) {
+            return null;
+        }
+        
+        Integer id_usuario = lstUsuario.get(0).getId_usuario();
+        
+        usr.setId_usuario(id_usuario);
+        Persona p = this.savePersona(usr, token);
+        usr.getPersona().setId_persona(p.getId_persona());
+        if (p != null) {
+            this.saveContacto(usr.getPersona(), token);
+        }
+        
+        return lstUsuario.get(0);
+    }
+    
+    private Contacto saveContacto(Persona per, String token) {
+        req = new Requests();
+        
+        JSONObject obj = new JSONObject();
+        obj.accumulate("ID_PERSONA", per.getId_persona());
+        obj.accumulate("TIPO_CONTACTO", "Correo");
+        obj.accumulate("DESC_CONTACTO", per.getContacto().getDesc_contacto());
+        
+        ArrayList<Contacto> contacto = req.requestController("POST", "private/contacto", "contacto", obj, Contacto.class, token);
+        
+        if (contacto == null || contacto.isEmpty()) {
+            return null;
+        }
+        
+        return contacto.get(0);
+    }
+    
+    private Persona savePersona(Usuario usr, String token) {
+        req = new Requests();
+        
+        Direccion d = this.saveDireccion(usr.getPersona().getDireccion(), token);
+        if (d == null) {
+            d = new Direccion();
+        }
+        
+        JSONObject obj = new JSONObject();
+        obj.accumulate("ID_USUARIO", usr.getId_usuario());
+        obj.accumulate("ID_DIRECCION", d.getId_direccion());
+        obj.accumulate("RUT", usr.getPersona().getRut());
+        obj.accumulate("NOMBRE", usr.getPersona().getNombre());
+        obj.accumulate("APP_PATERNO", usr.getPersona().getApp_paterno());
+        obj.accumulate("APP_MATERNO", usr.getPersona().getApp_materno());
+        
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String fech_nacimiento = format.format(usr.getPersona().getFech_nacimiento());
+        obj.accumulate("FECH_NACIMIENTO", fech_nacimiento);
+        
+        ArrayList<Persona> lstPersona = req.requestController("POST", "private/persona", "persona", obj, Persona.class, token);
+        
+        if (lstPersona == null || lstPersona.isEmpty()) {
+            return null;
+        }
+        
+        return lstPersona.get(0);
+    }
+    
+    private Direccion saveDireccion(Direccion dir, String token){
+        req = new Requests();
+        
+        JSONObject obj = new JSONObject();
+        obj.accumulate("ID_CIUDAD", dir.getId_ciudad());
+        obj.accumulate("CALLE", dir.getCalle());
+        obj.accumulate("NUMERACION", dir.getNumeracion());
+        obj.accumulate("DEPARTAMENTO", dir.getDepartamento());
+        
+        ArrayList<Direccion> direccion = req.requestController("POST", "private/direccion", "direccion", obj, Direccion.class, token);
+        
+        if (direccion == null || direccion.isEmpty()) {
+            return null;
+        }
+        
+        return direccion.get(0);
     }
     
     public boolean updateUsuario(String token, Usuario usr) {

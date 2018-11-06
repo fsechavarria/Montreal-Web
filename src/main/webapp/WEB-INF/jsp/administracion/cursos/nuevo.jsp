@@ -31,7 +31,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Cupos</label>
-                                <form:textarea cssClass="form-control" rows="3" path="cupos"></form:textarea>
+                                <form:input type="number" min="1" cssClass="form-control" rows="3" path="cupos"></form:input>
                                 <form:errors cssClass="text-danger" path="cupos" />
                             </div>
                             <button type="submit" class="btn btn-default">Publicar</button>

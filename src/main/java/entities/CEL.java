@@ -4,17 +4,28 @@ public class CEL {
     private Integer id_cel;
     private Integer id_usuario;
     private String nom_centro;
+    private Usuario usuario;
 
     public CEL() {
         this.id_cel = 0;
         this.id_usuario = 0;
         this.nom_centro = "";
+        this.usuario = new Usuario();
     }
 
-    public CEL(Integer id_cel, Integer id_usuario, String nom_centro) {
+    public CEL(Integer id_cel, Integer id_usuario, String nom_centro, Usuario usuario) {
         this.id_cel = id_cel;
         this.id_usuario = id_usuario;
         this.nom_centro = nom_centro;
+        this.usuario = usuario;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public Integer getId_cel() {
