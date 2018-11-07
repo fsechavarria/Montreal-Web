@@ -5,17 +5,28 @@ public class CEM {
     private Integer id_cem;
     private Integer id_usuario;
     private String nom_centro;
+    private Usuario usuario;
 
     public CEM() {
         this.id_cem = 0;
         this.id_usuario = 0;
         this.nom_centro = "";
+        this.usuario = new Usuario();
     }
 
-    public CEM(Integer id_cem, Integer id_usuario, String nom_centro) {
+    public CEM(Integer id_cem, Integer id_usuario, String nom_centro, Usuario usuario) {
         this.id_cem = id_cem;
         this.id_usuario = id_usuario;
         this.nom_centro = nom_centro;
+        this.usuario = usuario;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public Integer getId_cem() {

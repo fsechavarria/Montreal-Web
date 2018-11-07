@@ -98,7 +98,7 @@
                                                 <a href="<c:url value="/administracion/cel/nuevo.htm"/>">Registrar CEL</a>
                                             </li>
                                             <li>
-                                                <a href="<c:url value="#"/>">Registrar CEM</a>
+                                                <a href="<c:url value="/administracion/cem/nuevo.htm"/>">Registrar CEM</a>
                                             </li>
                                         </ul>
                                     </li>

@@ -127,12 +127,34 @@ public class UsuarioService {
         
         usr.setId_usuario(id_usuario);
         Persona p = this.savePersona(usr, token);
-        usr.getPersona().setId_persona(p.getId_persona());
-        if (p != null) {
-            this.saveContacto(usr.getPersona(), token);
+        if (p == null) {
+            return null;
+        } else {
+            usr.getPersona().setId_persona(p.getId_persona());
+            usr.getPersona().setId_direccion(p.getId_direccion());
+            Contacto c = this.saveContacto(usr.getPersona(), token);
+            if (c == null) {
+                return null;
+            }
+            usr.getPersona().getContacto().setId_contacto(c.getId_contacto());
         }
         
-        return lstUsuario.get(0);
+        return usr;
+    }
+    
+    public boolean usuarioExists(String usuario, String token){
+        req = new Requests();
+        
+        ArrayList<Usuario> usuarios = req.requestController("GET", "private/usuario?usuario=" + usuario, "usuario", null, Usuario.class, token);
+        
+        return usuarios != null && !usuarios.isEmpty();
+    }
+    
+    public void deleteContactos(String id_contacto, String token) {
+        req = new Requests();
+        
+        ArrayList<Contacto> contactos = req.requestController("DELETE", "private/contacto/" + id_contacto, "contacto", null, Contacto.class, token);
+        
     }
     
     private Contacto saveContacto(Persona per, String token) {
@@ -157,7 +179,7 @@ public class UsuarioService {
         
         Direccion d = this.saveDireccion(usr.getPersona().getDireccion(), token);
         if (d == null) {
-            d = new Direccion();
+            return null;
         }
         
         JSONObject obj = new JSONObject();
