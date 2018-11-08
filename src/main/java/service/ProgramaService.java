@@ -1,6 +1,5 @@
 package service;
 
-import entities.Alumno;
 import entities.AuthUser;
 import entities.CEL;
 import entities.CEM;
@@ -10,7 +9,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Objects;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import util.Requests;
@@ -45,6 +43,52 @@ public class ProgramaService {
         return arr;
     }
     
+    public ArrayList<Programa_Estudio> getProgramasCEL(String token, String id_usuario){
+        req = new Requests();
+        
+        ArrayList<CEL> cel = req.requestController("GET", "private/cel?id_usuario" + id_usuario, "cel", null, CEL.class, token);
+        CEL cl = new CEL();
+        if (cel != null && !cel.isEmpty()) {
+            cl = cel.get(0);
+        }
+        String id_cel = cl.getId_cel().toString();
+        ArrayList<Programa_Estudio> programas = req.requestController("GET", "private/programa?id_cel=" + id_cel, "programa", null, Programa_Estudio.class, token);
+        
+        if (programas != null) {
+            int index = 0;
+            for(Programa_Estudio p : programas) {
+                p.setCel(cl);
+                programas.set(index, p);
+                index++;
+            }
+            return programas;
+        }
+        
+        return null;
+    }
+    
+    public boolean unirsePrograma(String token, String id_usuario, String id_programa){
+        req = new Requests();
+        
+        ArrayList<CEL> cels = req.requestController("GET", "private/cel?id_usuario=" + id_usuario, "cel", null, CEL.class, token);
+        CEL cel = new CEL();
+        if (cels != null && !cels.isEmpty()) {
+            cel = cels.get(0);
+        }
+        
+        if (cel.getId_cel() != 0) {
+            JSONObject obj = new JSONObject();
+            obj.accumulate("ID_CEL", cel.getId_cel());
+            ArrayList<Programa_Estudio> programa = req.requestController("PUT", "private/programa/" + id_programa, "programa", obj, Programa_Estudio.class, token);
+            
+            if (programa != null && !programa.isEmpty()) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
     private ArrayList filtrarProgramas(ArrayList<Programa_Estudio> programas){
         Date fecha = new Date();
         try {
@@ -54,7 +98,6 @@ public class ProgramaService {
         } catch (ParseException ex) {
             System.out.println(ex);
         }
-        
         
         ArrayList<Programa_Estudio> finalizados = new ArrayList<>();
         ArrayList<Programa_Estudio> vigentes = new ArrayList<>();

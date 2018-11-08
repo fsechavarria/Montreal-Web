@@ -141,7 +141,7 @@
                                         <a href="#"><i class="fa fa-book fa-fw"></i> Programas de Estudio<span class="fa arrow"></span></a>
                                         <ul class="nav nav-second-level">
                                             <li>
-                                                <a href="<c:url value="#"/>">Mis Programas</a>
+                                                <a href="<c:url value="/administracion/mis-programas.htm"/>">Mis Programas</a>
                                             </li>
                                             <li>
                                                 <a href="<c:url value="/administracion/programas.htm"/>">Ver Programas</a>

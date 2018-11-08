@@ -4,6 +4,7 @@ import entities.AuthUser;
 import entities.CEL;
 import entities.Ciudad;
 import entities.Pais;
+import entities.Programa_Estudio;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.CelService;
+import service.ProgramaService;
 import service.UsuarioService;
 
 @Controller
@@ -32,6 +34,9 @@ public class CELController {
     
     @Autowired
     private UsuarioService usuarioService;
+    
+    @Autowired
+    private ProgramaService programaService;
     
     @InitBinder     
     public void initBinder(WebDataBinder binder){
@@ -91,6 +96,35 @@ public class CELController {
         
         redir.addFlashAttribute("msg", "CEL registrado existosamente.");
         return "redirect:/administracion/usuarios.htm";
+    }
+    
+    @RequestMapping(value = "/administracion/mis-programas.htm", method = RequestMethod.GET)
+    public String misProgramas(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession(false);
+        AuthUser aU = null;
+        if (session == null) {
+            return "redirect:/login.htm";
+        } else {
+            aU = (AuthUser)session.getAttribute("loggedUser");
+            if (aU == null) {
+                return "redirect:/login.htm";
+            } else if (!aU.getRol().equals("CEL")) {
+                return "redirect:/home.htm";
+            }
+        }
+        model.addAttribute("title", "Mis Programas");
+        String token = session.getAttribute("token").toString();
+        
+        ArrayList<Programa_Estudio> lstProgramas = programaService.getProgramasCEL(token, aU.getId().toString());
+        
+        if (lstProgramas == null) {
+            model.addAttribute("errorMsg");
+            model.addAttribute("lstProgramas", new ArrayList<Programa_Estudio>());
+            return "administracion/mis-programas";
+        }
+        
+        model.addAttribute("lstProgramas", lstProgramas);
+        return "administracion/mis-programas";
     }
     
 }

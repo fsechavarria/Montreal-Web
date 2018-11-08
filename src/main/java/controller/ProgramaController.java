@@ -186,4 +186,28 @@ public class ProgramaController {
         redir.addFlashAttribute("msg", "Programa creado exitosamente.");
         return "redirect:/administracion/programas.htm";
     }
+    
+    @RequestMapping(value="/administracion/programas.htm", params = { "id", "unirse" }, method = RequestMethod.GET)
+    public String unirsePrograma(@RequestParam String id, HttpServletRequest request, RedirectAttributes redir) {
+        HttpSession session = request.getSession(false);
+        AuthUser aU = null;
+        if (session == null) {
+            return "redirect:/login.htm";
+        } else {
+            aU = (AuthUser)session.getAttribute("loggedUser");
+            if (aU == null) {
+                return "redirect:/login.htm";
+            }
+        }
+        String token = session.getAttribute("token").toString();
+        
+        boolean success = programaService.unirsePrograma(token, aU.getId().toString(), id);
+        if (!success) {
+            redir.addFlashAttribute("errorMsg", "Error al unirse al programa.");
+            return "redirect:/administracion/programas.htm";
+        }
+        
+        redir.addFlashAttribute("msg", "Se ha unido al programa exitosamente.");
+        return "redirect:/administracion/programas.htm";
+    }
 }
