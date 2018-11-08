@@ -50,7 +50,7 @@ public class CEMService {
             
             if (lstCEM == null || lstCEM.isEmpty()) {
                 // Se elimina todo en caso de error, para evitar datos duplicados y problemas en intentos subsiguientes de registro.
-                req.requestController("DELETE", "private/usuario/" + u.getId_usuario().toString(), "usuario", null, Usuario.class, token);
+                us.deleteUsuario(token, u.getId_usuario().toString());
                 req.requestController("DELETE", "private/direccion/" + u.getPersona().getId_persona().toString(), "direccion", null, Direccion.class, token);
                 us.deleteContactos(u.getPersona().getId_persona().toString(), token);
                 return "Error al registrar CEM.";

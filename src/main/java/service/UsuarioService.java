@@ -128,12 +128,14 @@ public class UsuarioService {
         usr.setId_usuario(id_usuario);
         Persona p = this.savePersona(usr, token);
         if (p == null) {
+            this.deleteUsuario(token, id_usuario.toString());
             return null;
         } else {
             usr.getPersona().setId_persona(p.getId_persona());
             usr.getPersona().setId_direccion(p.getId_direccion());
             Contacto c = this.saveContacto(usr.getPersona(), token);
             if (c == null) {
+                this.deleteUsuario(token, id_usuario.toString());
                 return null;
             }
             usr.getPersona().getContacto().setId_contacto(c.getId_contacto());

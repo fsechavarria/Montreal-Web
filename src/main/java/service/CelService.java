@@ -1,6 +1,7 @@
 package service;
 
 import entities.CEL;
+import entities.Direccion;
 import entities.Rol;
 import entities.Usuario;
 import java.util.ArrayList;
@@ -21,9 +22,18 @@ public class CelService {
         return lstCel;
     }
     
-    public boolean saveCEL(CEL cel, String token){
+    public String saveCEL(CEL cel, String token){
         req = new Requests();
         UsuarioService us = new UsuarioService();
+        PersonaService ps = new PersonaService();
+        
+        if (us.usuarioExists(cel.getUsuario().getUsuario(), token)) {
+            return "El usuario ingresado ya está registrado.";
+        }
+        
+        if (ps.rutExists(cel.getUsuario().getPersona().getRut(), token)) {
+            return "El rut ingresado ya está registrado.";
+        }
         
         ArrayList<Rol> lstRol = req.requestController("GET", "private/rol", "rol", null, Rol.class, token);
         Integer id_rol = 0;
@@ -45,14 +55,19 @@ public class CelService {
             
             ArrayList<CEL> lstCEL = req.requestController("POST", "private/cel", "cel", obj, CEL.class, token);
             
+            
             if (lstCEL == null || lstCEL.isEmpty()) {
-                return false;
+                // Se elimina todo en caso de error, para evitar datos duplicados y problemas en intentos subsiguientes de registro.
+                us.deleteUsuario(token, u.getId_usuario().toString());
+                req.requestController("DELETE", "private/direccion/" + u.getPersona().getId_direccion().toString(), "direccion", null, Direccion.class, token);
+                us.deleteContactos(u.getPersona().getId_persona().toString(), token);
+                return "Error al registrar CEL.";
             }
             
-            return true;
+            return null;
         }
         
-        return false;
+        return "Error al registrar usuario.";
     }
     
 }

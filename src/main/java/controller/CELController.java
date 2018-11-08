@@ -83,9 +83,9 @@ public class CELController {
         String token = session.getAttribute("token").toString();
         model.addAttribute("cel", new CEL());
         
-        boolean success = celService.saveCEL(cel, token);
-        if (!success) {
-            redir.addFlashAttribute("errorMsg", "Ha ocurrido un error al registrar el CEL.");
+        String message = celService.saveCEL(cel, token);
+        if (message != null) {
+            redir.addFlashAttribute("errorMsg", message);
             return "redirect:/administracion/usuarios.htm";
         }
         
