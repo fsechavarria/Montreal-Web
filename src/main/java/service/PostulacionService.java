@@ -1,10 +1,13 @@
 package service;
 
 import entities.Alumno;
+import entities.Contacto;
 import entities.Familia;
+import entities.Persona;
 import entities.Postulacion;
 import entities.Programa_Estudio;
 import entities.Seguro;
+import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -228,10 +231,13 @@ public class PostulacionService {
         req = new Requests();
         
         JSONObject jObj = new JSONObject();
+        String estado;
         if (accept) {
             jObj.accumulate("ESTADO", "A");
+            estado = "aceptada";
         } else {
             jObj.accumulate("ESTADO", "R");
+            estado = "rechazada";
         }
         
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -241,6 +247,61 @@ public class PostulacionService {
         
         ArrayList<Postulacion> postulacion = req.requestController("PUT", "private/postulacion/" + id, "postulacion", jObj, Postulacion.class, token);
         
-        return !(postulacion == null || postulacion.isEmpty());
-    } 
+        if (postulacion == null || postulacion.isEmpty()) {
+            return false;
+        }
+        
+        // Envio de correo
+        String id_alumno = postulacion.get(0).getId_alumno().toString();
+        String id_programa = postulacion.get(0).getId_programa().toString();
+        String fecha_respuesta = format.format(postulacion.get(0).getFech_respuesta());
+        ArrayList<Programa_Estudio> programa = req.requestController("GET", "private/programa/"+id_programa, "programa", null, Programa_Estudio.class, token);
+        String nom_programa = "";
+        if (programa != null && !programa.isEmpty()) {
+            nom_programa = programa.get(0).getNomb_programa();
+        }
+        
+        envioCorreo(id_alumno, estado, nom_programa, fecha_respuesta, token);
+        
+        return true;
+    }
+    
+    public void envioCorreo(String id_alumno, String estado, String programa, String fecha_respuesta, String token){
+        req = new Requests();
+        
+        ArrayList<Alumno> alumno = req.requestController("GET", "private/alumno/" + id_alumno, "alumno", null, Alumno.class, token);
+        
+        if (alumno != null && !alumno.isEmpty()) {
+            String id_usuario = alumno.get(0).getId_usuario().toString();
+            ArrayList<Persona> persona = req.requestController("GET", "private/persona?id_usuario=" + id_usuario, "persona", null, Persona.class, token);
+            
+            if (persona != null && !persona.isEmpty()) {
+                String id_persona = persona.get(0).getId_persona().toString();
+                
+                ArrayList<Contacto> contacto = req.requestController("GET", "private/contacto?id_persona=" + id_persona, "contacto", null, Contacto.class, token);
+                if (contacto != null && !contacto.isEmpty()) {
+                    try {
+                        byte[] encode;
+                        String mail = contacto.get(0).getDesc_contacto();
+                        
+                        String msg = "Estimado Alumno, \n\nHoy " + fecha_respuesta + " su postulación al programa \"" + programa + "\" ha sido " + estado;
+                        encode = msg.getBytes("UTF-8");
+                        msg = new String(encode);
+                        
+                        String subject = "Respuesta Postulación";
+                        encode = subject.getBytes("UTF-8");
+                        subject = new String(encode);
+
+                        JSONObject obj = new JSONObject();
+                        obj.accumulate("TO", mail);
+                        obj.accumulate("SUBJECT", subject);
+                        obj.accumulate("TEXT", msg);
+                        req.requestController("POST", "private/email", null, obj, null, token);
+                    } catch(UnsupportedEncodingException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+            }
+        }
+    }
 }

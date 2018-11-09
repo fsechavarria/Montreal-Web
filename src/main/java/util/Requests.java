@@ -76,7 +76,7 @@ public class Requests {
              */
             if (method.toUpperCase().equals("POST")) {
                 JSONObject res = null;
-                String bd = body == null ? "{}" : body.toString();
+                String bd = body == JSONObject.NULL ? "{}" : body.toString();
                 res = this.POST(action, bd, object, token);
                 if (res != null) {
                     ArrayList<Object> lstResult = new ArrayList();
@@ -114,7 +114,7 @@ public class Requests {
              */
             if (method.toUpperCase().equals("PUT")) {
                 JSONObject res = null;
-                String bd = body == null ? "{}" : body.toString();
+                String bd = body == JSONObject.NULL ? "{}" : body.toString();
                 res = this.PUT(action, bd, object, token);
                 if (res != null) {
                     ArrayList<Object> lstResult = new ArrayList();
@@ -453,6 +453,8 @@ public class Requests {
             System.out.println(me.getMessage());
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
         
         return null;

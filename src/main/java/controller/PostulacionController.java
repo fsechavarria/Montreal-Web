@@ -89,13 +89,13 @@ public class PostulacionController {
             acc = false;
             msg = "rechazada";
         } else {
-            redir.addFlashAttribute("errorMsg", "Ha ocurrido un error al mostrar la postulacion.");
+            redir.addFlashAttribute("errorMsg", "Ha ocurrido un error al responder la postulación.");
             return "redirect:/administracion/postulaciones.htm";
         }
         
         boolean success = postulacionService.answerPostulacion(token, id, acc);
         if (!success) {
-            redir.addFlashAttribute("errorMsg", "Ha ocurrido un error al mostrar la postulacion.");
+            redir.addFlashAttribute("errorMsg", "Ha ocurrido un error al responder la postulación.");
             return "redirect:/administracion/postulaciones.htm";
         }
         
