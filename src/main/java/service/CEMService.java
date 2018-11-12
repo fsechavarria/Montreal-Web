@@ -17,6 +17,7 @@ public class CEMService {
     public String saveCEM(CEM cem, String token){
         req = new Requests();
         UsuarioService us = new UsuarioService();
+        ContactoService cs = new ContactoService();
         PersonaService ps = new PersonaService();
         
         if (us.usuarioExists(cem.getUsuario().getUsuario(), token)) {
@@ -52,7 +53,7 @@ public class CEMService {
                 // Se elimina todo en caso de error, para evitar datos duplicados y problemas en intentos subsiguientes de registro.
                 us.deleteUsuario(token, u.getId_usuario().toString());
                 req.requestController("DELETE", "private/direccion/" + u.getPersona().getId_persona().toString(), "direccion", null, Direccion.class, token);
-                us.deleteContactos(u.getPersona().getId_persona().toString(), token);
+                cs.deleteContactos(u.getPersona().getId_persona().toString(), token);
                 return "Error al registrar CEM.";
             }
             return null;

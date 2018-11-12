@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import service.DireccionService;
 import service.UsuarioService;
 
 @Controller
@@ -30,6 +31,9 @@ public class UsuarioController {
     
     @Autowired
     private UsuarioService usuarioService;
+    
+    @Autowired
+    private DireccionService direccionService;
     
     @InitBinder     
     public void initBinder(WebDataBinder binder){
@@ -81,8 +85,8 @@ public class UsuarioController {
             return "redirect:/administracion/usuarios.htm";
         }
         
-        ArrayList<Ciudad> lstCiudad = usuarioService.getCiudades(token);
-        ArrayList<Pais> lstPais = usuarioService.getPaises(token);
+        ArrayList<Ciudad> lstCiudad = direccionService.getCiudades(token);
+        ArrayList<Pais> lstPais = direccionService.getPaises(token);
         
         session.setAttribute("usuario", usr);
         model.addAttribute("usuario", usr);

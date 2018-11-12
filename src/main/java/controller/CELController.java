@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.CelService;
+import service.DireccionService;
 import service.ProgramaService;
 import service.UsuarioService;
 
@@ -37,6 +38,9 @@ public class CELController {
     
     @Autowired
     private ProgramaService programaService;
+    
+    @Autowired
+    private DireccionService direccionService;
     
     @InitBinder     
     public void initBinder(WebDataBinder binder){
@@ -60,8 +64,8 @@ public class CELController {
         
         String token = session.getAttribute("token").toString();
         
-        ArrayList<Ciudad> lstCiudad = usuarioService.getCiudades(token);
-        ArrayList<Pais> lstPais = usuarioService.getPaises(token);
+        ArrayList<Ciudad> lstCiudad = direccionService.getCiudades(token);
+        ArrayList<Pais> lstPais = direccionService.getPaises(token);
         
         model.addAttribute("cel", new CEL());
         model.addAttribute("lstCiudad", lstCiudad);

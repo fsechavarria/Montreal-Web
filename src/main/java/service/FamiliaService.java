@@ -1,7 +1,7 @@
 package service;
 
-import entities.Antecedente;
 import entities.Familia;
+import entities.Persona;
 import java.util.ArrayList;
 import org.springframework.stereotype.Service;
 import util.Requests;
@@ -10,6 +10,35 @@ import util.Requests;
 public class FamiliaService {
     
     private Requests req;
+    
+    public ArrayList<Familia> getFamilias(String token) {
+        req = new Requests();
+        
+        ArrayList<Familia> familias = req.requestController("GET", "private/familia", "familia", null, Familia.class, token);
+        
+        if (familias == null || familias.isEmpty()) {
+            return null;
+        }
+        
+        PersonaService ps = new PersonaService();
+        
+        ArrayList<Persona> personas = ps.getPersonas(token);
+        if (personas != null && !personas.isEmpty()) {
+            int index = 0;
+            for (Familia f : familias) {
+                for(Persona p : personas) {
+                    if (f.getId_usuario().equals(p.getId_usuario())) {
+                        f.setPersona(p);
+                        familias.set(index, f);
+                        break;
+                    }
+                }
+                index++;
+            }
+        }
+        
+        return familias;
+    }
     
     public Familia getFamilia(String token, String id){
         if (id == null || id.trim().length() == 0) {
@@ -24,15 +53,8 @@ public class FamiliaService {
             return null;
         }
         Familia f = lstFamilia.get(0);
-        /*
-        String id_familia = f.getId_familia().toString();
         
-        ArrayList<Antecedente> lstAntecedente = req.requestController("GET", "private/antecedente?id_familia" + id_familia, "antecedente", null, Antecedente.class, token);
-        
-        if (lstAntecedente != null && !lstAntecedente.isEmpty()){
-            
-        }
-        */
         return f;
     }
+    
 }

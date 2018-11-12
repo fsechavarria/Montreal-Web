@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.CEMService;
+import service.DireccionService;
 import service.UsuarioService;
 
 
@@ -34,6 +35,9 @@ public class CEMController {
     
     @Autowired
     private UsuarioService usuarioService;
+    
+    @Autowired
+    private DireccionService direccionService;
     
     @InitBinder     
     public void initBinder(WebDataBinder binder){
@@ -57,8 +61,8 @@ public class CEMController {
         
         String token = session.getAttribute("token").toString();
         
-        ArrayList<Ciudad> lstCiudad = usuarioService.getCiudades(token);
-        ArrayList<Pais> lstPais = usuarioService.getPaises(token);
+        ArrayList<Ciudad> lstCiudad = direccionService.getCiudades(token);
+        ArrayList<Pais> lstPais = direccionService.getPaises(token);
         
         model.addAttribute("cem", new CEM());
         model.addAttribute("lstCiudad", lstCiudad);

@@ -1,29 +1,38 @@
 package entities;
 
-/* 
-******************************************************************
-*****************TODO ENVIAR/RECIVIR ARCHIVOS PDF*****************
-******************************************************************
-*/
-public class Antecedente {
+import java.io.Serializable;
+
+public class Antecedente implements Serializable{
     
     private Integer id_antecedente;
     private Integer id_familia;
     private String url_antecedente;
     private String desc_antecedente;
+    private Familia familia;
+    private static final String baseUrl = "http://localhost:3000";
 
     public Antecedente() {
         this.id_antecedente = 0;
         this.id_familia = 0;
         this.url_antecedente = "";
         this.desc_antecedente = "";
+        this.familia = new Familia();
     }
 
-    public Antecedente(Integer id_antecedente, Integer id_familia, String url_antecedente, String desc_antecedente) {
+    public Antecedente(Integer id_antecedente, Integer id_familia, String url_antecedente, String desc_antecedente, Familia familia) {
         this.id_antecedente = id_antecedente;
         this.id_familia = id_familia;
         this.url_antecedente = url_antecedente;
         this.desc_antecedente = desc_antecedente;
+        this.familia = familia;
+    }
+
+    public Familia getFamilia() {
+        return familia;
+    }
+
+    public void setFamilia(Familia familia) {
+        this.familia = familia;
     }
 
     public Integer getId_antecedente() {
@@ -56,6 +65,10 @@ public class Antecedente {
 
     public void setDesc_antecedente(String desc_antecedente) {
         this.desc_antecedente = desc_antecedente;
+    }
+
+    public String getBaseUrl() {
+        return baseUrl;
     }
 
     @Override
