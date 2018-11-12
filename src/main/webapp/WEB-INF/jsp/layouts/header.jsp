@@ -106,7 +106,7 @@
                                         <a href="#"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Antecedentes<span class="fa arrow"></span></a>
                                         <ul class="nav nav-second-level">
                                             <li>
-                                                <a href="<c:url value="#"/>">Ver Antecedentes</a>
+                                                <a href="<c:url value="/administracion/antecedentes.htm"/>">Ver Antecedentes</a>
                                             </li>
                                             <li>
                                                 <a href="<c:url value="#"/>">Cargar Antecedentes</a>
