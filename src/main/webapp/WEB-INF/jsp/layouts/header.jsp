@@ -109,7 +109,7 @@
                                                 <a href="<c:url value="/administracion/antecedentes.htm"/>">Ver Antecedentes</a>
                                             </li>
                                             <li>
-                                                <a href="<c:url value="#"/>">Cargar Antecedentes</a>
+                                                <a href="<c:url value="/administracion/antecedentes/nuevo.htm"/>">Cargar Antecedentes</a>
                                             </li>
                                         </ul>
                                     </li>

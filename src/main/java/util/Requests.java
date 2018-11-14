@@ -1,18 +1,29 @@
 package util;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Iterator;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.web.multipart.MultipartFile;
 
 public class Requests {
     
@@ -647,4 +658,116 @@ public class Requests {
         
         return null;
     }
+    
+    public void sendFile(String action, String object, MultipartFile file, JSONObject body, String token){
+        String charset = "UTF-8";
+        
+        String boundary = "------------------------" + Long.toHexString(System.currentTimeMillis()); // Just generate some unique random value.
+        String CRLF = "\r\n"; // Line separator required by multipart/form-data.
+        int responseCode = 0;
+
+        try 
+        {
+            File binaryFile = new File(file.getOriginalFilename());
+            binaryFile.createNewFile();
+            FileOutputStream fos = new FileOutputStream(binaryFile); 
+            fos.write(file.getBytes());
+            fos.close();
+            
+            //Set POST general headers along with the boundary string (the seperator string of each part)
+            String url = baseUrl + action;
+            URL obj = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            // Opcional, GET es por defecto.
+            con.setRequestMethod("POST");
+            // Request Headers
+            con.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
+            con.setRequestProperty("Authorization", "Bearer " + token);
+            con.setDoOutput(true);
+
+            
+            OutputStream output = con.getOutputStream();
+            PrintWriter writer  = new PrintWriter(new OutputStreamWriter(output, charset), true);
+            
+            // Send binary file - part
+            // Part header
+            writer.append("--" + boundary).append(CRLF);
+            writer.append("Content-Disposition: form-data; name=\"ant\"; filename=\"" + binaryFile.getName() + "\"").append(CRLF);
+            writer.append("Content-Type: application/octet-stream").append(CRLF);
+            writer.append(CRLF).flush();
+            
+            // File data
+            Files.copy(binaryFile.toPath(), output);
+            output.flush(); 
+
+            // Other data
+            Integer id = body.getInt("ID_FAMILIA");
+            writer.append(CRLF).append("--" + boundary).append(CRLF);
+            writer.append("Content-Disposition: form-data; name=\"ID_FAMILIA\"").append(CRLF);
+            writer.append(CRLF).append(id.toString());
+            
+            writer.append(CRLF).append("--" + boundary).append(CRLF);
+            writer.append("Content-Disposition: form-data; name=\"DESC_ANTECEDENTE\"").append(CRLF);
+            writer.append(CRLF).append(body.getString("DESC_ANTECEDENTE"));
+            // End of multipart/form-data.
+            writer.append(CRLF).append("--" + boundary + "--").flush();
+            
+            
+            responseCode = ((HttpURLConnection) con).getResponseCode();
+
+            
+            if(responseCode !=200) //We operate only on HTTP code 200
+                return;
+            
+            System.out.println(responseCode);
+            BufferedReader in;
+            String inputLine;
+            StringBuilder response = new StringBuilder();
+            
+            if (responseCode == 200) {
+                in = new BufferedReader(
+                        new InputStreamReader(con.getInputStream())
+                );
+
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+            } else {
+                in = new BufferedReader(
+                        new InputStreamReader(con.getErrorStream())
+                );
+
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+                
+            }
+
+            System.out.println(response.toString());
+            
+
+            InputStream Instream = ((HttpURLConnection) con).getInputStream();
+
+            // Write PDF file 
+            BufferedInputStream BISin = new BufferedInputStream(Instream);
+            FileOutputStream FOSfile  = new FileOutputStream("asdf");
+            BufferedOutputStream out  = new BufferedOutputStream(FOSfile);
+
+            int i;
+            while ((i = BISin.read()) != -1) {
+                out.write(i);
+            }
+
+            // Cleanup
+            out.flush();
+            out.close();
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
+    
 }

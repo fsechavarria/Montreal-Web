@@ -2,9 +2,12 @@ package service;
 
 import entities.Antecedente;
 import entities.Familia;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import util.Requests;
 
 @Service
@@ -78,4 +81,18 @@ public class AntecedenteService {
         
         return !(antecedente == null || antecedente.isEmpty());
     }
+
+    public boolean saveAntecedente(Antecedente antecedente, MultipartFile file, String token) {
+        req = new Requests();
+        
+        
+        JSONObject obj = new JSONObject();
+        obj.accumulate("ID_FAMILIA", antecedente.getId_familia());
+        obj.accumulate("DESC_ANTECEDENTE", antecedente.getDesc_antecedente());
+        req.sendFile("private/antecedente", "antecedente", file, obj, token);
+        
+        return true;
+    }
+    
+    
 }

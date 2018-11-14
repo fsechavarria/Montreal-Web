@@ -16,6 +16,7 @@
     <context:component-scan base-package="service"/>
     <context:component-scan base-package="entities"/>
     <context:component-scan base-package="util"/>
+    <context:component-scan base-package="config"/>
     
     <bean id = "viewResolver" class = "org.springframework.web.servlet.view.InternalResourceViewResolver">
       <property name = "prefix" value = "/WEB-INF/jsp/" />

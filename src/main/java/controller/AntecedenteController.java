@@ -2,6 +2,11 @@ package controller;
 
 import entities.Antecedente;
 import entities.AuthUser;
+import entities.Familia;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,14 +19,19 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.AntecedenteService;
+import service.FamiliaService;
 
 @Controller
 public class AntecedenteController {
     
     @Autowired
     private AntecedenteService antecedenteService;
+    
+    @Autowired
+    private FamiliaService familiaService;
     
     @RequestMapping(value = "/administracion/antecedentes.htm", method = RequestMethod.GET)
     public String getAntecedentes (HttpServletRequest request, Model model) {
@@ -130,4 +140,50 @@ public class AntecedenteController {
         redir.addFlashAttribute("msg", "Antecedente eliminado exitosamente.");
         return "redirect:/administracion/antecedentes.htm";
     }
+    
+    @RequestMapping(value = "/administracion/antecedentes/nuevo.htm", method = RequestMethod.GET)
+    public String nuevoAntecedente(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession(false);
+        AuthUser aU = null;
+        if (session == null) {
+            return "redirect:/login.htm";
+        } else {
+            aU = (AuthUser)session.getAttribute("loggedUser");
+            if (aU == null) {
+                return "redirect:/login.htm";
+            }
+        }
+        String token = session.getAttribute("token").toString();
+        if (aU.getRol().equals("Administrador")){
+            ArrayList<Familia> lstFamilias = familiaService.getFamilias(token);
+            
+            model.addAttribute("antecedente", new Antecedente());
+            model.addAttribute("lstFamilias", lstFamilias);
+            return "administracion/antecedentes/nuevo";
+        } else {
+            model.addAttribute("antecedente", new Antecedente());
+            return "administracion/antecedentes/nuevo";
+        }
+    }
+    
+    @RequestMapping(value = "/administracion/antecedentes/nuevo.htm", method = RequestMethod.POST)
+    public String saveAntecedente(@RequestParam("file") MultipartFile file, HttpServletRequest request, Model model,
+        RedirectAttributes redir, @Valid @ModelAttribute("antecedente") Antecedente antecedente, BindingResult result){
+        HttpSession session = request.getSession(false);
+        AuthUser aU = null;
+        if (session == null) {
+            return "redirect:/login.htm";
+        } else {
+            aU = (AuthUser)session.getAttribute("loggedUser");
+            if (aU == null) {
+                return "redirect:/login.htm";
+            }
+        }
+        String token = session.getAttribute("token").toString();
+        
+        boolean success = antecedenteService.saveAntecedente(antecedente, file, token);
+        
+        return "redirect:/administracion/antecedentes.htm";
+    }
+    
 }
