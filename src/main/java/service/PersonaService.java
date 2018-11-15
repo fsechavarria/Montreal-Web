@@ -127,6 +127,36 @@ public class PersonaService {
         return lstPersona.get(0);
     }
     
+    public Persona savePersona(Usuario usr) {
+        req = new Requests();
+        DireccionService ds = new DireccionService();
+        
+        Direccion d = ds.saveDireccion(usr.getPersona().getDireccion());
+        if (d == null) {
+            return null;
+        }
+        
+        JSONObject obj = new JSONObject();
+        obj.accumulate("ID_USUARIO", usr.getId_usuario());
+        obj.accumulate("ID_DIRECCION", d.getId_direccion());
+        obj.accumulate("RUT", usr.getPersona().getRut());
+        obj.accumulate("NOMBRE", usr.getPersona().getNombre());
+        obj.accumulate("APP_PATERNO", usr.getPersona().getApp_paterno());
+        obj.accumulate("APP_MATERNO", usr.getPersona().getApp_materno());
+        
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String fech_nacimiento = format.format(usr.getPersona().getFech_nacimiento());
+        obj.accumulate("FECH_NACIMIENTO", fech_nacimiento);
+        
+        ArrayList<Persona> lstPersona = req.requestController("POST", "persona", "persona", obj, Persona.class, "");
+        
+        if (lstPersona == null || lstPersona.isEmpty()) {
+            return null;
+        }
+        
+        return lstPersona.get(0);
+    }
+    
     public Persona updatePersona(String token, Persona per){
         req = new Requests();
         
@@ -160,6 +190,14 @@ public class PersonaService {
         req = new Requests();
         
         ArrayList<Persona> personas = req.requestController("GET", "private/persona?rut=" + rut, "persona", null, Persona.class, token);
+        
+        return personas != null && !personas.isEmpty();
+    }
+    
+    public boolean rutExists(String rut){
+        req = new Requests();
+        
+        ArrayList<Persona> personas = req.requestController("GET", "persona?rut=" + rut, "persona", null, Persona.class, "");
         
         return personas != null && !personas.isEmpty();
     }

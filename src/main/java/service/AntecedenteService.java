@@ -58,6 +58,25 @@ public class AntecedenteService {
         return antecedentes;
     }
  
+    public ArrayList getAntecedentes(String token, String id_usuario){
+        req = new Requests();
+        
+        ArrayList<Familia> familia = req.requestController("GET", "private/familia?id_usuario=" + id_usuario, "familia", null, Familia.class, token);
+        
+        if (familia != null && !familia.isEmpty()) 
+        {
+            String id_familia = familia.get(0).getId_familia().toString();
+            ArrayList<Antecedente> antecedentes = req.requestController("GET", "private/antecedente?id_familia=" + id_familia, "antecedente", null, Antecedente.class, token);
+            
+            if (antecedentes != null) {
+                return antecedentes;
+            } else {
+                return new ArrayList();
+            }
+        }
+        return new ArrayList();
+    }
+    
     public boolean updateAntecedente(Antecedente ant, String token) {
         req = new Requests();
         
@@ -92,6 +111,24 @@ public class AntecedenteService {
         req.sendFile("private/antecedente", "antecedente", file, obj, token);
         
         return true;
+    }
+    
+    public boolean saveAntecedente(Antecedente antecedente, MultipartFile file, String token, String id_usuario) {
+        req = new Requests();
+        
+        ArrayList<Familia> familia = req.requestController("GET", "private/familia?id_usuario=" + id_usuario, "familia", null, Familia.class, token);
+        if (familia != null && !familia.isEmpty()) {
+            String id_familia = familia.get(0).getId_familia().toString();
+            
+            JSONObject obj = new JSONObject();
+            obj.accumulate("ID_FAMILIA", id_familia);
+            obj.accumulate("DESC_ANTECEDENTE", antecedente.getDesc_antecedente());
+            req.sendFile("private/antecedente", "antecedente", file, obj, token);
+            
+            return true;
+        }
+        
+        return false;
     }
     
     

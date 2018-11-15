@@ -84,6 +84,18 @@ public class DireccionService {
         return lstCiudad;
     }
     
+    public ArrayList<Ciudad> getCiudades() {
+        req = new Requests();
+        
+        ArrayList<Ciudad> lstCiudad = req.requestController("GET", "ciudad", "ciudad", null, Ciudad.class, "");
+        
+        if (lstCiudad == null || lstCiudad.isEmpty()){
+            return new ArrayList();
+        }
+        
+        return lstCiudad;
+    }
+    
     public Direccion getDireccion(String token, String id_direccion) {
         req = new Requests();
         Direccion d = null;
@@ -122,6 +134,24 @@ public class DireccionService {
         obj.accumulate("DEPARTAMENTO", dir.getDepartamento());
         
         ArrayList<Direccion> direccion = req.requestController("POST", "private/direccion", "direccion", obj, Direccion.class, token);
+        
+        if (direccion == null || direccion.isEmpty()) {
+            return null;
+        }
+        
+        return direccion.get(0);
+    }
+    
+    public Direccion saveDireccion(Direccion dir){
+        req = new Requests();
+        
+        JSONObject obj = new JSONObject();
+        obj.accumulate("ID_CIUDAD", dir.getId_ciudad());
+        obj.accumulate("CALLE", dir.getCalle());
+        obj.accumulate("NUMERACION", dir.getNumeracion());
+        obj.accumulate("DEPARTAMENTO", dir.getDepartamento());
+        
+        ArrayList<Direccion> direccion = req.requestController("POST", "direccion", "direccion", obj, Direccion.class, "");
         
         if (direccion == null || direccion.isEmpty()) {
             return null;

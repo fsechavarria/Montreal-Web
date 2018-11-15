@@ -120,10 +120,56 @@ public class UsuarioService {
         return usr;
     }
     
+    
+    public Usuario saveUsuario(Usuario usr) {
+        req = new Requests();
+        ContactoService cs = new ContactoService();
+        PersonaService ps = new PersonaService();
+        
+        JSONObject obj = new JSONObject();
+        obj.accumulate("ID_ROL", usr.getId_rol());
+        obj.accumulate("USUARIO", usr.getUsuario());
+        obj.accumulate("CONTRASENA", usr.getContrasena());
+        
+        ArrayList<Usuario> lstUsuario = req.requestController("POST", "usuario", "usuario", obj, Usuario.class, "");
+        
+        if (lstUsuario == null || lstUsuario.isEmpty()) {
+            return null;
+        }
+        
+        Integer id_usuario = lstUsuario.get(0).getId_usuario();
+        
+        usr.setId_usuario(id_usuario);
+        Persona p = ps.savePersona(usr);
+        if (p == null) {
+            this.deleteUsuario(id_usuario.toString());
+            return null;
+        } else {
+            usr.getPersona().setId_persona(p.getId_persona());
+            usr.getPersona().setId_direccion(p.getId_direccion());
+            Contacto c = cs.saveContacto(usr.getPersona());
+            if (c == null) {
+                this.deleteUsuario(id_usuario.toString());
+                return null;
+            }
+            usr.getPersona().getContacto().setId_contacto(c.getId_contacto());
+        }
+        
+        return usr;
+    }
+    
     public boolean usuarioExists(String usuario, String token){
         req = new Requests();
         
         ArrayList<Usuario> usuarios = req.requestController("GET", "private/usuario?usuario=" + usuario, "usuario", null, Usuario.class, token);
+        
+        return usuarios != null && !usuarios.isEmpty();
+    }
+    
+    public boolean usuarioExists(String usuario){
+        req = new Requests();
+        
+        ArrayList<Usuario> usuarios = req.requestController("GET", "usuario?usuario=" + usuario, "usuario", null, Usuario.class, "");
         
         return usuarios != null && !usuarios.isEmpty();
     }
@@ -179,4 +225,21 @@ public class UsuarioService {
         
         return true;
     }
+    
+    public boolean deleteUsuario(String id) {
+        if (id == null || id.trim().length() == 0) {
+            return false;
+        }
+        
+        req = new Requests();
+        
+        ArrayList<Usuario> lstUsuario = req.requestController("DELETE", "usuario/" + id, "usuario", null, Usuario.class, "");
+        
+        if (lstUsuario == null || lstUsuario.isEmpty()) {
+            return false;
+        }
+        
+        return true;
+    }
+
 }

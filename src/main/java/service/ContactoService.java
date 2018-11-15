@@ -15,7 +15,13 @@ public class ContactoService {
     public void deleteContactos(String id_contacto, String token) {
         req = new Requests();
         
-        ArrayList<Contacto> contactos = req.requestController("DELETE", "private/contacto/" + id_contacto, "contacto", null, Contacto.class, token);
+        req.requestController("DELETE", "private/contacto/" + id_contacto, "contacto", null, Contacto.class, token);
+    }
+    
+    public void deleteContactos(String id_contacto){
+        req = new Requests();
+        
+        req.requestController("DELETE", "contacto/" + id_contacto, "contacto", null, Contacto.class, "");
     }
     
     public Contacto saveContacto(Persona per, String token) {
@@ -27,6 +33,23 @@ public class ContactoService {
         obj.accumulate("DESC_CONTACTO", per.getContacto().getDesc_contacto());
         
         ArrayList<Contacto> contacto = req.requestController("POST", "private/contacto", "contacto", obj, Contacto.class, token);
+        
+        if (contacto == null || contacto.isEmpty()) {
+            return null;
+        }
+        
+        return contacto.get(0);
+    }
+    
+    public Contacto saveContacto(Persona per) {
+        req = new Requests();
+        
+        JSONObject obj = new JSONObject();
+        obj.accumulate("ID_PERSONA", per.getId_persona());
+        obj.accumulate("TIPO_CONTACTO", "Correo");
+        obj.accumulate("DESC_CONTACTO", per.getContacto().getDesc_contacto());
+        
+        ArrayList<Contacto> contacto = req.requestController("POST", "contacto", "contacto", obj, Contacto.class, "");
         
         if (contacto == null || contacto.isEmpty()) {
             return null;

@@ -8,6 +8,7 @@ public class Familia {
     private Integer num_integrantes;
     private String estado;
     private Persona persona;
+    private Usuario usuario;
 
     public Familia() {
         this.id_familia = 0;
@@ -15,14 +16,24 @@ public class Familia {
         this.num_integrantes = 0;
         this.estado = "I";
         this.persona = new Persona();
+        this.usuario = new Usuario();
     }
 
-    public Familia(Integer id_familia, Integer id_usuario, Integer num_integrantes, String estado, Persona persona) {
+    public Familia(Integer id_familia, Integer id_usuario, Integer num_integrantes, String estado, Persona persona, Usuario usuario) {
         this.id_familia = id_familia;
         this.id_usuario = id_usuario;
         this.num_integrantes = num_integrantes;
         this.estado = estado.toUpperCase();
         this.persona = persona;
+        this.usuario = usuario;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public Integer getId_familia() {

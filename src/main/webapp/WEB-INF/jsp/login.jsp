@@ -44,7 +44,12 @@
                                 <button class="btn btn-lg btn-success btn-block">Ingresar</button>
                             </fieldset>
                         </form:form>
-                        <p class="text-danger"><c:out value="${errorMsg}" /> </p>
+                        <hr>
+                        <p class="text-center">Registrarse
+                        <a href="<c:url value="/registrar-alumno.htm"/>">Como Alumno</a> | 
+                        <a href="<c:url value="/registrar-familia.htm"/>">Como Familia</a></p>
+                        <p class="text-center text-danger"><c:out value="${errorMsg}" /> </p>
+                        <p class="text-center text-success"><c:out value="${msg}" /> </p>
                     </div>
                 </div>
             </div>
