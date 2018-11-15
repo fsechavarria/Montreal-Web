@@ -3,10 +3,6 @@ package controller;
 import entities.Antecedente;
 import entities.AuthUser;
 import entities.Familia;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -57,6 +53,31 @@ public class AntecedenteController {
         model.addAttribute("lstAntecedentes", lstAntecedentes);
         
         return "administracion/antecedentes";
+    }
+    
+    @RequestMapping(value = "/administracion/mis-antecedentes.htm", method = RequestMethod.GET)
+    public String getMisAntecedentes (HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession(false);
+        AuthUser aU;
+        if (session == null) {
+            return "redirect:/login.htm";
+        } else {
+            aU = (AuthUser)session.getAttribute("loggedUser");
+            if (aU == null) {
+                return "redirect:/login.htm";
+            } else if (!aU.getRol().equals("Familia")) {
+                return "redirect:/home.htm";
+            }
+        }
+        model.addAttribute("title", "Mis Antecedentes");
+        String token = session.getAttribute("token").toString();
+        String id_usuario = aU.getId().toString();
+        
+        ArrayList<Antecedente> lstAntecedentes = antecedenteService.getAntecedentes(token, id_usuario);
+        
+        model.addAttribute("lstAntecedentes", lstAntecedentes);
+        
+        return "administracion/mis-antecedentes";
     }
     
     @RequestMapping(value = "/administracion/antecedentes.htm", params = { "id" },method = RequestMethod.GET)
@@ -151,6 +172,8 @@ public class AntecedenteController {
             aU = (AuthUser)session.getAttribute("loggedUser");
             if (aU == null) {
                 return "redirect:/login.htm";
+            } else if (!aU.getRol().equals("Administrador") && !aU.getRol().equals("Familia")) {
+                return "redirect:/home.htm";
             }
         }
         String token = session.getAttribute("token").toString();
@@ -179,12 +202,24 @@ public class AntecedenteController {
             aU = (AuthUser)session.getAttribute("loggedUser");
             if (aU == null) {
                 return "redirect:/login.htm";
+            } else if (!aU.getRol().equals("Administrador") && !aU.getRol().equals("Familia")) {
+                return "redirect:/home.htm";
             }
         }
         String token = session.getAttribute("token").toString();
+        boolean success = false;
+        if (aU.getRol().equals("Administrador")) {
+            success = antecedenteService.saveAntecedente(antecedente, file, token);
+        } else {
+            success = antecedenteService.saveAntecedente(antecedente, file, token, aU.getId().toString());
+        }
         
-        boolean success = antecedenteService.saveAntecedente(antecedente, file, token);
+        if (!success) {
+            redir.addFlashAttribute("errorMsg", "Ha ocurrido un error la cargar el antecedente.");
+            return "redirect:/administracion/antecedentes.htm";
+        }
         
+        redir.addFlashAttribute("msg", "Antecedente cargado exitosamente.");
         return "redirect:/administracion/antecedentes.htm";
     }
     
