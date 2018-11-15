@@ -154,6 +154,8 @@ public class AntecedenteController {
             }
         }
         String token = session.getAttribute("token").toString();
+        model.addAttribute("title", "Cargar Antecedente");
+        
         if (aU.getRol().equals("Administrador")){
             ArrayList<Familia> lstFamilias = familiaService.getFamilias(token);
             
