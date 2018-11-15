@@ -43,7 +43,9 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="<c:url value="/home.htm"/>">Inicio</a>
+                <a class="navbar-brand" style="padding-top: 0px;" href="<c:url value="/home.htm"/>">
+                    <img src="${pageContext.request.contextPath}/resources/img/Logo Montreal.png" alt="montreal1"/>
+                </a>
             </div>
             <!-- /.navbar-header -->
 
@@ -61,7 +63,7 @@
                         <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        <li><a href="/mi-cuenta.htm"><i class="fa fa-user fa-fw"></i> Mi Cuenta</a>
                         </li>
                         <li class="divider"></li>
                         <li><a href="<c:url value="/logout.htm" />"><i class="fa fa-sign-out fa-fw"></i> Cerrar Sesión</a>
