@@ -34,13 +34,13 @@ public class SessionController {
     
     @RequestMapping(value="/login.htm", method = RequestMethod.GET)
     public String loginRequest (HttpServletRequest request, Model model) {
-        /*HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession(false);
         if (session != null) {
             AuthUser loggedUser = (AuthUser) session.getAttribute("loggedUser");
             if(loggedUser != null) {
                 return "redirect:/home.htm";
             }
-        }*/
+        }
         
         model.addAttribute("usuario", new Usuario());
         model.addAttribute("title", "Login");
