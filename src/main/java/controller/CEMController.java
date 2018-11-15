@@ -3,7 +3,6 @@ package controller;
 import entities.AuthUser;
 import entities.CEM;
 import entities.Ciudad;
-import entities.Pais;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -62,11 +61,9 @@ public class CEMController {
         String token = session.getAttribute("token").toString();
         
         ArrayList<Ciudad> lstCiudad = direccionService.getCiudades(token);
-        ArrayList<Pais> lstPais = direccionService.getPaises(token);
         
         model.addAttribute("cem", new CEM());
         model.addAttribute("lstCiudad", lstCiudad);
-        model.addAttribute("lstPais", lstPais);
         
         
         return "administracion/cem/nuevo";

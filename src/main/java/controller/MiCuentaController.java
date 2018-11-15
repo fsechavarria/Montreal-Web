@@ -2,7 +2,6 @@ package controller;
 
 import entities.AuthUser;
 import entities.Ciudad;
-import entities.Pais;
 import entities.Usuario;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -56,13 +55,11 @@ public class MiCuentaController {
         
         Usuario usr = usuarioService.getUsuario(token, id);
         ArrayList<Ciudad> lstCiudad = direccionService.getCiudades(token);
-        ArrayList<Pais> lstPais = direccionService.getPaises(token);
         
         
         session.setAttribute("usuario", usr);
         model.addAttribute("usuario", usr);
         model.addAttribute("lstCiudad", lstCiudad);
-        model.addAttribute("lstPais", lstPais);
         
         return "mi-cuenta";
     }

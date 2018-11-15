@@ -3,7 +3,6 @@ package controller;
 import entities.AuthUser;
 import entities.CEL;
 import entities.Ciudad;
-import entities.Pais;
 import entities.Programa_Estudio;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -65,11 +64,9 @@ public class CELController {
         String token = session.getAttribute("token").toString();
         
         ArrayList<Ciudad> lstCiudad = direccionService.getCiudades(token);
-        ArrayList<Pais> lstPais = direccionService.getPaises(token);
         
         model.addAttribute("cel", new CEL());
         model.addAttribute("lstCiudad", lstCiudad);
-        model.addAttribute("lstPais", lstPais);
         
         
         return "administracion/cel/nuevo";
