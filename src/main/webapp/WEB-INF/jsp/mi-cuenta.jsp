@@ -37,10 +37,17 @@
                             </div>
                             <div class="form-group">
                                 <label>Fecha de Nacimiento</label>
-                                <form:input cssClass="form-control" path="persona.fech_nacimiento"/>
+                                <form:input type="date" cssClass="form-control" path="persona.fech_nacimiento"/>
                             </div>
                             <hr>
-                            <h3>Dirección</h3>
+                            <c:choose>
+                                <c:when test="${loggedUser.rol == 'CEM' || loggedUser.rol == 'CEL'}">
+                                    <h3>Dirección Centro de Estudios</h3>
+                                </c:when>
+                                <c:otherwise>
+                                    <h3>Dirección</h3>
+                                </c:otherwise>
+                            </c:choose>
                             <form:hidden path="persona.direccion.id_direccion" />
                             <div class="form-group">
                                 <label>Ciudad</label>

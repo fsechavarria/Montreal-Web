@@ -11,9 +11,11 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
-            <div class="panel-heading">
-                <a href="<c:out value="/administracion/programas/create.htm" />">Agregar un nuevo programa</a>
-            </div>
+            <c:if test="${loggedUser.rol == 'Administrador' || loggedUser.rol == 'CEM'}">
+                <div class="panel-heading">
+                    <a href="<c:out value="/administracion/programas/create.htm" />">Agregar un nuevo programa</a>
+                </div>
+            </c:if>
             <!-- /.panel-heading -->
             <div class="panel-body">
                 <table width="100%" class="table table-striped table-bordered table-hover" id="dataTable">

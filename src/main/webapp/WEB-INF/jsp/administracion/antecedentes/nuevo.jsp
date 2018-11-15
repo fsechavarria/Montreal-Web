@@ -37,7 +37,14 @@
                             <button type="submit" class="btn btn-default">Guardar</button>
                         </form:form>
                         </br>
-                        <p class="text-info">Si la familia seleccionada ya posee un archivo, éste será reemplazado.</p>
+                        <c:choose>
+                            <c:when test="${loggedUser.rol == 'Administrador'}">
+                                <p class="text-info">Si la familia seleccionada ya posee un archivo, éste será reemplazado.</p>
+                            </c:when>
+                            <c:otherwise>
+                                <p class="text-info">Si ya posee un archivo, éste será reemplazado.</p>
+                            </c:otherwise>
+                        </c:choose>
                         <p class="text-danger"><c:out value="${errorMsg}" /> </p>
                     </div>
                     <!-- /.col-lg-6 (nested) -->

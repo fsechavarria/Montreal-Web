@@ -17,7 +17,7 @@
                     <div class="col-lg-6">
                         <form:form role="form" modelAttribute="curso">
                             <div class="form-group">
-                                <label for="selectPrograma">Programas de Estudio</label>
+                                <label>Programas de Estudio</label>
                                 <form:select id="selectPrograma" cssClass="form-control" path="id_programa">
                                     <c:forEach items="${lstPrograma}" var="programa">
                                         <form:option value="${programa.getId_programa()}">${programa.getNomb_programa()}</form:option>
