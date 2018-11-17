@@ -60,7 +60,7 @@
                                 <td><fmt:formatDate type = "date" dateStyle="short" value = "${programa.fech_termino}" /></td>
                                 <c:choose>
                                     <c:when test="${loggedUser.rol == 'Alumno'}">
-                                        <td><a href="<c:out value="/administracion/programas.htm?id=${programa.id_programa}&postular=true" />">Postular</a></td>
+                                        <td><a href="<c:out value="/administracion/postulacion.htm?id=${programa.id_programa}&postular=true" />">Postular</a></td>
                                     </c:when>
                                     <c:when test="${loggedUser.rol == 'CEL'}">
                                         <td><a href="<c:out value="/administracion/programas.htm?id=${programa.id_programa}&unirse=true" />">Unirse</a></td>
@@ -77,6 +77,11 @@
                 <p class="text-danger"><c:out value="${errorMsg}" /> </p>
                 <p class="text-success"><c:out value="${msg}" /> </p>
                 <!-- /.table-responsive -->
+                <c:if test="${loggedUser.rol == 'Alumno'}">
+                    <div>
+                        <p class="text-info">Solo se muestran los programas vigentes a los que aún no has postulado.</p>
+                    </div>
+                </c:if>
             </div>
             <!-- /.panel-body -->
         </div>

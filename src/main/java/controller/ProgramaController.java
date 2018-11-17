@@ -32,10 +32,11 @@ public class ProgramaController {
     @RequestMapping(value = "/administracion/programas.htm", method = RequestMethod.GET)
     public String getProgramas (HttpServletRequest request, Model model) {
         HttpSession session = request.getSession(false);
+        AuthUser aU;
         if (session == null) {
             return "redirect:/login.htm";
         } else {
-            AuthUser aU = (AuthUser)session.getAttribute("loggedUser");
+            aU = (AuthUser)session.getAttribute("loggedUser");
             if (aU == null) {
                 return "redirect:/login.htm";
             } else if (aU.getRol().equals("Familia")) {
@@ -45,13 +46,20 @@ public class ProgramaController {
         model.addAttribute("title", "Programas de Estudio");
         String token = session.getAttribute("token").toString();
         
-        ArrayList lists = programaService.getProgramas(token);
-        
-        ArrayList<Programa_Estudio> lstProgramas = (ArrayList)lists.get(0);
-        ArrayList<Programa_Estudio> lstProgramasFinalizados = (ArrayList)lists.get(1);
-        
-        model.addAttribute("lstProgramas", lstProgramas);
-        model.addAttribute("lstProgramasFinalizados", lstProgramasFinalizados);
+        if (aU.getRol().equals("Alumno")) {
+            String id_usuario = aU.getId().toString();
+            ArrayList<Programa_Estudio> lstProgramas = programaService.getProgramas(token, id_usuario);
+            
+            model.addAttribute("lstProgramas", lstProgramas);
+        } else {
+            ArrayList lists = programaService.getProgramas(token);
+
+            ArrayList<Programa_Estudio> lstProgramas = (ArrayList)lists.get(0);
+            ArrayList<Programa_Estudio> lstProgramasFinalizados = (ArrayList)lists.get(1);
+
+            model.addAttribute("lstProgramas", lstProgramas);
+            model.addAttribute("lstProgramasFinalizados", lstProgramasFinalizados);
+        }
         return "administracion/programas";
     }
     

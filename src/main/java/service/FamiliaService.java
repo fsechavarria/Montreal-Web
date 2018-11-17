@@ -21,7 +21,7 @@ public class FamiliaService {
         ArrayList<Familia> familias = req.requestController("GET", "private/familia", "familia", null, Familia.class, token);
         
         if (familias == null || familias.isEmpty()) {
-            return null;
+            return new ArrayList();
         }
         
         PersonaService ps = new PersonaService();

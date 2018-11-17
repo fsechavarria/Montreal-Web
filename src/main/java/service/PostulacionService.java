@@ -45,8 +45,31 @@ public class PostulacionService {
         }
         
         AlumnoService as = new AlumnoService();
+        FamiliaService fs = new FamiliaService();
         ArrayList<Alumno> lstAlumnos = as.getAlumnos(token);
- 
+        ArrayList<Familia> familias = fs.getFamilias(token);
+        
+        // Se agregan las familias y los alumnos a las postulaciones
+        int index = 0;
+        for(Postulacion p : tmp_postulacion) {
+            for(Familia f : familias) {
+                if (p.getId_familia().equals(f.getId_familia())) {
+                    p.setFamilia(f);
+                    tmp_postulacion.set(index, p);
+                    break;
+                }
+            }
+            
+            for (Alumno a : lstAlumnos) {
+                if (p.getId_alumno().equals(p.getId_alumno())) {
+                    p.setAlumno(a);
+                    tmp_postulacion.set(index, p);
+                    break;
+                }
+            }
+            index++;
+        }
+        
         Seguro seg = null;
         if (lstSeguro != null && !lstSeguro.isEmpty()) {
             seg = (Seguro)lstSeguro.get(0);
@@ -59,7 +82,7 @@ public class PostulacionService {
         ArrayList<Programa_Estudio> finalizados = (ArrayList)lstProgramas.get(1);
         
         boolean vigente;
-        int index = 0;
+        index = 0;
         for(Postulacion p : tmp_postulacion) {
             vigente = false;
             for(Programa_Estudio prog : vigentes) {
@@ -84,29 +107,6 @@ public class PostulacionService {
         ArrayList arr = this.filtrarPostulaciones(tmp_postulacion, lstProgramas, token);
         ArrayList<Postulacion> lstPostulacion = (ArrayList<Postulacion>)arr.get(0);
         ArrayList<Postulacion> lstFinalizadas = (ArrayList<Postulacion>)arr.get(1);
-        
-        if (lstAlumnos != null && !lstAlumnos.isEmpty()) {
-            index = 0;
-            for(Alumno a : lstAlumnos) {
-                index = 0;
-                for(Postulacion p : lstPostulacion) {
-                    if (a.getId_alumno().equals(p.getId_alumno())) {
-                        p.setAlumno(a);
-                        lstPostulacion.set(index, p);
-                    }
-                    index++;
-                }
-
-                index = 0;
-                for(Postulacion p : lstFinalizadas) {
-                    if (a.getId_alumno().equals(p.getId_alumno())) {
-                        p.setAlumno(a);
-                        lstFinalizadas.set(index, p);
-                    }
-                    index++;
-                }
-            }
-        }
         
         arr = new ArrayList<>();
         arr.add(lstPostulacion);
@@ -304,4 +304,25 @@ public class PostulacionService {
             }
         }
     }
+    
+    public boolean nuevaPostulacion(Postulacion pos, String token, String id_usuario) {
+        req = new Requests();
+        
+        ArrayList<Alumno> alumno = req.requestController("GET", "private/alumno?id_usuario=" + id_usuario, "alumno", null, Alumno.class, token);
+        if (alumno == null || alumno.isEmpty()){
+            return false;
+        }
+        String id_alumno = alumno.get(0).getId_alumno().toString();
+        
+        JSONObject obj = new JSONObject();
+        obj.accumulate("ID_PROGRAMA", pos.getId_programa());
+        obj.accumulate("ID_FAMILIA", pos.getId_familia());
+        obj.accumulate("ID_SEGURO", pos.getId_seguro());
+        obj.accumulate("ID_ALUMNO", id_alumno);
+        obj.accumulate("RESERVA_DINERO_PASAJES", pos.getReserva_dinero_pasajes());
+        
+        ArrayList<Postulacion> postulacion = req.requestController("POST", "private/postulacion", "postulacion", obj, Postulacion.class, token);
+        
+        return !(postulacion == null || postulacion.isEmpty());
+    } 
 }

@@ -15,37 +15,30 @@
                 <div class="row">
                     <!-- /.col-lg-6 (nested) -->
                     <div class="col-lg-6">
-                        <form role="form">
+                        <form:form modelAttribute="postulacion">
                             <div class="form-group">
-                                <label for="selectPrograma">Representante Familia Anfitriona</label>
-                                <input type="text" class="form-control" />
-                            </div>
-                            <div class="form-group">
-                                <label for="selectPrograma">Programa de Estudio</label>
-                                <input type="text" class="form-control" />
-                            </div>
-                            <div class="form-group">
-                                <label for="selectPrograma">Seguro Asociado</label>
-                                <input type="text" class="form-control" />
-                            </div>
-                            <div class="form-group">
-                                <label for="selectPrograma">Fecha de Postulación</label>
-                                <input type="date" class="form-control" />
-                            </div>
-                            <div class="form-group">
-                                <label for="selectPrograma">Fecha de Respuesta</label>
-                                <input type="date" class="form-control" />
-                            </div>
-                            <div class="form-group">
-                                <label>Estado</label>
-                                <input type="text" class="form-control" />
+                                <label>Familia Anfitriona</label>
+                                <form:select cssClass="form-control" path="id_familia">
+                                    <c:forEach items="${lstFamilias}" var="familia">
+                                        <form:option value="${familia.getId_familia()}">
+                                            Nombre: ${familia.getPersona().getNombre()} ${familia.getPersona().getApp_paterno()} ${familia.getPersona().getApp_materno()} |
+                                            Integrantes: ${familia.getNum_integrantes()}
+                                        </form:option>
+                                    </c:forEach>
+                                </form:select>
                             </div>
                             <div class="form-group">
                                 <label>Dinero de reserva para pasajes</label>
-                                <input type="number" class="form-control" />
+                                <form:input type="number" min="1" cssClass="form-control" path="reserva_dinero_pasajes"></form:input>
+                            </div>
+                            <hr>
+                            <h4>Seguro Asociado</h4>
+                            <div class="form-group">
+                                <label>Detalle</label>
+                                <textarea class="form-control" disabled>${seguro.getDesc_seguro()}</textarea>
                             </div>
                             <button type="submit" class="btn btn-default">Postular</button>
-                        </form>
+                        </form:form>
                         <p class="text-danger"><c:out value="${errorMsg}" /> </p>
                     </div>
                     <!-- /.col-lg-6 (nested) -->

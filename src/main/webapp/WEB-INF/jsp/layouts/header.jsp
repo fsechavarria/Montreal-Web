@@ -128,10 +128,10 @@
                                         <a href="<c:url value="/administracion/cursos.htm"/>"><i class="fa fa-file-text fa-fw"></i> Cursos</a>
                                     </li>
                                     <li>
-                                        <a href="<c:url value="#"/>"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Calificaciones</a>
+                                        <a href="<c:url value="/administracion/calificaciones.htm"/>"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Calificaciones</a>
                                     </li>
                                     <li>
-                                        <a href="<c:url value="#"/>"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Antecedentes</a>
+                                        <a href="<c:url value="/administracion/antecedentes.htm"/>"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Antecedentes</a>
                                     </li>
                                     <li>
                                         <a href="<c:url value="#"/>"><i class="fa fa-certificate" aria-hidden="true"></i> Certificados</a>
@@ -163,7 +163,7 @@
                                         <a href="<c:url value="/administracion/postulaciones.htm"/>"><i class="fa fa-file fa-fw"></i> Mis Postulaciones</a>
                                     </li>
                                     <li>
-                                        <a href="<c:url value="#"/>"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Mis Calificaciones</a>
+                                        <a href="<c:url value="/administracion/calificaciones.htm"/>"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Mis Calificaciones</a>
                                     </li>
                                     <li>
                                         <a href="<c:url value="#"/>"><i class="fa fa-certificate" aria-hidden="true"></i> Mis Certificados</a>

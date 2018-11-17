@@ -25,4 +25,16 @@ public class SeguroService {
         
         return lstSeguro.get(0);
     }
+    
+    public Seguro getSeguro(String token){
+        req = new Requests();
+        
+        ArrayList<Seguro> lstSeguro = req.requestController("GET", "private/seguro/", "seguro", null, Seguro.class, token);
+        
+        if (lstSeguro == null || lstSeguro.isEmpty()){
+            return null;
+        }
+        
+        return lstSeguro.get(0);
+    }
 }

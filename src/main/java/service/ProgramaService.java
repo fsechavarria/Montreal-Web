@@ -1,8 +1,10 @@
 package service;
 
+import entities.Alumno;
 import entities.AuthUser;
 import entities.CEL;
 import entities.CEM;
+import entities.Postulacion;
 import entities.Programa_Estudio;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -41,6 +43,56 @@ public class ProgramaService {
         ArrayList arr = filtrarProgramas(programas);
         
         return arr;
+    }
+    
+    public ArrayList<Programa_Estudio> getProgramas(String token, String id_usuario) {
+        req = new Requests();
+        
+        ArrayList<Alumno> alumno = req.requestController("GET", "private/alumno?id_usuario=" + id_usuario, "alumno", null, Alumno.class, token);
+        if (alumno == null || alumno.isEmpty()) {
+            return new ArrayList();
+        }
+        
+        String id_alumno = alumno.get(0).getId_alumno().toString();
+        
+        ArrayList<Postulacion> postulaciones = req.requestController("GET", "private/postulacion?id_alumno=" + id_alumno, "postulacion", null, Postulacion.class, token);
+        ArrayList<Programa_Estudio> programas = req.requestController("GET", "private/programa", "programa", null, Programa_Estudio.class, token);
+        
+        ArrayList<Programa_Estudio> programasFiltrados = new ArrayList();
+        if (postulaciones != null && programas != null) {
+            int max = programas.size();
+            int index = 0;
+            for(Postulacion po : postulaciones) {
+                for(Programa_Estudio pr : programas) {
+                    index++;
+                    if (po.getId_programa().equals(pr.getId_programa())){
+                        break;
+                    }
+                    if (index == max) {
+                        programasFiltrados.add(pr);
+                    }
+                }
+            }
+        }
+        
+        ArrayList<CEL> lstCel = req.requestController("GET", "private/cel", "cel", null, CEL.class, token);
+        if (lstCel != null && !lstCel.isEmpty()) { 
+            int index = 0;
+            for (Programa_Estudio programa : programasFiltrados) {
+                for (CEL cel : lstCel) {
+                    if (cel.getId_cel().equals(programa.getId_cel())) {
+                        programa.setCel(cel);
+                        programasFiltrados.set(index, programa);
+                        break;
+                    }
+                }
+                index++;
+            }
+        }
+        
+        ArrayList arr = filtrarProgramas(programasFiltrados);
+        
+        return (ArrayList<Programa_Estudio>)arr.get(0);
     }
     
     public ArrayList<Programa_Estudio> getProgramasCEL(String token, String id_usuario){

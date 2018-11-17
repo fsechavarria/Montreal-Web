@@ -38,7 +38,7 @@ public class AntecedenteController {
             AuthUser aU = (AuthUser)session.getAttribute("loggedUser");
             if (aU == null) {
                 return "redirect:/login.htm";
-            } else if (!aU.getRol().equals("Administrador")) {
+            } else if (!aU.getRol().equals("Administrador") && !aU.getRol().equals("CEM")) {
                 return "redirect:/home.htm";
             }
         }
@@ -89,7 +89,7 @@ public class AntecedenteController {
             AuthUser aU = (AuthUser)session.getAttribute("loggedUser");
             if (aU == null) {
                 return "redirect:/login.htm";
-            } else if (!aU.getRol().equals("Administrador")) {
+            } else if (!aU.getRol().equals("Administrador") && !aU.getRol().equals("CEM") && !aU.getRol().equals("Familia")) {
                 return "redirect:/home.htm";
             }
         }
@@ -111,55 +111,69 @@ public class AntecedenteController {
     public String updateAntecedente (@RequestParam String id, HttpServletRequest request, Model model,
             @Valid @ModelAttribute("antecedente") Antecedente antecedente, BindingResult result, RedirectAttributes redir) {
         HttpSession session = request.getSession(false);
+        AuthUser aU;
         if (session == null) {
             return "redirect:/login.htm";
         } else {
-            AuthUser aU = (AuthUser)session.getAttribute("loggedUser");
+            aU = (AuthUser)session.getAttribute("loggedUser");
             if (aU == null) {
                 return "redirect:/login.htm";
-            }
-        }
-        String token = session.getAttribute("token").toString();
-        
-        Antecedente ant = (Antecedente)session.getAttribute("antecedente");
-        if (!ant.getId_antecedente().equals(antecedente.getId_antecedente())) {
-            redir.addFlashAttribute("errorMsg", "Ha ocurrido al guardar el antecedente.");
-            return "redirect:/administracion/antecedentes.htm";
-        }
-        
-        boolean success = antecedenteService.updateAntecedente(antecedente, token);
-        if (!success) {
-            redir.addFlashAttribute("errorMsg", "Ha ocurrido al guardar el antecedente.");
-            return "redirect:/administracion/antecedentes.htm";
-        }
-        
-        redir.addFlashAttribute("msg", "Antecedente actualizado exitosamente.");
-        return "redirect:/administracion/antecedentes.htm";
-    }
-    
-    @RequestMapping(value = "/administracion/antecedentes.htm", params = { "id", "delete" },method = RequestMethod.GET)
-    public String deleteAntecedente(@RequestParam String id, HttpServletRequest request, Model model, RedirectAttributes redir){
-        HttpSession session = request.getSession(false);
-        if (session == null) {
-            return "redirect:/login.htm";
-        } else {
-            AuthUser aU = (AuthUser)session.getAttribute("loggedUser");
-            if (aU == null) {
-                return "redirect:/login.htm";
-            } else if (!aU.getRol().equals("Administrador")) {
+            } else if (!aU.getRol().equals("Administrador") && !aU.getRol().equals("CEM") && !aU.getRol().equals("Familia")) {
                 return "redirect:/home.htm";
             }
         }
         String token = session.getAttribute("token").toString();
         
+        Antecedente ant = (Antecedente)session.getAttribute("antecedente");
+        String redirect = "redirect:/administracion/antecedentes.htm";
+        if (aU.getRol().equals("Familia")) {
+            redirect = "redirect:/home.htm";
+        }
+        
+        if (!ant.getId_antecedente().equals(antecedente.getId_antecedente())) {
+            redir.addFlashAttribute("errorMsg", "Ha ocurrido al guardar el antecedente.");
+            return redirect;
+        }
+        
+        boolean success = antecedenteService.updateAntecedente(antecedente, token);
+        if (!success) {
+            redir.addFlashAttribute("errorMsg", "Ha ocurrido al guardar el antecedente.");
+            return redirect;
+        }
+        
+        redir.addFlashAttribute("msg", "Antecedente actualizado exitosamente.");
+        return redirect;
+    }
+    
+    @RequestMapping(value = "/administracion/antecedentes.htm", params = { "id", "delete" },method = RequestMethod.GET)
+    public String deleteAntecedente(@RequestParam String id, HttpServletRequest request, Model model, RedirectAttributes redir){
+        HttpSession session = request.getSession(false);
+        AuthUser aU;
+        if (session == null) {
+            return "redirect:/login.htm";
+        } else {
+            aU = (AuthUser)session.getAttribute("loggedUser");
+            if (aU == null) {
+                return "redirect:/login.htm";
+            } else if (!aU.getRol().equals("Administrador") && !aU.getRol().equals("CEM") && !aU.getRol().equals("Familia")) {
+                return "redirect:/home.htm";
+            }
+        }
+        String token = session.getAttribute("token").toString();
+        
+        String redirect = "redirect:/administracion/antecedentes.htm";
+        if (aU.getRol().equals("Familia")) {
+            redirect = "redirect:/home.htm";
+        }
+        
         boolean success = antecedenteService.deleteAntecedente(id, token);
         if (!success){
             redir.addFlashAttribute("errorMsg", "Ha ocurrido al eliminar el antecedente.");
-            return "redirect:/administracion/antecedentes.htm";
+            return redirect;
         }
         
         redir.addFlashAttribute("msg", "Antecedente eliminado exitosamente.");
-        return "redirect:/administracion/antecedentes.htm";
+        return redirect;
     }
     
     @RequestMapping(value = "/administracion/antecedentes/nuevo.htm", method = RequestMethod.GET)
@@ -214,13 +228,17 @@ public class AntecedenteController {
             success = antecedenteService.saveAntecedente(antecedente, file, token, aU.getId().toString());
         }
         
+        String redirect = "redirect:/administracion/antecedentes.htm";
+        if (aU.getRol().equals("Familia")) {
+            redirect = "redirect:/home.htm";
+        }
         if (!success) {
             redir.addFlashAttribute("errorMsg", "Ha ocurrido un error la cargar el antecedente.");
-            return "redirect:/administracion/antecedentes.htm";
+            return redirect;
         }
         
         redir.addFlashAttribute("msg", "Antecedente cargado exitosamente.");
-        return "redirect:/administracion/antecedentes.htm";
+        return redirect;
     }
     
 }
