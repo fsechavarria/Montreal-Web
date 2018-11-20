@@ -45,6 +45,18 @@ public class ProgramaService {
         return arr;
     }
     
+    public String getNombrePrograma(String token, String id) {
+        req = new Requests();
+        
+        ArrayList<Programa_Estudio> prog = req.requestController("GET", "private/programa/" + id, "programa", null, Programa_Estudio.class, token);
+        
+        if (prog == null || prog.isEmpty()) {
+            return null;
+        }
+        
+        return prog.get(0).getNomb_programa();
+    }
+    
     public ArrayList<Programa_Estudio> getProgramas(String token, String id_usuario) {
         req = new Requests();
         

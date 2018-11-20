@@ -124,7 +124,7 @@
                                        ${postulacion.alumno.persona.app_materno}" /></td>
                                 <td>
                                     <c:choose>
-                                        <c:when test="${programa.id_familia != null}">
+                                        <c:when test="${postulacion.id_familia != null}">
                                             <c:out value="${postulacion.familia.persona.nombre}
                                                     ${postulacion.familia.persona.app_paterno}
                                                     ${postulacion.familia.persona.app_materno}"/>

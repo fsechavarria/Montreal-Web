@@ -49,6 +49,34 @@ public class CalificacionService {
         return vig_calif;
     }
     
+    public ArrayList<Calificacion> getCalificacionesAlumno(String token, String id_alumno, String id_programa){
+        if (id_programa == null) {
+            return null;
+        }
+        req = new Requests();
+        
+        ArrayList<Curso> cursos = req.requestController("GET", "private/curso?id_programa=" + id_programa, "curso", null, Curso.class, token);
+        if (cursos == null || cursos.isEmpty()) {
+            return null;
+        }
+        ArrayList<Calificacion> calificaciones = req.requestController("GET", "private/calificacion?id_alumno=" + id_alumno, "calificacion", null, Calificacion.class, token);
+        if (calificaciones == null || calificaciones.isEmpty()) {
+            return null;
+        }
+        
+        ArrayList<Calificacion> notas = new ArrayList();
+        for(Curso c : cursos) {
+            for(Calificacion cal : calificaciones) {
+                if (c.getId_curso().equals(cal.getId_curso())){
+                    cal.setCurso(c);
+                    notas.add(cal);
+                }
+            }
+        }
+        
+        return notas;
+    }
+    
     public ArrayList<Calificacion> getCalificaciones(String token, String id_usuario){
         req = new Requests();
         CursoService cs = new CursoService();

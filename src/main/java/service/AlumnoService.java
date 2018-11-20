@@ -2,6 +2,7 @@ package service;
 
 import entities.Alumno;
 import entities.Direccion;
+import entities.Inscripcion_Alumno;
 import entities.Persona;
 import entities.Rol;
 import entities.Usuario;
@@ -14,6 +15,51 @@ import util.Requests;
 public class AlumnoService {
     
     private Requests req; 
+    
+    public ArrayList getAlumnos(String token, String id_programa){
+        req = new Requests();
+        
+        ArrayList<Inscripcion_Alumno> inscripciones = req.requestController("GET", "private/inscripcion?id_programa=" + id_programa, "inscripcion", null, Inscripcion_Alumno.class, token);
+        
+        if (inscripciones == null || inscripciones.isEmpty()) {
+            return null;
+        }
+        
+        ArrayList<Alumno> tmp_alumno = req.requestController("GET", "private/alumno", "alumno", null, Alumno.class, token);
+        
+        if (tmp_alumno == null) {
+            return null;
+        }
+        
+        UsuarioService us = new UsuarioService();
+        ArrayList<Usuario> usuarios = us.getUsuarios(token);
+        
+        // Asignar a la nueva lista del alumnos solo los pertenecientes al programa seleccionado
+        ArrayList<Alumno> lstAlumno = new ArrayList();
+        for (Inscripcion_Alumno ins : inscripciones) {
+            for (Alumno a : tmp_alumno) {
+                if (ins.getId_alumno().equals(a.getId_alumno())){
+                    if (!lstAlumno.contains(a)) lstAlumno.add(a);
+                    break;
+                }
+            }
+        }
+        
+        // Asignar a la lista de alumnos sus correspondientes datos de persona/usuario
+        int index = 0;
+        for(Alumno a : lstAlumno) {
+            for(Usuario u : usuarios) {
+                if (a.getId_usuario().equals(u.getId_usuario())) {
+                    a.setUsuario(u);
+                    lstAlumno.set(index, a);
+                    break;
+                }
+            }
+            index++;
+        }
+        
+        return lstAlumno;
+    }
     
     public ArrayList getAlumnos(String token){
         req = new Requests();
@@ -80,6 +126,28 @@ public class AlumnoService {
         }
         
         return a;
+    }
+    
+    public String getNombreAlumno(String token, String id_alumno){
+        req = new Requests();
+        
+        ArrayList<Alumno> lstAlumno = req.requestController("GET", "private/alumno/" + id_alumno, "alumno", null, Alumno.class, token);
+        
+        if (lstAlumno == null || lstAlumno.isEmpty()) {
+            return null;
+        }
+        Alumno a = lstAlumno.get(0);
+        String id_usuario = a.getId_usuario().toString();
+        
+        ArrayList<Persona> lstPersona = req.requestController("GET", "private/persona?id_usuario=" + id_usuario, "persona", null, Persona.class, token);
+        
+        if (lstPersona != null && !lstPersona.isEmpty()){
+            a.setPersona(lstPersona.get(0));
+        }
+        
+        String nombre = a.getPersona().getNombre() + " " + a.getPersona().getApp_paterno() + " " + a.getPersona().getApp_materno();
+        
+        return nombre;
     }
     
     public String saveAlumno(Alumno al){
