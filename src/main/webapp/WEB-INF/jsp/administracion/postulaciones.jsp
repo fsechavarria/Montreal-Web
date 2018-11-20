@@ -35,6 +35,7 @@
                             <th>Fecha de Postulación</th>
                             <c:choose>
                                 <c:when test="${loggedUser.rol == 'Administrador'}">
+                                    <th>Reserva de Dinero</th>
                                     <th><i class="fa fa-check-circle-o"></i></th>
                                     <th><i class="fa fa-times"></i></th>
                                 </c:when>

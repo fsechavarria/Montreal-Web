@@ -255,11 +255,12 @@ public class PostulacionService {
         String id_alumno = postulacion.get(0).getId_alumno().toString();
         String id_programa = postulacion.get(0).getId_programa().toString();
         
-        JSONObject obj = new JSONObject();
-        obj.accumulate("ID_PROGRAMA", id_programa);
-        obj.accumulate("ID_ALUMNO", id_alumno);
-        ArrayList<Inscripcion_Alumno> inscripciones = req.requestController("POST", "private/inscripcion", "inscripcion", obj, Inscripcion_Alumno.class, token);
-        
+        if (accept) {
+            JSONObject obj = new JSONObject();
+            obj.accumulate("ID_PROGRAMA", id_programa);
+            obj.accumulate("ID_ALUMNO", id_alumno);
+            ArrayList<Inscripcion_Alumno> inscripciones = req.requestController("POST", "private/inscripcion", "inscripcion", obj, Inscripcion_Alumno.class, token);
+        }
         // Envio de correo
         String fecha_respuesta = format.format(postulacion.get(0).getFech_respuesta());
         ArrayList<Programa_Estudio> programa = req.requestController("GET", "private/programa/"+id_programa, "programa", null, Programa_Estudio.class, token);
