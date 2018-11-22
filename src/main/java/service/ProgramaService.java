@@ -71,7 +71,7 @@ public class ProgramaService {
         ArrayList<Programa_Estudio> programas = req.requestController("GET", "private/programa", "programa", null, Programa_Estudio.class, token);
         
         ArrayList<Programa_Estudio> programasFiltrados = new ArrayList();
-        if (postulaciones != null && programas != null) {
+        if (postulaciones != null && programas != null && !programas.isEmpty() && !postulaciones.isEmpty()) {
             int max = programas.size();
             int index = 0;
             for(Postulacion po : postulaciones) {
@@ -85,6 +85,8 @@ public class ProgramaService {
                     }
                 }
             }
+        } else {
+            programasFiltrados = programas;
         }
         
         ArrayList<CEL> lstCel = req.requestController("GET", "private/cel", "cel", null, CEL.class, token);
