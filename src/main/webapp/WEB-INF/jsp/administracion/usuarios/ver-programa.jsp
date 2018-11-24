@@ -34,7 +34,7 @@
                                 <td><c:out value="${alumno.usuario.persona.app_paterno}" /></td>
                                 <td><c:out value="${alumno.usuario.persona.app_materno}" /></td>
                                 <td><c:out value="${alumno.usuario.persona.rut}" /></td>
-                                <td><a href="<c:out value="/administracion/calificaciones/alumno.htm?id=${alumno.id_alumno}" />">Ingresar Nota</a></td>
+                                <td><a href="<c:out value="/administracion/calificaciones/nueva.htm?id=${alumno.id_alumno}" />">Ingresar Nota</a></td>
                                 <td><a href="<c:out value="/administracion/calificaciones/alumno.htm?id=${alumno.id_alumno}&nombre=${alumno.usuario.persona.nombre} ${alumno.usuario.persona.app_paterno} ${alumno.usuario.persona.app_materno}" />">Ver Notas</a></td>
                             </tr>
                         </c:forEach>

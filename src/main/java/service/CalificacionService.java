@@ -5,6 +5,7 @@ import entities.Calificacion;
 import entities.Curso;
 import entities.Programa_Estudio;
 import java.util.ArrayList;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import util.Requests;
 
@@ -106,5 +107,19 @@ public class CalificacionService {
         }
         
         return vig_calif;
+    }
+    
+    public boolean saveCalificacion(String token, Calificacion calificacion) {
+        req = new Requests();
+        
+        JSONObject obj = new JSONObject();
+        obj.accumulate("ID_ALUMNO", calificacion.getId_alumno());
+        obj.accumulate("ID_CURSO", calificacion.getId_curso());
+        obj.accumulate("NOTA", calificacion.getNota());
+        
+        ArrayList<Calificacion> cal = req.requestController("POST", "private/calificacion", "calificacion", obj, Calificacion.class, token);
+        
+        
+        return !(cal == null || cal.isEmpty());
     }
 }

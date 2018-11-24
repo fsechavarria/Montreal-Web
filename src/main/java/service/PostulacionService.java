@@ -62,7 +62,7 @@ public class PostulacionService {
             }
             
             for (Alumno a : lstAlumnos) {
-                if (p.getId_alumno().equals(p.getId_alumno())) {
+                if (p.getId_alumno().equals(a.getId_alumno())) {
                     p.setAlumno(a);
                     tmp_postulacion.set(index, p);
                     break;

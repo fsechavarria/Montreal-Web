@@ -17,6 +17,30 @@ public class CursoService {
     
     private Requests req;
     
+    public ArrayList getCursos(String token, String id_programa){
+        req = new Requests();
+        ArrayList<Curso> lstCursos = req.requestController("GET", "private/curso", "curso", null, Curso.class, token);
+        
+        if (lstCursos == null) {
+            return new ArrayList<>();
+        }
+        
+        ArrayList<Programa_Estudio> lstPrograma = req.requestController("GET", "private/programa/"+id_programa, "programa", null, Programa_Estudio.class, token);
+        Programa_Estudio prog = new Programa_Estudio();
+        if (lstPrograma != null && !lstPrograma.isEmpty()){
+            prog = lstPrograma.get(0);
+        }
+        ArrayList<Curso> cursos_aux = new ArrayList();
+        for(Curso c : lstCursos) {
+            if (c.getId_programa().equals(prog.getId_programa())){
+                cursos_aux.add(c);
+            }
+        }
+        
+        
+        return cursos_aux;
+    }
+    
     public ArrayList getCursos(String token){
         req = new Requests();
         ArrayList<Curso> lstCursos = req.requestController("GET", "private/curso", "curso", null, Curso.class, token);

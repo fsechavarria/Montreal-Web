@@ -2,7 +2,6 @@ package controller;
 
 import entities.Alumno;
 import entities.AuthUser;
-import entities.Usuario;
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -38,6 +37,7 @@ public class AlumnoController {
         model.addAttribute("title", "Usuarios");
         String token = session.getAttribute("token").toString();
         model.addAttribute("nomb_programa", nombre);
+        session.setAttribute("nomb_programa", nombre);
         ArrayList<Alumno> lstAlumnos = alumnoService.getAlumnos(token, id);
         
         session.setAttribute("id_programa", id);
