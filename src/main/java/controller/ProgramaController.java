@@ -1,6 +1,7 @@
 package controller;
 
 import entities.AuthUser;
+import entities.CEM;
 import entities.Programa_Estudio;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import service.CEMService;
 import service.ProgramaService;
 
 @Controller
@@ -28,6 +30,9 @@ public class ProgramaController {
     
     @Autowired
     private ProgramaService programaService;
+    
+    @Autowired
+    private CEMService cemService;
     
     @RequestMapping(value = "/administracion/programas.htm", method = RequestMethod.GET)
     public String getProgramas (HttpServletRequest request, Model model) {
@@ -149,14 +154,21 @@ public class ProgramaController {
     @RequestMapping(value="/administracion/programas/create.htm", method = RequestMethod.GET)
     public String createPrograma(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession(false);
+        AuthUser aU;
         if (session == null) {
             return "redirect:/login.htm";
         } else {
-            AuthUser aU = (AuthUser)session.getAttribute("loggedUser");
+            aU = (AuthUser)session.getAttribute("loggedUser");
             if (aU == null) {
                 return "redirect:/login.htm";
             }
         }
+        String token = session.getAttribute("token").toString();
+        if (aU.getRol().equals("Administrador")){
+            ArrayList<CEM> cems = cemService.getCEMS(token);
+            model.addAttribute("lstCEM", cems);
+        }
+        
         model.addAttribute("nuevoPrograma", new Programa_Estudio());
         
         
@@ -178,12 +190,10 @@ public class ProgramaController {
             }
             token = session.getAttribute("token").toString();
         }
-        
         if(result.hasErrors())
         {
             return "administracion/programas/nuevo";
         }
-        
         boolean success = programaService.savePrograma(aU, token, programa);
         
         if (!success) {

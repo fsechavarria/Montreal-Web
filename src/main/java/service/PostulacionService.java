@@ -87,19 +87,23 @@ public class PostulacionService {
         for(Postulacion p : tmp_postulacion) {
             vigente = false;
             for(Programa_Estudio prog : vigentes) {
-                p.setSeguro(seg);
-                p.setPrograma(prog);
-                tmp_postulacion.set(index, p);
-                vigente = true;
-                break;
+                if (p.getId_programa().equals(prog.getId_programa())){
+                    p.setSeguro(seg);
+                    p.setPrograma(prog);
+                    tmp_postulacion.set(index, p);
+                    vigente = true;
+                    break;
+                }
             }
             
             if (!vigente) {
                 for(Programa_Estudio prog : finalizados) {
-                  p.setSeguro(seg);
-                  p.setPrograma(prog);
-                  tmp_postulacion.set(index, p);
-                  break;
+                  if (p.getId_programa().equals(prog.getId_programa())){
+                    p.setSeguro(seg);
+                    p.setPrograma(prog);
+                    tmp_postulacion.set(index, p);
+                    break;
+                  }
                 }
             }
             index++;

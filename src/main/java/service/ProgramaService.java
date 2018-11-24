@@ -72,19 +72,28 @@ public class ProgramaService {
         
         ArrayList<Programa_Estudio> programasFiltrados = new ArrayList();
         if (postulaciones != null && programas != null && !programas.isEmpty() && !postulaciones.isEmpty()) {
-            int max = programas.size();
+            int max = postulaciones.size();
             int index = 0;
-            for(Postulacion po : postulaciones) {
-                for(Programa_Estudio pr : programas) {
+            int found = 0;
+            for (Programa_Estudio pr : programas) {
+                if (found == postulaciones.size()) {
+                    break;
+                }
+                index = 0;
+                for(Postulacion po : postulaciones) {
                     index++;
-                    if (po.getId_programa().equals(pr.getId_programa())){
+                    if (pr.getId_programa().equals(po.getId_programa())) {
+                        found++;
                         break;
                     }
-                    if (index == max) {
+                    
+                    if (index == postulaciones.size()) {
                         programasFiltrados.add(pr);
                     }
                 }
             }
+        } else if (programas == null || programas.isEmpty()){
+            programasFiltrados = new ArrayList();
         } else {
             programasFiltrados = programas;
         }
@@ -252,35 +261,38 @@ public class ProgramaService {
     public boolean savePrograma(AuthUser usr, String token, Programa_Estudio programa){
         req = new Requests();
         
-        ArrayList<CEM> lstCEM = req.requestController("GET", "private/cem?id_usuario=" + usr.getId(), "cem", null, CEM.class, token);
-        
+        ArrayList<CEM> lstCEM;
         Integer id_cem = null;
-        if (lstCEM != null && lstCEM.size() > 0) {
-            id_cem = lstCEM.get(0).getId_cem();
+        if (usr.getRol().equals("CEM")){
+            lstCEM = req.requestController("GET", "private/cem?id_usuario=" + usr.getId(), "cem", null, CEM.class, token);
+            if (lstCEM != null && lstCEM.size() > 0) {
+                id_cem = lstCEM.get(0).getId_cem();
+            }
+        } else {
+            id_cem = programa.getId_cem();
         }
         
-        if (id_cem != null) {
-            JSONObject jObj = new JSONObject();
-            
-            jObj.accumulate("ID_CEM", id_cem);
-            jObj.accumulate("NOMB_PROGRAMA", programa.getNomb_programa());
-            jObj.accumulate("DESC_PROGRAMA", programa.getDesc_programa());
+        JSONObject jObj = new JSONObject();
 
-            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            String fech_inicio = format.format(programa.getFech_inicio());
-            String fech_termino = format.format(programa.getFech_termino());
-            jObj.accumulate("FECH_INICIO", fech_inicio);
-            jObj.accumulate("FECH_TERMINO", fech_termino);
+        jObj.accumulate("ID_CEM", id_cem);
+        jObj.accumulate("NOMB_PROGRAMA", programa.getNomb_programa());
+        jObj.accumulate("DESC_PROGRAMA", programa.getDesc_programa());
 
-            jObj.accumulate("CANT_MIN_ALUMNOS", programa.getCant_min_alumnos());
-            jObj.accumulate("CANT_MAX_ALUMNOS", programa.getCant_min_alumnos());
-            
-            ArrayList<Programa_Estudio> lstProg = req.requestController("POST", "private/programa", "programa", jObj, Programa_Estudio.class, token);
-            
-            if (lstProg != null && lstProg.size() > 0) {
-                return true;
-            }
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String fech_inicio = format.format(programa.getFech_inicio());
+        String fech_termino = format.format(programa.getFech_termino());
+        jObj.accumulate("FECH_INICIO", fech_inicio);
+        jObj.accumulate("FECH_TERMINO", fech_termino);
+
+        jObj.accumulate("CANT_MIN_ALUMNOS", programa.getCant_min_alumnos());
+        jObj.accumulate("CANT_MAX_ALUMNOS", programa.getCant_min_alumnos());
+
+        ArrayList<Programa_Estudio> lstProg = req.requestController("POST", "private/programa", "programa", jObj, Programa_Estudio.class, token);
+
+        if (lstProg != null && lstProg.size() > 0) {
+            return true;
         }
+        
         
         return false;
     }

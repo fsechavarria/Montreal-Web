@@ -14,6 +14,18 @@ public class CEMService {
 
     private Requests req;
     
+    public ArrayList<CEM> getCEMS(String token){
+        req = new Requests();
+        
+        ArrayList<CEM> lstCEM = req.requestController("GET", "private/cem", "cem", null, CEM.class, token);
+        
+        if (lstCEM == null || lstCEM.isEmpty()) {
+            return new ArrayList();
+        }
+        
+        return lstCEM;
+    }
+    
     public String saveCEM(CEM cem, String token){
         req = new Requests();
         UsuarioService us = new UsuarioService();

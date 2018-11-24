@@ -16,6 +16,16 @@
                     <!-- /.col-lg-6 (nested) -->
                     <div class="col-lg-6">
                         <form:form role="form" modelAttribute="nuevoPrograma">
+                            <c:if test="${loggedUser.rol == 'Administrador'}">
+                                <div class="form-group">
+                                    <label>CEM</label>
+                                    <form:select cssClass="form-control" path="id_cem">
+                                        <c:forEach items="${lstCEM}" var="cem">
+                                            <form:option value="${cem.getId_cem()}">${cem.getNom_centro()}</form:option>
+                                        </c:forEach>
+                                    </form:select>
+                                </div>
+                            </c:if>
                             <div class="form-group">
                                 <label>Nombre</label>
                                 <form:input cssClass="form-control" path="nomb_programa"/>
