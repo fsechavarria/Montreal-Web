@@ -139,7 +139,7 @@
                                     <!-- Menu cem -->
                                 </c:when>
                                 <c:when test="${loggedUser.getRol() == 'CEL'}">
-                                    <li>
+                                    <li class="active">
                                         <a href="#"><i class="fa fa-book fa-fw"></i> Programas de Estudio<span class="fa arrow"></span></a>
                                         <ul class="nav nav-second-level">
                                             <li>
@@ -149,9 +149,6 @@
                                                 <a href="<c:url value="/administracion/programas.htm"/>">Ver Programas</a>
                                             </li>
                                         </ul>
-                                    </li>
-                                    <li>
-                                        <a href="<c:url value="#"/>"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Registrar Notas</a>
                                     </li>
                                     <!-- Menu cel -->
                                 </c:when>
@@ -171,7 +168,7 @@
                                     <!-- Menu alumno -->
                                 </c:when>
                                 <c:when test="${loggedUser.getRol() == 'Familia'}">
-                                    <li>
+                                    <li class="active">
                                         <a href="<c:url value="#"/>"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Antecedentes<span class="fa arrow"></span></a>
                                         <ul class="nav nav-second-level">
                                             <li>
