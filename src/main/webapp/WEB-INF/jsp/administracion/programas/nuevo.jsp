@@ -15,7 +15,7 @@
                 <div class="row">
                     <!-- /.col-lg-6 (nested) -->
                     <div class="col-lg-6">
-                        <form:form role="form" modelAttribute="nuevoPrograma">
+                        <form:form role="form" modelAttribute="programa">
                             <c:if test="${loggedUser.rol == 'Administrador'}">
                                 <div class="form-group">
                                     <label>CEM</label>
@@ -29,30 +29,32 @@
                             <div class="form-group">
                                 <label>Nombre</label>
                                 <form:input cssClass="form-control" path="nomb_programa"/>
-                                <form:errors cssClass="text-danger" path="nomb_programa" />
+                                <span id="nombre" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label>Descripción</label>
                                 <form:textarea cssClass="form-control" rows="3" path="desc_programa"></form:textarea>
-                                <form:errors cssClass="text-danger" path="desc_programa" />
+                                <span id="descripcion" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label>Fecha de Inicio</label>
                                 <form:input type="date" cssClass="form-control" path="fech_inicio"/>
+                                <span id="fecha_inicio" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label>Fecha de Término</label>
                                 <form:input type="date" cssClass="form-control" path="fech_termino"/>
+                                <span id="fecha_termino" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label>Cantidad mínima de alumnos</label>
                                 <form:input type="number" cssClass="form-control" path="cant_min_alumnos"/>
-                                <form:errors cssClass="text-danger" path="cant_min_alumnos" />
+                                <span id="min_alumnos" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label>Cantidad máxima de alumnos</label>
                                 <form:input type="number" cssClass="form-control" path="cant_max_alumnos"/>
-                                <form:errors cssClass="text-danger" path="cant_max_alumnos" />
+                                <span id="max_alumnos" class="text-danger"></span>
                             </div>
                             <button type="submit" class="btn btn-default">Publicar</button>
                         </form:form>
@@ -71,3 +73,8 @@
 <!-- /.row -->
 
 <%@include file="../../layouts/footer.jsp" %>
+<script>
+    $(document).ready(function(){
+        nuevo_programa();
+    });
+</script>

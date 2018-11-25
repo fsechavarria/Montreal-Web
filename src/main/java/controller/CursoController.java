@@ -121,10 +121,6 @@ public class CursoController {
             }
         }
         
-        if (result.hasErrors()){
-            return "administracion/cursos/nuevo";
-        }
-        
         String token = session.getAttribute("token").toString();
         
         boolean success = cursoService.saveCurso(token, curso);
@@ -149,9 +145,6 @@ public class CursoController {
             if (aU == null) {
                 return "redirect:/login.htm";
             }
-        }
-        if(result.hasErrors()){
-            return "administracion/cursos/ver";
         }
         
         Curso cu = (Curso)session.getAttribute("curso");

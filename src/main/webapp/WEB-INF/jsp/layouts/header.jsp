@@ -28,6 +28,7 @@
         
         <!-- Custom Fonts -->
         <link href="${pageContext.request.contextPath}/resources/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        
         <title>Montreal - <c:out value="${title}"/></title>
     </head>
     <body>

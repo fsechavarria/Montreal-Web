@@ -232,7 +232,7 @@ public class ProgramaService {
         jObj.accumulate("FECH_TERMINO", fech_termino);
         
         jObj.accumulate("CANT_MIN_ALUMNOS", programa.getCant_min_alumnos());
-        jObj.accumulate("CANT_MAX_ALUMNOS", programa.getCant_min_alumnos());
+        jObj.accumulate("CANT_MAX_ALUMNOS", programa.getCant_max_alumnos());
         
         ArrayList<Programa_Estudio> lstProg = req.requestController("PUT", "private/programa/" + programa.getId_programa(), "programa", jObj, Programa_Estudio.class, token);
         
@@ -285,7 +285,7 @@ public class ProgramaService {
         jObj.accumulate("FECH_TERMINO", fech_termino);
 
         jObj.accumulate("CANT_MIN_ALUMNOS", programa.getCant_min_alumnos());
-        jObj.accumulate("CANT_MAX_ALUMNOS", programa.getCant_min_alumnos());
+        jObj.accumulate("CANT_MAX_ALUMNOS", programa.getCant_max_alumnos());
 
         ArrayList<Programa_Estudio> lstProg = req.requestController("POST", "private/programa", "programa", jObj, Programa_Estudio.class, token);
 

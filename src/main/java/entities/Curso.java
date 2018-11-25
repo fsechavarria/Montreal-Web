@@ -1,15 +1,11 @@
 package entities;
 
 import java.io.Serializable;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Size;
 
 public class Curso implements Serializable{
     private Integer id_curso;
     private Integer id_programa;
-    @Size(min=5, max=100, message="La descripción debe tener entre 5 y 100 caracteres.")
     private String desc_curso;
-    @Min(value=1, message="Debe poseer al menos 1 cupo")
     private Integer cupos;
     private Programa_Estudio programa;
 

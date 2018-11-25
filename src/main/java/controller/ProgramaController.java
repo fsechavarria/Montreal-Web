@@ -108,9 +108,6 @@ public class ProgramaController {
                 return "redirect:/login.htm";
             }
         }
-        if(result.hasErrors()){
-            return "administracion/programas/ver";
-        }
         
         String token = session.getAttribute("token").toString();
         Programa_Estudio pe = (Programa_Estudio)session.getAttribute("prog");
@@ -169,7 +166,7 @@ public class ProgramaController {
             model.addAttribute("lstCEM", cems);
         }
         
-        model.addAttribute("nuevoPrograma", new Programa_Estudio());
+        model.addAttribute("programa", new Programa_Estudio());
         
         
         return "administracion/programas/nuevo";
@@ -189,10 +186,6 @@ public class ProgramaController {
                 return "redirect:/login.htm";
             }
             token = session.getAttribute("token").toString();
-        }
-        if(result.hasErrors())
-        {
-            return "administracion/programas/nuevo";
         }
         boolean success = programaService.savePrograma(aU, token, programa);
         
