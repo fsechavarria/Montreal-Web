@@ -65,7 +65,7 @@ public class CELController {
         
         ArrayList<Ciudad> lstCiudad = direccionService.getCiudades(token);
         
-        model.addAttribute("cel", new CEL());
+        model.addAttribute("centro", new CEL());
         model.addAttribute("lstCiudad", lstCiudad);
         
         

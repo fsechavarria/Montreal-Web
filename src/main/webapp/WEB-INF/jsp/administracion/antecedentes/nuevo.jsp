@@ -29,10 +29,12 @@
                             <div class="form-group">
                                 <label>Cargar Archivo PDF</label>
                                 <input type="file" name="file" id="file"/>
+                                <span id="archivo" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label>Descripción</label>
                                 <form:textarea cssClass="form-control" path="desc_antecedente"></form:textarea>
+                                <span id="descripcion" class="text-danger"></span>
                             </div>
                             <button type="submit" class="btn btn-default">Guardar</button>
                         </form:form>
@@ -60,3 +62,8 @@
 <!-- /.row -->
 
 <%@include file="../../layouts/footer.jsp" %>
+<script>
+    $(document).ready(function(){
+       antecedente(); 
+    });
+</script>

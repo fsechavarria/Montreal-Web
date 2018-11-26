@@ -39,6 +39,19 @@ function validar_texto_contrasena(input){
     }
 }
 
+function validar_texto_contrasena_obligatory(input){
+    try{
+        var value = input.value;
+        
+        if (value.length < 6 || value.length > 50) {
+            return false;
+        }
+        return true;
+    }catch(ex){
+        return false;
+    }
+}
+
 /**
  * Valida si las contraseñas ingresadas coinciden.
  * @param {string} pass 
@@ -253,6 +266,42 @@ function valida_numero_mayor(max, min){
     }
 }
 
+function validar_pdf(input){
+    try {
+        var file = input.value;
+        if (file == null || file.length === 0) {
+            return false;
+        } else {
+            var file_size = input.files[0].size / 1024 / 1024; // in MB  
+            
+            if (file_size > 10) { // Maximum file size
+                return false;
+            } else {
+                var items = file.split('.');
+                var file_extension = items.slice(items.length - 1)[0].toLowerCase();
+
+                return (file_extension === 'pdf');
+            }
+        }
+    } catch(ex) {
+        return false;
+    }
+}
+
+function validar_reserva(input) {
+    try {
+        var value = input.value;
+        if (isNaN(value)) {
+            return false;
+        } else {
+            value = Number(value);
+            
+            return !(value < 1 || value >= 50000000); // 50.000.000
+        }
+    }catch (ex) {
+        return false;
+    }
+}
 /********* Validaciones de formularios ***************/
 
 /**
@@ -283,7 +332,7 @@ function mi_cuenta(){
             },
             fecha_nacimiento: {
                 valid: !isUnderAge(document.getElementById('persona.fech_nacimiento').value),
-                message: 'Debe ser mayor de edad'
+                message: 'Debe ser mayor de 18 años de edad'
             },
             calle: {
                 valid: validar_texto(document.getElementById('persona.direccion.calle')),
@@ -412,6 +461,261 @@ function cursos(){
         };
         
         var valid = true && campos.descripcion.valid && campos.cupo.valid;
+        
+        if (valid) {
+            this.submit();
+        } else {
+            set_mensajes(campos);
+        }
+    });
+}
+
+/**
+ * Validacion para formularios de usuarios
+ */
+function usuarios(){
+    $('#usuario').submit(function(event){
+        event.preventDefault();
+        
+        var campos = {
+            nombre : {
+                valid: validar_texto(document.getElementById('persona.nombre')),
+                message: 'Debe ingresar un nombre de máximo 100 caracteres'
+            },
+            app_paterno: {
+                valid: validar_texto(document.getElementById('persona.app_paterno')),
+                message: 'Debe ingresar un appellido paterno de máximo 100 caracteres'
+            },
+            app_materno: {
+                valid: validar_texto(document.getElementById('persona.app_materno')),
+                message: 'Debe ingresar un appellido materno de máximo 100 caracteres'
+            },
+            rut: {
+                valid: RutValidation(document.getElementById('persona.rut').value),
+                message: 'Debe ingresar un rut válido'
+            },
+            fecha_nacimiento: {
+                valid: !isUnderAge(document.getElementById('persona.fech_nacimiento').value),
+                message: 'Debe ser mayor de 18 años de edad'
+            },
+            email: {
+                valid: validar_texto(document.getElementById('persona.contacto.desc_contacto')),
+                message: 'Debe ingresar un email valido'
+            },
+            calle: {
+                valid: validar_texto(document.getElementById('persona.direccion.calle')),
+                message: 'Debe ingresar una calle'
+            },
+            numeracion: {
+                valid: validar_texto(document.getElementById('persona.direccion.numeracion')),
+                message: 'Debe ingresar una numeración'
+            }
+        };
+        
+        var valid = true && campos.nombre.valid && campos.app_paterno.valid 
+                && campos.app_materno.valid && campos.rut.valid 
+                && campos.fecha_nacimiento.valid && campos.calle.valid && campos.numeracion.valid
+                && campos.email.valid;
+        
+        if (valid) {
+            this.submit();
+        } else {
+            set_mensajes(campos);
+        }
+    });
+}
+
+/**
+ * Validacion para formularios de registro de centros
+ */
+function registrar_centro(){
+    $('#centro').submit(function(event) {
+        event.preventDefault();
+        var pw1 = document.getElementById('usuario.contrasena');
+        var pw2 = document.getElementById('pw2');
+        
+        var campos = {
+            usuario: {
+                valid: validar_texto_contrasena_obligatory(document.getElementById('usuario.usuario')),
+                message: 'Debe ingresar un usuario de minimo 6 y máximo 50 caracteres'
+            },
+            contrasena1: {
+                valid: validar_texto_contrasena_obligatory(pw1),
+                message: 'Debe ingresar una contraseña de al menos 6 caracteres y máximo 50'
+            },
+            contrasena2: {
+                valid: valida_contrasena_coincide(pw1, pw2),
+                message: 'Las contraseñas deben coincidir'
+            },
+            nombre : {
+                valid: validar_texto(document.getElementById('usuario.persona.nombre')),
+                message: 'Debe ingresar un nombre de máximo 100 caracteres'
+            },
+            app_paterno: {
+                valid: validar_texto(document.getElementById('usuario.persona.app_paterno')),
+                message: 'Debe ingresar un appellido paterno de máximo 100 caracteres'
+            },
+            app_materno: {
+                valid: validar_texto(document.getElementById('usuario.persona.app_materno')),
+                message: 'Debe ingresar un appellido materno de máximo 100 caracteres'
+            },
+            rut: {
+                valid: RutValidation(document.getElementById('usuario.persona.rut').value),
+                message: 'Debe ingresar un rut válido'
+            },
+            fecha_nacimiento: {
+                valid: !isUnderAge(document.getElementById('usuario.persona.fech_nacimiento').value),
+                message: 'Debe ser mayor de 18 años de edad'
+            },
+            email: {
+                valid: validar_texto(document.getElementById('usuario.persona.contacto.desc_contacto')),
+                message: 'Debe ingresar un email valido'
+            },
+            nombre_centro: {
+                valid: validar_texto(document.getElementById('nom_centro')),
+                message: 'Debe ingresar un nombre de centro de máximo 100 caracteres'
+            },
+            calle: {
+                valid: validar_texto(document.getElementById('usuario.persona.direccion.calle')),
+                message: 'Debe ingresar una calle'
+            },
+            numeracion: {
+                valid: validar_texto(document.getElementById('usuario.persona.direccion.numeracion')),
+                message: 'Debe ingresar una numeración'
+            }
+        };
+        
+        var valid = true && campos.usuario.valid && campos.contrasena1.valid && campos.contrasena2.valid
+                && campos.nombre.valid && campos.app_paterno.valid && campos.app_materno.valid
+                && campos.rut.valid && campos.fecha_nacimiento.valid && campos.email.valid
+                && campos.nombre_centro.valid && campos.calle.valid && campos.numeracion.valid;
+        
+        if (valid) {
+            this.submit();
+        } else {
+            set_mensajes(campos);
+        }
+    });
+}
+
+/**
+ * Validacion para ingreso de antecedentes
+ */
+function antecedente(){
+    $('#antecedente').submit(function(event) {
+        event.preventDefault();
+        
+        var campos = {
+            descripcion: {
+                valid: validar_texto(document.getElementById('desc_antecedente')),
+                message: 'Debe ingresar una descripción de máximo 100 caracteres'
+            },
+            archivo: {
+                valid: validar_pdf(document.getElementById('file')),
+                message: 'Debe ingresar un archivo en formato PDF de máximo 10 MB'
+            }
+        };
+        
+        var valid = true && campos.descripcion.valid && campos.archivo.valid;
+        
+        if (valid) {
+            this.submit();
+        } else {
+            set_mensajes(campos);
+        }
+    });
+}
+
+/**
+ * Validacion para formulario postulacion
+ */
+function postulacion(){
+    $('#postulacion').submit(function(event){
+        event.preventDefault();
+        var campos = {
+            reserva: {
+                valid: validar_reserva(document.getElementById('reserva_dinero_pasajes')),
+                message: 'Debe ingresar un valor menor a 50000000'
+            }
+        };
+        
+        var valid = true && campos.reserva.valid;
+        
+        if (valid) {
+            this.submit();
+        } else {
+            set_mensajes(campos);
+        }
+    });
+}
+
+/**
+ * Validacion para formulario registro alumno y familia
+ * @param {Boolean} alumno - Define si el formulario es para registro de alumno o de familia.
+ */
+function registro(alumno){
+    var form_id = alumno ? '#alumno' : '#familia';
+    $(form_id).submit(function(event){
+        event.preventDefault();
+        var pw1 = document.getElementById('usuario.contrasena');
+        var pw2 = document.getElementById('pw2');
+        
+        var campos = {
+            nombre : {
+                valid: validar_texto(document.getElementById('usuario.persona.nombre')),
+                message: 'Debe ingresar un nombre de máximo 100 caracteres'
+            },
+            app_paterno: {
+                valid: validar_texto(document.getElementById('usuario.persona.app_paterno')),
+                message: 'Debe ingresar un appellido paterno de máximo 100 caracteres'
+            },
+            app_materno: {
+                valid: validar_texto(document.getElementById('usuario.persona.app_materno')),
+                message: 'Debe ingresar un appellido materno de máximo 100 caracteres'
+            },
+            rut: {
+                valid: RutValidation(document.getElementById('usuario.persona.rut').value),
+                message: 'Debe ingresar un rut válido'
+            },
+            fecha_nacimiento: {
+                valid: !isUnderAge(document.getElementById('usuario.persona.fech_nacimiento').value),
+                message: 'Debe ser mayor de 18 años de edad'
+            },
+            calle: {
+                valid: validar_texto(document.getElementById('usuario.persona.direccion.calle')),
+                message: 'Debe ingresar una calle'
+            },
+            numeracion: {
+                valid: validar_texto(document.getElementById('usuario.persona.direccion.numeracion')),
+                message: 'Debe ingresar una numeración'
+            },
+            email: {
+                valid: validar_texto(document.getElementById('usuario.persona.contacto.desc_contacto')),
+                message: 'Debe ingresar un email valido'
+            },
+            usuario: {
+                valid: validar_texto_contrasena_obligatory(document.getElementById('usuario.usuario')),
+                message: 'Debe ingresar un usuario de minimo 6 y máximo 50 caracteres'
+            },
+            contrasena1: {
+                valid: validar_texto_contrasena_obligatory(pw1),
+                message: 'Debe ingresar una contraseña de al menos 6 caracteres y máximo 50'
+            },
+            contrasena2: {
+                valid: valida_contrasena_coincide(pw1, pw2),
+                message: 'Las contraseñas deben coincidir'
+            },
+            integrantes: {
+                valid: alumno ? true : validar_numero(document.getElementById('num_integrantes')),
+                message: 'Debe ingresar un número menor a 100'
+            }
+        };
+        
+        var valid = true && campos.usuario.valid && campos.contrasena1.valid && campos.contrasena2.valid
+                && campos.nombre.valid && campos.app_paterno.valid && campos.app_materno.valid
+                && campos.rut.valid && campos.fecha_nacimiento.valid && campos.email.valid
+                && campos.nombre_centro.valid && campos.calle.valid && campos.numeracion.valid
+                && campos.integrantes.valid;
         
         if (valid) {
             this.submit();

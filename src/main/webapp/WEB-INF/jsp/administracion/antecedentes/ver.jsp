@@ -20,6 +20,7 @@
                             <div class="form-group">
                                 <label>Descripción</label>
                                 <form:textarea cssClass="form-control" path="desc_antecedente"></form:textarea>
+                                <span id="descripcion" class="text-danger"></span>
                             </div>
                             <button type="submit" class="btn btn-default">Guardar</button>
                         </form:form>
@@ -38,3 +39,17 @@
 <!-- /.row -->
 
 <%@include file="../../layouts/footer.jsp" %>
+<script>
+    $(document).ready(function(){
+       $('#antecedente').submit(function(event){
+          event.preventDefault();
+          var descripcion = document.getElementById('desc_antecedente');
+          
+          if (!validar_texto(descripcion)) {
+              document.getElementById('descripcion').innerText = 'Debe ingresar una descripción de máximo 100 caracteres';
+          } else {
+              this.submit();
+          }
+       });
+    });
+</script>

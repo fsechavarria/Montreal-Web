@@ -62,7 +62,7 @@ public class CEMController {
         
         ArrayList<Ciudad> lstCiudad = direccionService.getCiudades(token);
         
-        model.addAttribute("cem", new CEM());
+        model.addAttribute("centro", new CEM());
         model.addAttribute("lstCiudad", lstCiudad);
         
         

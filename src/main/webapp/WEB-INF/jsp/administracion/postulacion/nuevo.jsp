@@ -29,7 +29,8 @@
                             </div>
                             <div class="form-group">
                                 <label>Dinero de reserva para pasajes</label>
-                                <form:input type="number" min="1" cssClass="form-control" path="reserva_dinero_pasajes"></form:input>
+                                <form:input type="number" cssClass="form-control" path="reserva_dinero_pasajes"></form:input>
+                                <span id="reserva" class="text-danger"></span>
                             </div>
                             <hr>
                             <h4>Seguro Asociado</h4>
@@ -54,3 +55,8 @@
 <!-- /.row -->
 
 <%@include file="../../layouts/footer.jsp" %>
+<script>
+    $(document).ready(function(){
+       postulacion(); 
+    });
+</script>

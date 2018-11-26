@@ -21,27 +21,33 @@
                             <div class="form-group">
                                 <label>Nombre</label>
                                 <form:input cssClass="form-control" path="persona.nombre"/>
+                                <span id="nombre" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label>Apellido Paterno</label>
                                 <form:input cssClass="form-control" path="persona.app_paterno"/>
+                                <span id="app_paterno" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label>Apellido Materno</label>
                                 <form:input cssClass="form-control" path="persona.app_materno"/>
+                                <span id="app_materno" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label>Rut</label>
                                 <form:input cssClass="form-control" path="persona.rut"/>
+                                <span id="rut" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label>Fecha de Nacimiento</label>
                                 <form:input type="date" cssClass="form-control" path="persona.fech_nacimiento"/>
+                                <span id="fecha_nacimiento" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <form:hidden path="persona.contacto.id_contacto" />
                                 <label>Correo Electrónico</label>
                                 <form:input type="text" cssClass="form-control" path="persona.contacto.desc_contacto"/>
+                                <span id="email" class="text-danger"></span>
                             </div>
                             <hr/>
                             <h3>Dirección</h3>
@@ -58,10 +64,12 @@
                             <div class="form-group">
                                 <label>Calle</label>
                                 <form:input cssClass="form-control" path="persona.direccion.calle"/>
+                                <span id="calle" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label>Numeración</label>
                                 <form:input cssClass="form-control" path="persona.direccion.numeracion"/>
+                                <span id="numeracion" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label>Departamento</label>
@@ -84,3 +92,8 @@
 <!-- /.row -->
 
 <%@include file="../../layouts/footer.jsp" %>
+<script>
+    $(document).ready(function(){
+        usuarios();
+    });
+</script>
