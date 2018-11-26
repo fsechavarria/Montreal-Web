@@ -26,13 +26,13 @@
                             </div>
                             <div class="form-group">
                                 <label>Descripción</label>
-                                <form:input cssClass="form-control" path="desc_curso"/>
-                                <form:errors cssClass="text-danger" path="desc_curso" />
+                                <form:textarea cssClass="form-control" path="desc_curso" rows="2"></form:textarea>
+                                <span id="descripcion" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label>Cupos</label>
-                                <form:input type="number" min="1" cssClass="form-control" rows="3" path="cupos"></form:input>
-                                <form:errors cssClass="text-danger" path="cupos" />
+                                <form:input type="number" cssClass="form-control" path="cupos"></form:input>
+                                <span id="cupo" class="text-danger"></span>
                             </div>
                             <button type="submit" class="btn btn-default">Publicar</button>
                         </form:form>
@@ -51,3 +51,8 @@
 <!-- /.row -->
 
 <%@include file="../../layouts/footer.jsp" %>
+<script>
+    $(document).ready(function(){
+        cursos();
+    });
+</script>

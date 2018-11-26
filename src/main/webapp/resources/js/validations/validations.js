@@ -410,5 +410,13 @@ function cursos(){
                 message: 'Debe ingresar un número mayor a 1 y menor a 100'
             }
         };
+        
+        var valid = true && campos.descripcion.valid && campos.cupo.valid;
+        
+        if (valid) {
+            this.submit();
+        } else {
+            set_mensajes(campos);
+        }
     });
 }
