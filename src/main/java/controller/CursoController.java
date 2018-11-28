@@ -39,6 +39,8 @@ public class CursoController {
             AuthUser aU = (AuthUser)session.getAttribute("loggedUser");
             if (aU == null) {
                 return "redirect:/login.htm";
+            } else if (!aU.getRol().equals("Administrador") && !aU.getRol().equals("CEM")){
+                return "redirect:/home.htm";
             }
         }
         model.addAttribute("title", "Cursos");
@@ -59,6 +61,8 @@ public class CursoController {
             AuthUser aU = (AuthUser)session.getAttribute("loggedUser");
             if (aU == null) {
                 return "redirect:/login.htm";
+            } else if (!aU.getRol().equals("Administrador") && !aU.getRol().equals("CEM")){
+                return "redirect:/home.htm";
             }
         }
         model.addAttribute("title", "Curso");
@@ -92,6 +96,8 @@ public class CursoController {
             AuthUser aU = (AuthUser)session.getAttribute("loggedUser");
             if (aU == null) {
                 return "redirect:/login.htm";
+            } else if (!aU.getRol().equals("Administrador") && !aU.getRol().equals("CEM")){
+                return "redirect:/home.htm";
             }
         }
         String token = session.getAttribute("token").toString();
@@ -118,6 +124,8 @@ public class CursoController {
             AuthUser aU = (AuthUser)session.getAttribute("loggedUser");
             if (aU == null) {
                 return "redirect:/login.htm";
+            } else if (!aU.getRol().equals("Administrador") && !aU.getRol().equals("CEM")){
+                return "redirect:/home.htm";
             }
         }
         
@@ -144,6 +152,8 @@ public class CursoController {
             AuthUser aU = (AuthUser)session.getAttribute("loggedUser");
             if (aU == null) {
                 return "redirect:/login.htm";
+            } else if (!aU.getRol().equals("Administrador") && !aU.getRol().equals("CEM")){
+                return "redirect:/home.htm";
             }
         }
         
@@ -173,6 +183,8 @@ public class CursoController {
             AuthUser aU = (AuthUser)session.getAttribute("loggedUser");
             if (aU == null) {
                 return "redirect:/login.htm";
+            } else if (!aU.getRol().equals("Administrador") && !aU.getRol().equals("CEM")){
+                return "redirect:/home.htm";
             }
         }
         String token = session.getAttribute("token").toString();

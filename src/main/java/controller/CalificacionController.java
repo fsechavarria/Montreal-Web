@@ -131,6 +131,8 @@ public class CalificacionController {
             aU = (AuthUser)session.getAttribute("loggedUser");
             if (aU == null) {
                 return "redirect:/login.htm";
+            } else if (!aU.getRol().equals("CEL")) {
+                return "redirect:/home.htm";
             }
         }
         String id_programa = null;

@@ -86,7 +86,7 @@ public class PostulacionController {
                 return "redirect:/login.htm";
             }
             String rol = aU.getRol().toLowerCase();
-            if (!rol.equals("administrador") && !rol.equals("alumno")) {
+            if (!rol.equals("administrador")) {
                 return "redirect:/home.htm";
             }
         }
@@ -125,6 +125,8 @@ public class PostulacionController {
             aU = (AuthUser)session.getAttribute("loggedUser");
             if (aU == null) {
                 return "redirect:/login.htm";
+            } else if (!aU.getRol().equals("Alumno")){
+                return "redirect:/home.htm";
             }
         }
         String token = session.getAttribute("token").toString();
@@ -155,6 +157,8 @@ public class PostulacionController {
             aU = (AuthUser)session.getAttribute("loggedUser");
             if (aU == null) {
                 return "redirect:/login.htm";
+            } else if (!aU.getRol().equals("Alumno")){
+                return "redirect:/home.htm";
             }
         }
         String token = session.getAttribute("token").toString();

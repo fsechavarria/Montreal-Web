@@ -77,6 +77,8 @@ public class ProgramaController {
             AuthUser aU = (AuthUser)session.getAttribute("loggedUser");
             if (aU == null) {
                 return "redirect:/login.htm";
+            } else if (!aU.getRol().equals("Administrador") && !aU.getRol().equals("CEM")){
+                return "redirect:/home.htm";
             }
         }
         model.addAttribute("title", "Programa de Estudio");
@@ -106,6 +108,8 @@ public class ProgramaController {
             AuthUser aU = (AuthUser)session.getAttribute("loggedUser");
             if (aU == null) {
                 return "redirect:/login.htm";
+            } else if (!aU.getRol().equals("Administrador") && !aU.getRol().equals("CEM")){
+                return "redirect:/home.htm";
             }
         }
         
@@ -134,6 +138,8 @@ public class ProgramaController {
             AuthUser aU = (AuthUser)session.getAttribute("loggedUser");
             if (aU == null) {
                 return "redirect:/login.htm";
+            } else if (!aU.getRol().equals("Administrador") && !aU.getRol().equals("CEM")){
+                return "redirect:/home.htm";
             }
         }
         String token = session.getAttribute("token").toString();
@@ -158,6 +164,8 @@ public class ProgramaController {
             aU = (AuthUser)session.getAttribute("loggedUser");
             if (aU == null) {
                 return "redirect:/login.htm";
+            } else if (!aU.getRol().equals("Administrador") && !aU.getRol().equals("CEM")){
+                return "redirect:/home.htm";
             }
         }
         String token = session.getAttribute("token").toString();
@@ -184,6 +192,8 @@ public class ProgramaController {
             aU = (AuthUser)session.getAttribute("loggedUser");
             if (aU == null) {
                 return "redirect:/login.htm";
+            } else if (!aU.getRol().equals("Administrador") && !aU.getRol().equals("CEM")){
+                return "redirect:/home.htm";
             }
             token = session.getAttribute("token").toString();
         }
@@ -208,6 +218,8 @@ public class ProgramaController {
             aU = (AuthUser)session.getAttribute("loggedUser");
             if (aU == null) {
                 return "redirect:/login.htm";
+            } else if (!aU.getRol().equals("CEL")){
+                return "redirect:/home.htm";
             }
         }
         String token = session.getAttribute("token").toString();
