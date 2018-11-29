@@ -659,7 +659,6 @@ function registro(alumno){
         event.preventDefault();
         var pw1 = document.getElementById('usuario.contrasena');
         var pw2 = document.getElementById('pw2');
-        
         var campos = {
             nombre : {
                 valid: validar_texto(document.getElementById('usuario.persona.nombre')),
@@ -714,7 +713,7 @@ function registro(alumno){
         var valid = true && campos.usuario.valid && campos.contrasena1.valid && campos.contrasena2.valid
                 && campos.nombre.valid && campos.app_paterno.valid && campos.app_materno.valid
                 && campos.rut.valid && campos.fecha_nacimiento.valid && campos.email.valid
-                && campos.nombre_centro.valid && campos.calle.valid && campos.numeracion.valid
+                && campos.calle.valid && campos.numeracion.valid
                 && campos.integrantes.valid;
         
         if (valid) {

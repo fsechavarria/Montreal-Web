@@ -74,16 +74,11 @@ public class ProgramaService {
         if (postulaciones != null && programas != null && !programas.isEmpty() && !postulaciones.isEmpty()) {
             int max = postulaciones.size();
             int index = 0;
-            int found = 0;
             for (Programa_Estudio pr : programas) {
-                if (found == postulaciones.size()) {
-                    break;
-                }
                 index = 0;
                 for(Postulacion po : postulaciones) {
                     index++;
                     if (pr.getId_programa().equals(po.getId_programa())) {
-                        found++;
                         break;
                     }
                     
